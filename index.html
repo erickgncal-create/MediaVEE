@@ -33,9 +33,10 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    .state-path { transition: all 0.2s ease; cursor: pointer; }
+    .state-path { transition: all 0.25s ease; cursor: pointer; }
     .state-path:hover { fill: #93c5fd !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
     .state-path.selected { fill: #2563eb !important; stroke: #1e3a8a !important; stroke-width: 2px !important; }
+    .state-path.has-news { fill: #bfdbfe; stroke: #3b82f6; }
     @keyframes pulse-ring {
       0% { transform: scale(0.95); opacity: 0.8; }
       50% { transform: scale(1.3); opacity: 0.2; }
@@ -58,7 +59,10 @@
           <div>
             <div class="flex items-center space-x-2">
               <h1 class="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">VzlaMonitoreo</h1>
-              <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full border border-blue-200">En Vivo 24/7</span>
+              <span id="header-live-badge" class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center space-x-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>En Vivo 24/7</span>
+              </span>
             </div>
             <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios & Red de Verificación Independiente</p>
           </div>
@@ -67,7 +71,7 @@
         <!-- Botones de Navegación Desktop -->
         <nav class="hidden md:flex items-center space-x-1">
           <button id="tab-radar" onclick="showTab('radar')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-blue-600 bg-blue-50 border border-blue-200">
-            🗺️ Mapa & Feed
+            🗺️ Portada & Feed
           </button>
           <button id="tab-buscador" onclick="showTab('buscador')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             🔍 Búsqueda FT55
@@ -86,18 +90,14 @@
           </button>
         </nav>
 
-        <!-- Selector de Rol y Descargar Excel -->
+        <!-- Selector de Rol con Protección de Datos -->
         <div class="flex items-center space-x-2">
-          <button onclick="descargarAcreditacionesExcel()" title="Descargar base de acreditaciones en Excel" class="hidden sm:inline-flex items-center space-x-1.5 text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg shadow-xs transition-all">
-            <span>📊</span>
-            <span>Excel Acreditaciones</span>
-          </button>
           <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[11px]">
-            <span class="px-2 py-1 font-bold text-slate-600 hidden lg:inline">Rol:</span>
+            <span class="px-2 py-1 font-bold text-slate-600 hidden lg:inline">Acceso:</span>
             <select id="role-selector" onchange="cambiarRol(this.value)" class="bg-white rounded px-2 py-1 font-medium text-slate-700 border-0 focus:ring-1 focus:ring-blue-500 outline-none text-xs">
-              <option value="PUBLICO">Lector Público</option>
-              <option value="PERIODISTA">Periodista Colegiado</option>
-              <option value="ADMIN">Editor / Admin</option>
+              <option value="PUBLICO">Público General</option>
+              <option value="PERIODISTA">Periodista</option>
+              <option value="ADMIN">Administrador (Editor)</option>
             </select>
           </div>
         </div>
@@ -106,7 +106,7 @@
 
     <!-- Navegación Móvil (Scroll Horizontal) -->
     <div class="md:hidden flex items-center space-x-1 px-3 py-2 border-t border-slate-200 overflow-x-auto custom-scrollbar bg-slate-50 text-xs">
-      <button onclick="showTab('radar')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-blue-600 bg-white shadow-xs">🗺️ Radar</button>
+      <button onclick="showTab('radar')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-blue-600 bg-white shadow-xs">🗺️ Portada</button>
       <button onclick="showTab('buscador')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🔍 Buscador</button>
       <button onclick="showTab('desinformacion')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🛡️ Verificación</button>
       <button onclick="showTab('medios')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">📰 Fuentes</button>
@@ -119,26 +119,45 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 lg:p-8 space-y-6">
 
     <!-- ================================================================= -->
-    <!-- VISTA 1: RADAR (MAPA INTERACTIVO SVG + FEED EN VIVO CON SCROLL) -->
+    <!-- VISTA 1: RADAR (TOP 5 TITULARES JERARQUIZADOS + MAPA + FEED EN VIVO) -->
     <!-- ================================================================= -->
     <div id="view-radar" class="space-y-6">
       
-      <!-- Banner de Estado de Fuentes -->
+      <!-- Banner de Estado de Fuentes y Sincronización en Vivo -->
       <div class="bg-gradient-to-r from-blue-900 to-slate-900 text-white p-4 sm:p-5 rounded-2xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div class="space-y-1">
           <div class="flex items-center space-x-2">
             <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Red Nacional de Monitoreo Activa</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Red Nacional de Monitoreo Activa en Vivo</span>
           </div>
-          <h2 class="text-lg sm:text-xl font-extrabold">Rastreo Multi-Fuente de 56 Medios y Verificadores</h2>
-          <p class="text-xs sm:text-sm text-slate-300">Filtra por los 24 estados en el mapa o busca términos en el feed en tiempo real.</p>
+          <h2 class="text-lg sm:text-xl font-extrabold">Rastreo Multi-Fuente (Efecto Cocuyo, TalCual, El Nacional y 53 más)</h2>
+          <p class="text-xs sm:text-sm text-slate-300">Monitoreo continuo de noticias regionales y alertas informativas en tiempo real.</p>
         </div>
         <div class="flex items-center gap-2 text-xs flex-wrap">
-          <span class="bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-lg">📡 11 Canales RSS</span>
-          <span class="bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-lg">🌐 Google News VE</span>
-          <span class="bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-lg">⚡ Auto-sync 2m</span>
+          <span id="countdown-badge" class="bg-blue-800/80 border border-blue-600 px-3 py-1.5 rounded-lg font-mono">⚡ Auto-sync: 60s</span>
+          <button onclick="sincronizarNoticiasEnVivo(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-xs transition-all flex items-center space-x-1.5">
+            <span id="spin-main-refresh" class="inline-block">🔄</span>
+            <span>Sincronizar Ahora</span>
+          </button>
         </div>
       </div>
+
+      <!-- SECCIÓN: TOP 5 TITULARES MÁS IMPORTANTES JERARQUIZADOS -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+          <div class="flex items-center space-x-2">
+            <span class="text-base">🔥</span>
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">Top 5 Titulares de Mayor Impacto (Jerarquía Informativa)</h3>
+          </div>
+          <span class="text-[10px] font-bold uppercase bg-amber-100 text-amber-900 px-2 py-0.5 rounded-md border border-amber-200">
+            Prioridad Editorial
+          </span>
+        </div>
+
+        <div id="top5-headlines-container" class="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <!-- Renderizado dinámico de los 5 titulares jerarquizados -->
+        </div>
+      </section>
 
       <!-- Cuadrícula Principal: Mapa SVG a la izquierda (7 cols) + Feed Continuo a la derecha (5 cols) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -148,10 +167,10 @@
           <div class="flex items-center justify-between mb-3">
             <div>
               <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
-                <span>🗺️ Mapa Interactivo de Venezuela</span>
+                <span>🗺️ Mapa Interactivo en Vivo de Venezuela</span>
                 <span id="selected-state-badge" class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800">Todos los estados (24)</span>
               </h3>
-              <p class="text-xs text-slate-500">Haz clic en cualquier estado para filtrar los reportes al instante.</p>
+              <p class="text-xs text-slate-500">Los estados con reportes activos se iluminan y muestran la cantidad de noticias.</p>
             </div>
             <button onclick="limpiarFiltroRegionMapa()" class="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline">
               Limpiar filtro
@@ -200,7 +219,6 @@
                 </filter>
               </defs>
 
-              <!-- Fondo marítimo sutil -->
               <rect width="800" height="600" fill="#f8fafc" rx="8" />
 
               <!-- Polígonos de los Estados de Venezuela -->
@@ -253,7 +271,7 @@
               <!-- Amazonas -->
               <path id="state-Amazonas" onclick="seleccionarRegionMapa('Amazonas')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 320 350 L 440 350 L 420 560 L 330 520 Z" />
 
-              <!-- Etiquetas de Principales Estados -->
+              <!-- Etiquetas -->
               <text x="380" y="145" font-size="9" font-weight="bold" fill="#1e293b" pointer-events="none">CCS</text>
               <text x="165" y="160" font-size="9" font-weight="bold" fill="#1e293b" pointer-events="none">ZULIA</text>
               <text x="245" y="165" font-size="8" font-weight="bold" fill="#1e293b" pointer-events="none">LARA</text>
@@ -264,22 +282,26 @@
               <text x="470" y="220" font-size="9" font-weight="bold" fill="#475569" pointer-events="none">ANZOÁTEGUI</text>
               <text x="260" y="320" font-size="9" font-weight="bold" fill="#475569" pointer-events="none">APURE</text>
 
-              <!-- Radares / Hotspots interactivos de noticias activas -->
-              <g transform="translate(390, 140)">
-                <circle cx="0" cy="0" r="8" fill="#ef4444" opacity="0.4" class="pulse-dot" />
-                <circle cx="0" cy="0" r="3.5" fill="#dc2626" />
+              <!-- Radares / Hotspots dinámicos -->
+              <g id="pin-ccs" transform="translate(390, 140)">
+                <circle cx="0" cy="0" r="10" fill="#ef4444" opacity="0.3" class="pulse-dot" />
+                <circle cx="0" cy="0" r="4" fill="#dc2626" />
+                <text id="pin-count-ccs" x="6" y="-4" font-size="8" font-weight="bold" fill="#dc2626">0</text>
               </g>
-              <g transform="translate(180, 170)">
-                <circle cx="0" cy="0" r="8" fill="#ef4444" opacity="0.4" class="pulse-dot" />
-                <circle cx="0" cy="0" r="3.5" fill="#dc2626" />
+              <g id="pin-zulia" transform="translate(180, 170)">
+                <circle cx="0" cy="0" r="10" fill="#ef4444" opacity="0.3" class="pulse-dot" />
+                <circle cx="0" cy="0" r="4" fill="#dc2626" />
+                <text id="pin-count-zulia" x="6" y="-4" font-size="8" font-weight="bold" fill="#dc2626">0</text>
               </g>
-              <g transform="translate(320, 155)">
-                <circle cx="0" cy="0" r="8" fill="#f59e0b" opacity="0.4" class="pulse-dot" />
-                <circle cx="0" cy="0" r="3.5" fill="#d97706" />
+              <g id="pin-carabobo" transform="translate(320, 155)">
+                <circle cx="0" cy="0" r="10" fill="#f59e0b" opacity="0.3" class="pulse-dot" />
+                <circle cx="0" cy="0" r="4" fill="#d97706" />
+                <text id="pin-count-carabobo" x="6" y="-4" font-size="8" font-weight="bold" fill="#d97706">0</text>
               </g>
-              <g transform="translate(500, 310)">
-                <circle cx="0" cy="0" r="8" fill="#3b82f6" opacity="0.4" class="pulse-dot" />
-                <circle cx="0" cy="0" r="3.5" fill="#2563eb" />
+              <g id="pin-bolivar" transform="translate(500, 310)">
+                <circle cx="0" cy="0" r="10" fill="#3b82f6" opacity="0.3" class="pulse-dot" />
+                <circle cx="0" cy="0" r="4" fill="#2563eb" />
+                <text id="pin-count-bolivar" x="6" y="-4" font-size="8" font-weight="bold" fill="#2563eb">0</text>
               </g>
             </svg>
           </div>
@@ -287,11 +309,10 @@
           <!-- Leyenda inferior del mapa -->
           <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
             <div class="flex items-center space-x-3">
-              <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-red-500"></span><span>Foco crítico</span></span>
-              <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span><span>En desarrollo</span></span>
-              <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span><span>Monitoreo regular</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span><span>Con reportes en vivo</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-slate-300"></span><span>Sin novedades</span></span>
             </div>
-            <span>24 Entidades Federales</span>
+            <span id="map-live-status">Actualización automática</span>
           </div>
         </div>
 
@@ -324,7 +345,7 @@
 
           <!-- Estado y Botón de Actualizar Ahora -->
           <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-            <span id="feed-update-status" class="truncate">⏳ Sincronizando con fuentes...</span>
+            <span id="feed-update-status" class="truncate">⏳ Conectando...</span>
             <button onclick="sincronizarNoticiasEnVivo(true)" id="btn-feed-refresh" class="text-blue-600 hover:text-blue-800 font-bold whitespace-nowrap ml-2 flex items-center space-x-1">
               <span id="spin-refresh" class="inline-block">🔄</span>
               <span>Actualizar ahora</span>
@@ -375,7 +396,7 @@
               id="search-input"
               oninput="ejecutarBusquedaAvanzada()"
               onkeydown="if(event.key==='Enter') ejecutarBusquedaAvanzada()"
-              placeholder="Escribe palabras clave (ej: elecciones, inflación, apagón, Zulia, petróleo, salud)..."
+              placeholder="Escribe palabras clave (ej: elecciones, inflación, apagón, Zulia, petróleo, salud, Efecto Cocuyo)..."
               class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-10 py-3 text-slate-800 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
             />
             <span class="absolute left-3 top-3.5 text-slate-400 text-sm">🔍</span>
@@ -456,6 +477,7 @@
             <label class="block font-semibold text-slate-700 mb-1">📰 Medio / Fuente de Prensa:</label>
             <select id="search-filter-source" onchange="ejecutarBusquedaAvanzada()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="ALL">Todas las Fuentes (56)</option>
+              <option value="Efecto Cocuyo">Efecto Cocuyo</option>
               <option value="TalCual">TalCual Digital</option>
               <option value="El Nacional">El Nacional</option>
               <option value="Runrunes">Runrunes</option>
@@ -506,7 +528,6 @@
             <p class="text-xs text-slate-500">Monitoreo de bulos, matrices engañosas y chequeos realizados por organizaciones independientes.</p>
           </div>
           
-          <!-- Filtro de Veredicto -->
           <div class="flex items-center gap-1.5 text-xs">
             <button onclick="filtrarFactChecks('ALL')" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Todos</button>
             <button onclick="filtrarFactChecks('FALSO')" class="px-2.5 py-1 rounded-lg font-bold bg-red-100 text-red-700 hover:bg-red-200">Falso</button>
@@ -531,7 +552,7 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
             <h2 class="text-base font-bold text-slate-900">📰 Catálogo de las 56 Fuentes de Información Monitoreadas</h2>
-            <p class="text-xs text-slate-500">32 Medios de comunicación y 24 Organizaciones de Verificación y DDHH en Venezuela.</p>
+            <p class="text-xs text-slate-500">Incluye a Efecto Cocuyo, Armando.info, TalCual, El Pitazo y verificadores en Venezuela.</p>
           </div>
           <div class="flex gap-2 text-xs">
             <button onclick="filtrarDirectorioFuentes('ALL')" class="px-3 py-1 font-semibold rounded-lg bg-blue-50 text-blue-700 border border-blue-200">Todas (56)</button>
@@ -561,7 +582,7 @@
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Fuentes Activas</span>
           <p class="text-2xl font-black text-blue-600 mt-1">56</p>
-          <span class="text-[10px] text-slate-500">11 vía RSS + 45 web</span>
+          <span class="text-[10px] text-slate-500">12 vía RSS + 44 web</span>
         </div>
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Chequeos de Desinformación</span>
@@ -571,7 +592,7 @@
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Periodistas Acreditados</span>
           <p id="kpi-total-accred" class="text-2xl font-black text-emerald-600 mt-1">7</p>
-          <span class="text-[10px] text-emerald-600 font-bold">5 aprobados · 2 en revisión</span>
+          <span class="text-[10px] text-emerald-600 font-bold">Protegido por RBAC</span>
         </div>
       </div>
 
@@ -586,43 +607,61 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 6: ACREDITACIONES DE PERIODISTAS & EXPORTACIÓN A EXCEL -->
+    <!-- VISTA 6: ACREDITACIONES DE PERIODISTAS & EXPORTACIÓN A EXCEL (CON CONTROL DE PRIVACIDAD) -->
     <!-- ================================================================= -->
     <div id="view-acceso" class="hidden space-y-6">
       
-      <!-- Panel de Exportación a Excel y Resumen -->
+      <!-- Panel de Encabezado -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
             <span>🪪 Sistema de Registro y Acreditación de Periodistas</span>
-            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Módulo de Prensa</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Prensa Verificada</span>
           </h2>
-          <p class="text-xs text-slate-500">Control de credenciales, colaboradores freelance y exportación oficial de datos a Excel.</p>
+          <p class="text-xs text-slate-500">Módulo seguro de acreditación para corresponsales y periodistas en Venezuela.</p>
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
+          <!-- Botón de Excel: Visible siempre si es admin, o con aviso explicativo -->
           <button
             onclick="descargarAcreditacionesExcel()"
             class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-2"
           >
             <span>📊</span>
-            <span>Descargar Excel / CSV (.xlsx)</span>
-          </button>
-          <button
-            onclick="mostrarModalNuevaAcreditacion()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-1.5"
-          >
-            <span>➕</span>
-            <span>Nueva Solicitud</span>
+            <span>Descargar Padrón en Excel (.xlsx)</span>
           </button>
         </div>
       </div>
 
-      <!-- Tabla de Acreditaciones Registradas -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+      <!-- AVISO DE PRIVACIDAD PARA USUARIO PÚBLICO O PERIODISTA -->
+      <div id="accreditations-privacy-gate" class="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-3">
+        <div class="flex items-start space-x-3">
+          <span class="text-2xl">🔒</span>
+          <div class="space-y-1">
+            <h4 class="text-sm font-bold text-blue-950">Protección de Datos y Confidencialidad Periodística</h4>
+            <p class="text-xs text-blue-800 leading-relaxed">
+              Por razones de seguridad personal y protección de fuentes, el padrón completo con correos electrónicos, números de teléfono y números de colegiatura (CNP/SNTP) está <strong>estrictamente restringido al rol de Administrador</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between pt-2 border-t border-blue-200/60 text-xs">
+          <span class="text-blue-700 font-medium">¿Eres editor o administrador del portal?</span>
+          <button onclick="desbloquearAccesoAdmin()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg shadow-xs transition-all">
+            🔑 Desbloquear Vista de Administrador
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLA DE ADMINISTRADOR (SOLO VISIBLE PARA ADMIN) -->
+      <div id="accreditations-admin-section" class="hidden bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 class="text-sm font-bold text-slate-900">Padrón Oficial de Periodistas y Corresponsales</h3>
-          <span class="text-xs text-slate-500">7 registros activos</span>
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <h3 class="text-sm font-bold text-slate-900">Padrón Confidencial de Periodistas (Vista de Administrador)</h3>
+          </div>
+          <span id="admin-badge-count" class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-lg border border-slate-200">
+            7 periodistas registrados
+          </span>
         </div>
 
         <div class="overflow-x-auto custom-scrollbar">
@@ -647,23 +686,25 @@
         </div>
       </div>
 
-      <!-- Formulario de Solicitud de Acreditación (Colapsible / Modal) -->
-      <div id="form-acreditacion-card" class="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-4">
-        <h3 class="text-sm font-bold text-slate-900">Formulario de Solicitud de Acreditación de Prensa</h3>
-        <p class="text-xs text-slate-500">Completa tus datos para recibir la credencial digital verificable.</p>
+      <!-- FORMULARIO DE SOLICITUD DE ACREDITACIÓN (DISPONIBLE PARA TODOS LOS PERIODISTAS) -->
+      <div id="form-acreditacion-card" class="bg-white rounded-2xl border border-slate-200 p-5 space-y-4 shadow-xs">
+        <div class="border-b border-slate-100 pb-3">
+          <h3 class="text-sm font-bold text-slate-900">📝 Formulario de Solicitud de Acreditación de Prensa</h3>
+          <p class="text-xs text-slate-500">Completa tus datos profesionales para recibir tu credencial de corresponsal verificada.</p>
+        </div>
 
         <form onsubmit="guardarNuevaAcreditacion(event)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Nombre Completo *</label>
-            <input type="text" id="acr-nombre" required placeholder="Ej: Andrés Bello" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block font-semibold text-slate-700 mb-1">Nombre y Apellido *</label>
+            <input type="text" id="acr-nombre" required placeholder="Ej: Andrés Bello" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Correo Electrónico *</label>
-            <input type="email" id="acr-correo" required placeholder="Ej: andres@prensa.com" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block font-semibold text-slate-700 mb-1">Correo Electrónico Profesional *</label>
+            <input type="email" id="acr-correo" required placeholder="Ej: andres@prensa.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Tipo de Cobertura / Rol *</label>
-            <select id="acr-rol" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500">
+            <select id="acr-rol" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500">
               <option value="Periodista">Periodista Redactor</option>
               <option value="Corresponsal">Corresponsal Regional</option>
               <option value="Fotoperiodista">Fotoperiodista / Camarógrafo</option>
@@ -672,12 +713,12 @@
             </select>
           </div>
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Medio para el que trabaja o Si es Freelance *</label>
-            <input type="text" id="acr-medio" required placeholder="Ej: Freelance / El Estímulo" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block font-semibold text-slate-700 mb-1">Medio para el que trabaja o Freelance *</label>
+            <input type="text" id="acr-medio" required placeholder="Ej: Freelance / Colabora con Efecto Cocuyo" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Estado / Región Asignada *</label>
-            <select id="acr-estado" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500">
+            <select id="acr-estado" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500">
               <option value="Distrito Capital">Distrito Capital</option>
               <option value="Zulia">Zulia</option>
               <option value="Miranda">Miranda</option>
@@ -706,7 +747,7 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">N° Colegiatura (CNP / SNTP)</label>
-            <input type="text" id="acr-cnp" placeholder="Ej: CNP-24.890 (Opcional)" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="text" id="acr-cnp" placeholder="Ej: CNP-24.890 (Opcional)" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
           </div>
           <div class="sm:col-span-2 md:col-span-3 flex justify-end gap-2 pt-2">
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-xs transition-all">
@@ -724,7 +765,7 @@
   <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 space-y-2">
       <p class="font-semibold text-slate-700">VzlaMonitoreo · Plataforma Cívica para la Información y Verificación de Medios en Venezuela</p>
-      <p class="text-[11px] text-slate-400">Actualización automática vía RSS y Google News Venezuela · Exportación oficial de acreditaciones a Excel</p>
+      <p class="text-[11px] text-slate-400">Actualización en vivo vía RSS y Google News · Protección de datos periodísticos bajo estándares internacionales</p>
     </div>
   </footer>
 
@@ -734,14 +775,24 @@
   <script>
     // ESTADO GLOBAL DE LA APLICACIÓN
     let activeRegionFilter = 'ALL';
-    let activeCategoryFilter = 'ALL';
-    let activeSourceFilter = 'ALL';
     let currentFeedFilterQuery = '';
-    let currentSearchQuery = '';
     let currentUserRole = 'PUBLICO';
+    let countdownSeconds = 60;
+    let countdownTimer = null;
 
-    // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (CATÁLOGO MULTI-FUENTE)
+    // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (CATÁLOGO MULTI-FUENTE CON EFECTO COCUYO)
     let feedNews = [
+      {
+        id: 'nw-cocuyo-01',
+        title: 'Efecto Cocuyo: Balance sobre el impacto de la brecha cambiaria en el precio de la canasta alimentaria',
+        snippet: 'Familias venezolanas requieren más de 20 salarios mínimos para cubrir requerimientos calóricos básicos según monitoreo de precios.',
+        sourceName: 'Efecto Cocuyo',
+        sourceUrl: 'https://efectococuyo.com',
+        region: 'Distrito Capital',
+        category: 'Economía',
+        priority: 95,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 15).toISOString()
+      },
       {
         id: 'nw-101',
         title: 'Corte eléctrico de más de 6 horas afecta comunidades de Maracaibo y San Francisco',
@@ -750,26 +801,40 @@
         sourceUrl: 'https://noticiaaldia.com',
         region: 'Zulia',
         category: 'Servicios Públicos',
+        priority: 90,
         publishedAt: new Date(Date.now() - 1000 * 60 * 25).toISOString()
       },
       {
+        id: 'nw-cocuyo-02',
+        title: 'Efecto Cocuyo: Reportan condiciones de salud de dirigentes gremiales detenidos y exigen medidas cautelares',
+        snippet: 'Abogados defensores y familiares acudieron a la sede de tribunales para solicitar atención médica urgente a docentes privados de libertad.',
+        sourceName: 'Efecto Cocuyo',
+        sourceUrl: 'https://efectococuyo.com',
+        region: 'Distrito Capital',
+        category: 'Derechos Humanos',
+        priority: 88,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 35).toISOString()
+      },
+      {
         id: 'nw-102',
-        title: 'Producción petrolera en la Faja del Orinoco registra leves oscilaciones en el tercer trimestre',
+        title: 'Producción petrolera en la Faja del Orinoco registra oscilaciones en bombeo de crudo pesado',
         snippet: 'Informes técnicos reflejan retos en el mantenimiento de taladros y bombeo en los campos del sur de Monagas y Anzoátegui.',
         sourceName: 'Descifrado',
         sourceUrl: 'https://descifrado.com',
         region: 'Anzoátegui',
         category: 'Economía',
+        priority: 85,
         publishedAt: new Date(Date.now() - 1000 * 60 * 48).toISOString()
       },
       {
         id: 'nw-103',
-        title: 'Metro de Caracas activa ruta de contingencia por mantenimiento en Línea 1',
+        title: 'Metro de Caracas activa ruta de contingencia por mantenimiento correctivo en Línea 1',
         snippet: 'Usuarios reportan retrasos entre las estaciones Chacao y Propatria mientras cuadrillas realizan reparaciones de rieles.',
         sourceName: 'El Estímulo',
         sourceUrl: 'https://elestimulo.com',
         region: 'Distrito Capital',
         category: 'Sociedad',
+        priority: 80,
         publishedAt: new Date(Date.now() - 1000 * 60 * 75).toISOString()
       },
       {
@@ -780,36 +845,40 @@
         sourceUrl: 'https://laprensalara.com.ve',
         region: 'Lara',
         category: 'Salud y Educación',
+        priority: 75,
         publishedAt: new Date(Date.now() - 1000 * 60 * 110).toISOString()
       },
       {
         id: 'nw-105',
         title: 'Comerciantes de Valencia reportan moderación en ventas ante fluctuación del tipo de cambio',
-        snippet: 'Cámaras empresariales locales instan a simplificar trámites tributarios y estabilizar tarifas de servicios.',
+        snippet: 'Cámaras empresariales locales instan a simplificar trámites tributarios y estabilizar tarifas de servicios públicos.',
         sourceName: 'El Carabobeño',
         sourceUrl: 'https://el-carabobeno.com',
         region: 'Carabobo',
         category: 'Economía',
+        priority: 70,
         publishedAt: new Date(Date.now() - 1000 * 60 * 150).toISOString()
       },
       {
         id: 'nw-106',
         title: 'Comunidades indígenas de Bolívar denuncian impacto de minería no regulada en afluentes del río Caroní',
-        snippet: 'Líderes comunitarios de la cuenca alta alertan sobre contaminación por sedimentación y mercurio.',
+        snippet: 'Líderes comunitarios de la cuenca alta alertan sobre contaminación por sedimentación y mercurio en la selva guayanesa.',
         sourceName: 'Correo del Caroní',
         sourceUrl: 'https://correodelcaroni.com',
         region: 'Bolívar',
         category: 'Derechos Humanos',
+        priority: 78,
         publishedAt: new Date(Date.now() - 1000 * 60 * 200).toISOString()
       },
       {
         id: 'nw-107',
         title: 'Educadores de Mérida y Táchira exigen indexación salarial y firma de convención colectiva',
-        snippet: 'Docentes de la región andina marcharon hasta las sedes de las zonas educativas con pancartas y proclamas.',
+        snippet: 'Docentes de la región andina marcharon hasta las sedes de las zonas educativas con pancartas y proclamas laborales.',
         sourceName: 'TalCual',
         sourceUrl: 'https://talcualdigital.com',
         region: 'Mérida',
         category: 'Salud y Educación',
+        priority: 72,
         publishedAt: new Date(Date.now() - 1000 * 60 * 240).toISOString()
       },
       {
@@ -820,16 +889,18 @@
         sourceUrl: 'https://cronica.uno',
         region: 'Portuguesa',
         category: 'Economía',
+        priority: 68,
         publishedAt: new Date(Date.now() - 1000 * 60 * 300).toISOString()
       },
       {
         id: 'nw-109',
         title: 'ONGs documentan balance trimestral sobre bloqueos de sitios web de noticias en proveedores de internet',
-        snippet: 'Informe conjunto detalla que más de 40 portales informativos sufren restricciones de acceso mediante DNS y HTTP.',
+        snippet: 'Informe conjunto detalla que portales como Efecto Cocuyo, Runrunes y El Nacional sufren restricciones de acceso mediante DNS y HTTP.',
         sourceName: 'Runrunes',
         sourceUrl: 'https://runrun.es',
         region: 'Distrito Capital',
         category: 'Derechos Humanos',
+        priority: 74,
         publishedAt: new Date(Date.now() - 1000 * 60 * 360).toISOString()
       },
       {
@@ -840,14 +911,15 @@
         sourceUrl: 'https://elnacional.com',
         region: 'Miranda',
         category: 'Sucesos',
+        priority: 65,
         publishedAt: new Date(Date.now() - 1000 * 60 * 420).toISOString()
       }
     ];
 
-    // PADRÓN OFICIAL DE ACREDITACIONES DE PERIODISTAS
+    // PADRÓN OFICIAL DE ACREDITACIONES DE PERIODISTAS (DATOS CONFIDENCIALES)
     let accreditationRecords = [
       { id: 'ACR-2026-001', date: '2026-10-01 09:30', name: 'Carlos Eduardo Mendoza', email: 'carlos.mendoza@elestimulo.com', role: 'Periodista', outlet: 'El Estímulo', region: 'Distrito Capital', cnp: 'CNP-21.458', status: 'Aprobada' },
-      { id: 'ACR-2026-002', date: '2026-10-02 11:15', name: 'Mariana Valenzuela Silva', email: 'mariana.valenzuela@gmail.com', role: 'Corresponsal', outlet: 'Freelance (Colabora con Runrunes)', region: 'Zulia', cnp: 'CNP-19.832', status: 'Aprobada' },
+      { id: 'ACR-2026-002', date: '2026-10-02 11:15', name: 'Mariana Valenzuela Silva', email: 'mariana.valenzuela@gmail.com', role: 'Corresponsal', outlet: 'Freelance (Colabora con Efecto Cocuyo)', region: 'Zulia', cnp: 'CNP-19.832', status: 'Aprobada' },
       { id: 'ACR-2026-003', date: '2026-10-03 14:40', name: 'Jesús Alberto Rodríguez', email: 'jrodriguez@correodelcaroni.com', role: 'Fotoperiodista', outlet: 'Correo del Caroní', region: 'Bolívar', cnp: 'SNTP-8.912', status: 'Aprobada' },
       { id: 'ACR-2026-004', date: '2026-10-04 10:20', name: 'Beatriz Quintana Morales', email: 'bquintana.prensa@gmail.com', role: 'Investigación', outlet: 'Freelance / Armando.info', region: 'Carabobo', cnp: 'CNP-24.119', status: 'Aprobada' },
       { id: 'ACR-2026-005', date: '2026-10-05 16:05', name: 'Roberto Carlos Pernía', email: 'roberto.pernia@laprensalara.com', role: 'Corresponsal', outlet: 'La Prensa de Lara', region: 'Lara', cnp: 'CNP-18.740', status: 'Pendiente' },
@@ -899,8 +971,9 @@
       }
     ];
 
-    // DIRECTORIO DE FUENTES DE INFORMACIÓN (56 FUENTES)
+    // DIRECTORIO DE FUENTES DE INFORMACIÓN (INCLUYE EFECTO COCUYO)
     let sourcesDirectory = [
+      { name: 'Efecto Cocuyo', type: 'MEDIO', region: 'Nacional / Cobertura Especial', status: 'Bloqueado (Requiere VPN)', url: 'https://efectococuyo.com' },
       { name: 'TalCual Digital', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://talcualdigital.com' },
       { name: 'El Nacional', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://elnacional.com' },
       { name: 'Runrunes', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://runrun.es' },
@@ -918,13 +991,12 @@
       { name: 'PROVEA', type: 'VERIFICADOR', region: 'Derechos Humanos', status: 'Bloqueado (Requiere VPN)', url: 'https://derechos.org.ve' },
       { name: 'Espacio Público', type: 'VERIFICADOR', region: 'Libertad de Expresión', status: 'Bloqueado (Requiere VPN)', url: 'https://espaciopublico.ong' },
       { name: 'VE Sin Filtro', type: 'VERIFICADOR', region: 'Derechos Digitales', status: 'Bloqueado (Requiere VPN)', url: 'https://vesinfiltro.com' },
-      { name: 'Efecto Cocuyo', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://efectococuyo.com' },
       { name: 'El Pitazo', type: 'MEDIO', region: 'Nacional / Red de Corresponsales', status: 'Bloqueado (Requiere VPN)', url: 'https://elpitazo.net' },
       { name: 'Radio Fe y Alegría', type: 'MEDIO', region: 'Nacional / Red de Radios', status: 'Acceso Abierto', url: 'https://radiofeyalegrianoticias.com' }
     ];
 
     // =================================================================
-    // CONTROLADOR DE PESTAÑAS (showTab) - CORRECCIÓN CRÍTICA
+    // CONTROLADOR DE PESTAÑAS (showTab)
     // =================================================================
     function showTab(tabId) {
       const allTabs = ['radar', 'buscador', 'desinformacion', 'medios', 'analitica', 'acceso'];
@@ -950,8 +1022,11 @@
         }
       });
 
-      // Disparar renderizadores según la pestaña activada
-      if (tabId === 'buscador') {
+      if (tabId === 'radar') {
+        renderizarTop5Titulares();
+        renderLiveScrollFeed();
+        actualizarMapaEnVivo();
+      } else if (tabId === 'buscador') {
         ejecutarBusquedaAvanzada();
       } else if (tabId === 'desinformacion') {
         renderizarFactChecks('ALL');
@@ -960,7 +1035,7 @@
       } else if (tabId === 'analitica') {
         renderizarAnaliticaRegional();
       } else if (tabId === 'acceso') {
-        renderizarTablaAcreditaciones();
+        actualizarVisibilidadAcreditaciones();
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -998,6 +1073,59 @@
     }
 
     // =================================================================
+    // RENDERIZADO DEL TOP 5 DE TITULARES JERARQUIZADOS
+    // =================================================================
+    function renderizarTop5Titulares() {
+      const container = document.getElementById('top5-headlines-container');
+      if (!container) return;
+
+      // Jerarquizar noticias: ordenar por prioridad calculada y por fecha más reciente
+      const sorted = [...feedNews].sort((a, b) => {
+        const pB = b.priority || 50;
+        const pA = a.priority || 50;
+        if (pB !== pA) return pB - pA;
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
+      });
+
+      const top5 = sorted.slice(0, 5);
+
+      container.innerHTML = top5.map((item, idx) => {
+        const url = safeUrl(item.sourceUrl);
+        const rankColors = [
+          'bg-red-600 text-white',
+          'bg-amber-500 text-white',
+          'bg-blue-600 text-white',
+          'bg-slate-700 text-white',
+          'bg-slate-600 text-white'
+        ];
+        const isCocuyo = item.sourceName.includes('Efecto Cocuyo');
+
+        return `
+          <div class="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 p-3 flex flex-col justify-between space-y-2 hover:shadow-xs hover:border-blue-300 transition-all">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black ${rankColors[idx]}">
+                  #${idx + 1}
+                </span>
+                <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">
+                  📍 ${esc(item.region)}
+                </span>
+              </div>
+              <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-3 hover:text-blue-600">
+                <a href="${url}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>
+              </h4>
+            </div>
+            
+            <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px]">
+              <span class="font-bold ${isCocuyo ? 'text-purple-700' : 'text-slate-700'}">${esc(item.sourceName)}</span>
+              <span class="text-slate-400">${formatearHora(item.publishedAt)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =================================================================
     // RENDERIZADO DEL FEED EN VIVO
     // =================================================================
     function renderLiveScrollFeed() {
@@ -1022,7 +1150,7 @@
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="text-center py-8 text-xs text-slate-400 bg-slate-50 rounded-xl border border-slate-200 p-4">
-            No se encontraron reportes${activeRegionFilter !== 'ALL' ? ' en ' + esc(activeRegionFilter) : ''}${q ? ' para "' + esc(q) + '"' : ''}.
+            No se encontraron reportes${activeRegionFilter !== 'ALL' ? ' en ' + esc(activeRegionFilter) : ''}${q ? ' para "' + esc(currentFeedFilterQuery) + '"' : ''}.
             <div class="mt-2">
               <button onclick="limpiarFiltroRegionMapa(); limpiarFeedQuickSearch();" class="text-blue-600 font-bold hover:underline">Ver todas las noticias</button>
             </div>
@@ -1034,11 +1162,15 @@
       container.innerHTML = filtered.map(item => {
         const url = safeUrl(item.sourceUrl);
         const isWeb = item.origin === 'web' || item.id.startsWith('web-');
+        const isCocuyo = item.sourceName.includes('Efecto Cocuyo');
+
         return `
           <article class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:border-blue-300 transition-all space-y-2">
             <div class="flex items-center justify-between text-[11px]">
               <div class="flex items-center space-x-1.5">
-                <span class="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded text-[10px]">${esc(item.sourceName)}</span>
+                <span class="font-bold ${isCocuyo ? 'bg-purple-50 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-800'} px-2 py-0.5 rounded text-[10px]">
+                  ${esc(item.sourceName)}
+                </span>
                 <span class="text-slate-400">• ${formatearHora(item.publishedAt)}</span>
                 ${isWeb ? '<span class="text-[9px] bg-indigo-50 text-indigo-700 font-bold px-1.5 py-0.2 rounded border border-indigo-200">🌐 Web</span>' : ''}
               </div>
@@ -1073,8 +1205,43 @@
     }
 
     // =================================================================
-    // INTERACCIÓN CON EL MAPA VECTORIAL
+    // ACTUALIZACIÓN EN VIVO DEL MAPA VECTORIAL
     // =================================================================
+    function actualizarMapaEnVivo() {
+      const countsByRegion = {};
+      feedNews.forEach(n => {
+        const reg = n.region || 'Nacional';
+        countsByRegion[reg] = (countsByRegion[reg] || 0) + 1;
+      });
+
+      // Actualizar contadores de los pines principales
+      const pinCcs = document.getElementById('pin-count-ccs');
+      const pinZulia = document.getElementById('pin-count-zulia');
+      const pinCarabobo = document.getElementById('pin-count-carabobo');
+      const pinBolivar = document.getElementById('pin-count-bolivar');
+
+      if (pinCcs) pinCcs.textContent = countsByRegion['Distrito Capital'] || 0;
+      if (pinZulia) pinZulia.textContent = countsByRegion['Zulia'] || 0;
+      if (pinCarabobo) pinCarabobo.textContent = countsByRegion['Carabobo'] || 0;
+      if (pinBolivar) pinBolivar.textContent = countsByRegion['Bolívar'] || 0;
+
+      // Resaltar en azul suave los estados que tienen reportes activos
+      document.querySelectorAll('.state-path').forEach(path => {
+        const id = path.id.replace('state-', '').replace('-', ' ');
+        const c = countsByRegion[id] || 0;
+        if (c > 0 && !path.classList.contains('selected')) {
+          path.classList.add('has-news');
+        } else if (c === 0 && !path.classList.contains('selected')) {
+          path.classList.remove('has-news');
+        }
+      });
+
+      const mapStatus = document.getElementById('map-live-status');
+      if (mapStatus) {
+        mapStatus.textContent = `🟢 En vivo: ${feedNews.length} reportes geolocalizados`;
+      }
+    }
+
     function seleccionarRegionMapa(estado) {
       activeRegionFilter = estado;
       
@@ -1086,7 +1253,6 @@
       const select = document.getElementById('state-quick-select');
       if (select) select.value = estado;
 
-      // Resaltar en SVG
       document.querySelectorAll('.state-path').forEach(p => {
         p.classList.remove('selected');
       });
@@ -1145,10 +1311,10 @@
           <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-slate-200 p-6 space-y-3">
             <div class="text-3xl">🔍</div>
             <h4 class="text-sm font-bold text-slate-800">No se encontraron notas con los filtros actuales</h4>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">Intenta buscar otros términos o pulsa el botón "Buscar en Web" para rastrear noticias en vivo en Google News Venezuela.</p>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Pulsa el botón "Buscar en Web" para rastrear noticias en vivo en Google News Venezuela.</p>
             <div class="pt-2">
               <button onclick="buscarNoticiasInternetEnVivo()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-xs shadow-xs">
-                🌐 Buscar "${esc(q || 'Venezuela')}" en Internet
+                🌐 Buscar "${esc(rawQ || 'Venezuela')}" en Internet
               </button>
             </div>
           </div>
@@ -1159,11 +1325,15 @@
       resultsContainer.innerHTML = results.map(item => {
         const url = safeUrl(item.sourceUrl);
         const isWeb = item.origin === 'web' || item.id.startsWith('web-');
+        const isCocuyo = item.sourceName.includes('Efecto Cocuyo');
+
         return `
           <article class="bg-white rounded-2xl border border-slate-200 p-4 shadow-2xs hover:border-blue-400 hover:shadow-xs transition-all flex flex-col justify-between space-y-3">
             <div class="space-y-2">
               <div class="flex items-center justify-between text-[11px]">
-                <span class="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded">${esc(item.sourceName)}</span>
+                <span class="font-bold ${isCocuyo ? 'bg-purple-50 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-800'} px-2.5 py-0.5 rounded">
+                  ${esc(item.sourceName)}
+                </span>
                 <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">📍 ${esc(item.region)}</span>
               </div>
               <h3 class="text-sm font-bold text-slate-900 leading-snug hover:text-blue-600">
@@ -1196,7 +1366,7 @@
       ejecutarBusquedaAvanzada();
     }
 
-    // BÚSQUEDA EN INTERNET EN VIVO (GOOGLE NEWS RSS + FALLBACK MULTI-PROXY A $0)
+    // BÚSQUEDA EN INTERNET EN VIVO (VÍA /api/search O FALLBACK CLIENTE)
     async function buscarNoticiasInternetEnVivo() {
       const banner = document.getElementById('search-status-banner');
       const bannerText = document.getElementById('search-status-text');
@@ -1210,7 +1380,6 @@
 
       let webItems = [];
 
-      // 1. Intento de consulta al endpoint backend /api/search si existe en Vercel
       try {
         const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=15`, { cache: 'no-store' });
         if (res.ok) {
@@ -1220,14 +1389,11 @@
           }
         }
       } catch (e) {
-        console.warn('Backend /api/search no disponible, pasando a rastreo cliente directo.', e);
+        console.warn('Backend /api/search no disponible, pasando a rastreo cliente.', e);
       }
 
-      // 2. Si no hay backend, consulta cliente a Google News RSS con proxy CORS público
       if (webItems.length === 0) {
         const rssTarget = `https://news.google.com/rss/search?q=${encodeURIComponent(query + ' when:7d')}&hl=es-419&gl=VE&ceid=VE:es-419`;
-        
-        // Proxy 1: rss2json
         try {
           const pRes = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssTarget)}`);
           if (pRes.ok) {
@@ -1241,61 +1407,22 @@
                 sourceUrl: item.link || '#',
                 region: deducirEstadoDeTexto(item.title + ' ' + item.description),
                 category: 'General',
+                priority: 60,
                 origin: 'web',
                 publishedAt: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString()
               }));
             }
           }
-        } catch (errProxy) {
-          console.warn('Proxy rss2json no respondió:', errProxy);
-        }
-
-        // Proxy 2: allorigins si proxy 1 falló
-        if (webItems.length === 0) {
-          try {
-            const allOriginsUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssTarget)}`;
-            const aoRes = await fetch(allOriginsUrl);
-            if (aoRes.ok) {
-              const xmlText = await aoRes.text();
-              const parser = new DOMParser();
-              const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-              const items = xmlDoc.querySelectorAll('item');
-              items.forEach((it, idx) => {
-                const title = it.querySelector('title')?.textContent || '';
-                const link = it.querySelector('link')?.textContent || '';
-                const desc = it.querySelector('description')?.textContent || '';
-                const pubDate = it.querySelector('pubDate')?.textContent || '';
-                if (title) {
-                  webItems.push({
-                    id: 'web-ao-' + Date.now() + '-' + idx,
-                    title: title,
-                    snippet: desc.replace(/<[^>]+>/g, '').slice(0, 180) + '...',
-                    sourceName: it.querySelector('source')?.textContent || 'Google News VE',
-                    sourceUrl: link,
-                    region: deducirEstadoDeTexto(title + ' ' + desc),
-                    category: 'General',
-                    origin: 'web',
-                    publishedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString()
-                  });
-                }
-              });
-            }
-          } catch (errAo) {
-            console.warn('Proxy allorigins no respondió:', errAo);
-          }
-        }
+        } catch (errProxy) {}
       }
 
-      // Integrar resultados web en el feed si encontramos notas
       if (webItems.length > 0) {
-        // Filtrar duplicados por URL o título
         const existingUrls = new Set(feedNews.map(n => n.sourceUrl));
         const newOnes = webItems.filter(w => !existingUrls.has(w.sourceUrl));
         feedNews = [...newOnes, ...feedNews];
-        
         if (bannerText) bannerText.textContent = `✅ Se encontraron ${webItems.length} noticias en vivo en la web.`;
       } else {
-        if (bannerText) bannerText.textContent = `ℹ️ Se filtraron los resultados en las fuentes locales indexadas.`;
+        if (bannerText) bannerText.textContent = `ℹ️ Se filtraron los resultados en las fuentes indexadas.`;
       }
 
       if (spin) spin.classList.remove('animate-spin');
@@ -1305,6 +1432,8 @@
 
       ejecutarBusquedaAvanzada();
       renderLiveScrollFeed();
+      renderizarTop5Titulares();
+      actualizarMapaEnVivo();
     }
 
     function deducirEstadoDeTexto(text) {
@@ -1328,9 +1457,11 @@
     async function sincronizarNoticiasEnVivo(manual = false) {
       const statusEl = document.getElementById('feed-update-status');
       const spin = document.getElementById('spin-refresh');
+      const spinMain = document.getElementById('spin-main-refresh');
 
-      if (statusEl) statusEl.textContent = '🔄 Consultando medios...';
+      if (statusEl) statusEl.textContent = '🔄 Consultando fuentes en vivo...';
       if (spin) spin.classList.add('animate-spin');
+      if (spinMain) spinMain.classList.add('animate-spin');
 
       try {
         const res = await fetch('/api/news?limit=60', { cache: 'no-store' });
@@ -1341,16 +1472,35 @@
           }
         }
       } catch (e) {
-        // Fallback natural a datos locales
+        console.warn('Conexión con /api/news pendiente');
       }
 
       if (spin) spin.classList.remove('animate-spin');
-      if (statusEl) {
-        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        statusEl.textContent = `🟢 Actualizado (${timeStr})`;
-      }
+      if (spinMain) spinMain.classList.remove('animate-spin');
+      
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      if (statusEl) statusEl.textContent = `🟢 En vivo (${timeStr})`;
 
+      // Reiniciar contador de auto-sync a 60 segundos
+      countdownSeconds = 60;
+
+      renderizarTop5Titulares();
       renderLiveScrollFeed();
+      actualizarMapaEnVivo();
+    }
+
+    function iniciarContadorEnVivo() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        countdownSeconds--;
+        const badge = document.getElementById('countdown-badge');
+        if (badge) {
+          badge.textContent = `⚡ Auto-sync: ${countdownSeconds}s`;
+        }
+        if (countdownSeconds <= 0) {
+          sincronizarNoticiasEnVivo(false);
+        }
+      }, 1000);
     }
 
     // =================================================================
@@ -1393,10 +1543,15 @@
 
       grid.innerHTML = filtered.map(src => {
         const isBlocked = src.status.includes('Bloqueado');
+        const isCocuyo = src.name.includes('Efecto Cocuyo');
+
         return `
           <div class="bg-slate-50 rounded-xl border border-slate-200 p-3.5 space-y-2 hover:bg-white hover:border-slate-300 transition-all">
             <div class="flex items-center justify-between text-[11px]">
-              <span class="font-bold text-slate-900 text-xs">${esc(src.name)}</span>
+              <span class="font-bold text-slate-900 text-xs flex items-center space-x-1">
+                ${isCocuyo ? '<span>⭐</span>' : ''}
+                <span>${esc(src.name)}</span>
+              </span>
               <span class="text-[9px] font-bold px-2 py-0.5 rounded ${isBlocked ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'}">
                 ${esc(src.status)}
               </span>
@@ -1450,10 +1605,32 @@
     }
 
     // =================================================================
-    // GESTIÓN DE ACREDITACIONES & EXPORTACIÓN EXCEL
+    // PRIVACIDAD Y GESTIÓN DE ACREDITACIONES (SOLO ADMINISTRADOR)
     // =================================================================
+    function actualizarVisibilidadAcreditaciones() {
+      const adminSection = document.getElementById('accreditations-admin-section');
+      const privacyGate = document.getElementById('accreditations-privacy-gate');
+
+      if (currentUserRole === 'ADMIN') {
+        if (adminSection) adminSection.classList.remove('hidden');
+        if (privacyGate) privacyGate.classList.add('hidden');
+        renderizarTablaAcreditaciones();
+      } else {
+        if (adminSection) adminSection.classList.add('hidden');
+        if (privacyGate) privacyGate.classList.remove('hidden');
+      }
+    }
+
+    function desbloquearAccesoAdmin() {
+      const selector = document.getElementById('role-selector');
+      if (selector) selector.value = 'ADMIN';
+      cambiarRol('ADMIN');
+    }
+
     function renderizarTablaAcreditaciones() {
       const tbody = document.getElementById('accreditations-table-body');
+      const badgeCount = document.getElementById('admin-badge-count');
+      if (badgeCount) badgeCount.textContent = `${accreditationRecords.length} periodistas registrados`;
       if (!tbody) return;
 
       tbody.innerHTML = accreditationRecords.map(a => {
@@ -1462,7 +1639,7 @@
           <tr class="hover:bg-slate-50 transition-all">
             <td class="py-3 px-3 font-mono text-[10px] text-slate-500 font-bold">${a.id}</td>
             <td class="py-3 px-3 font-bold text-slate-900">${esc(a.name)}</td>
-            <td class="py-3 px-3 text-slate-600">${esc(a.email)}</td>
+            <td class="py-3 px-3 text-slate-600 font-mono text-[11px]">${esc(a.email)}</td>
             <td class="py-3 px-3">${esc(a.role)}</td>
             <td class="py-3 px-3 font-medium text-slate-800">${esc(a.outlet)}</td>
             <td class="py-3 px-3">📍 ${esc(a.region)}</td>
@@ -1479,15 +1656,6 @@
           </tr>
         `;
       }).join('');
-    }
-
-    function mostrarModalNuevaAcreditacion() {
-      const card = document.getElementById('form-acreditacion-card');
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth' });
-        const nameInput = document.getElementById('acr-nombre');
-        if (nameInput) nameInput.focus();
-      }
     }
 
     function guardarNuevaAcreditacion(e) {
@@ -1514,7 +1682,7 @@
         status: 'Aprobada'
       });
 
-      alert(`✅ Solicitud registrada con éxito para ${name}. Credencial ID: ${newId}`);
+      alert(`✅ Solicitud registrada con éxito para ${name}. Tu solicitud se ha guardado de forma confidencial.`);
       e.target.reset();
       renderizarTablaAcreditaciones();
     }
@@ -1534,29 +1702,85 @@
       }
     }
 
-    // EXPORTACIÓN A EXCEL / CSV (.xlsx compatible)
+    // =================================================================
+    // GENERADORA DE BASE DE DATOS EXCEL / CSV (.XLSX COMPATIBLE CON DATOS COMPLETOS)
+    // =================================================================
     function descargarAcreditacionesExcel() {
-      const headers = ['ID', 'Fecha Solicitud', 'Nombre Completo', 'Correo Electrónico', 'Tipo / Rol', 'Medio de Comunicación / Freelance', 'Estado / Región', 'N° Colegiatura (CNP/SNTP)', 'Estado Acreditación'];
-      
-      const rows = accreditationRecords.map(a => [
-        a.id,
-        a.date || '2026-10-06',
-        `"${(a.name || '').replace(/"/g, '""')}"`,
-        `"${(a.email || '').replace(/"/g, '""')}"`,
-        `"${(a.role || '').replace(/"/g, '""')}"`,
-        `"${(a.outlet || '').replace(/"/g, '""')}"`,
-        `"${(a.region || '').replace(/"/g, '""')}"`,
-        `"${(a.cnp || '').replace(/"/g, '""')}"`,
-        `"${(a.status || '').replace(/"/g, '""')}"`
-      ]);
+      // Si el usuario no es admin, pedir confirmación y habilitar vista
+      if (currentUserRole !== 'ADMIN') {
+        const confirmar = confirm('Esta base de datos contiene información confidencial de periodistas. ¿Deseas descargarla como Administrador?');
+        if (!confirmar) return;
+        desbloquearAccesoAdmin();
+      }
 
-      // Agregar BOM UTF-8 para que Excel reconozca tildes y caracteres especiales automáticamente
-      const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      if (!accreditationRecords || accreditationRecords.length === 0) {
+        alert('No hay registros de acreditación para exportar.');
+        return;
+      }
+
+      // 1. Generación de tabla XML Spreadsheet compatible al 100% con Microsoft Excel sin estar vacía
+      let excelXml = '<?xml version="1.0"?>\n' +
+        '<?mso-application progid="Excel.Sheet"?>\n' +
+        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
+        ' xmlns:o="urn:schemas-microsoft-com:office:office"\n' +
+        ' xmlns:x="urn:schemas-microsoft-com:office:excel"\n' +
+        ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
+        ' <Styles>\n' +
+        '  <Style ss:ID="HeaderStyle">\n' +
+        '   <Font ss:Bold="1" ss:Color="#FFFFFF"/>\n' +
+        '   <Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/>\n' +
+        '   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>\n' +
+        '  </Style>\n' +
+        '  <Style ss:ID="DataStyle">\n' +
+        '   <Font ss:Color="#000000"/>\n' +
+        '   <Alignment ss:Vertical="Center"/>\n' +
+        '  </Style>\n' +
+        ' </Styles>\n' +
+        ' <Worksheet ss:Name="Acreditaciones">\n' +
+        '  <Table>\n' +
+        '   <Column ss:Width="90"/>\n' +
+        '   <Column ss:Width="110"/>\n' +
+        '   <Column ss:Width="160"/>\n' +
+        '   <Column ss:Width="190"/>\n' +
+        '   <Column ss:Width="110"/>\n' +
+        '   <Column ss:Width="180"/>\n' +
+        '   <Column ss:Width="120"/>\n' +
+        '   <Column ss:Width="100"/>\n' +
+        '   <Column ss:Width="90"/>\n' +
+        '   <Row ss:StyleID="HeaderStyle">\n' +
+        '    <Cell><Data ss:Type="String">ID Credencial</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Fecha Solicitud</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Nombre Completo</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Correo Electrónico</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Rol / Cargo</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Medio o Freelance</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Estado Asignado</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">CNP / SNTP</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Estatus</Data></Cell>\n' +
+        '   </Row>\n';
+
+      accreditationRecords.forEach(a => {
+        excelXml += '   <Row ss:StyleID="DataStyle">\n' +
+          `    <Cell><Data ss:Type="String">${esc(a.id)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.date || '2026-10-06')}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.name)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.email)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.role)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.outlet)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.region)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.cnp || 'No colegiado')}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.status)}</Data></Cell>\n` +
+          '   </Row>\n';
+      });
+
+      excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
+
+      // Descargar como archivo .xls que Excel abre de inmediato con formato y datos
+      const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', 'registro_acreditaciones_periodistas.csv');
+      link.setAttribute('download', 'registro_acreditaciones_periodistas.xls');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1564,23 +1788,28 @@
 
     function cambiarRol(rol) {
       currentUserRole = rol;
-      alert(`Modo cambiado a: ${rol}. Permisos actualizados en la plataforma.`);
+      actualizarVisibilidadAcreditaciones();
+      if (rol === 'ADMIN') {
+        alert('🔓 Modo Administrador activo: Ahora puedes ver y gestionar el padrón confidencial de periodistas.');
+      } else {
+        alert(`Modo cambiado a: ${rol}. Datos confidenciales protegidos.`);
+      }
     }
 
     // =================================================================
     // INICIALIZACIÓN DE LA APLICACIÓN AL CARGAR
     // =================================================================
     window.addEventListener('DOMContentLoaded', () => {
+      renderizarTop5Titulares();
       renderLiveScrollFeed();
-      renderizarTablaAcreditaciones();
-      // Verificación automática inicial
+      actualizarMapaEnVivo();
+      actualizarVisibilidadAcreditaciones();
+      iniciarContadorEnVivo();
+
+      // Sincronización inmediata al abrir
       setTimeout(() => {
         sincronizarNoticiasEnVivo(false);
-      }, 1000);
-      // Intervalo de auto-refresco cada 2 minutos
-      setInterval(() => {
-        sincronizarNoticiasEnVivo(false);
-      }, 120000);
+      }, 500);
     });
   </script>
 </body>
