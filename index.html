@@ -61,17 +61,17 @@
               <h1 class="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">VzlaMonitoreo</h1>
               <span id="header-live-badge" class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center space-x-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>En Vivo</span>
+                <span>En Vivo 60s</span>
               </span>
             </div>
-            <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios, Matrices de Datos & Récord Histórico</p>
+            <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios, Agencias Globales & Matrices de Inteligencia</p>
           </div>
         </div>
 
         <!-- Botones de Navegación Desktop -->
         <nav class="hidden lg:flex items-center space-x-1">
           <button id="tab-radar" onclick="showTab('radar')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-blue-600 bg-blue-50 border border-blue-200">
-            🗺️ Portada & Feed
+            🗺️ Portada & Feeds
           </button>
           <button id="tab-datos" onclick="showTab('datos')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1">
             <span>📈 Matrices de Datos</span>
@@ -82,10 +82,10 @@
           </button>
           <button id="tab-desinformacion" onclick="showTab('desinformacion')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1">
             <span>🛡️ Fact-Checking</span>
-            <span class="text-[9px] bg-purple-100 text-purple-700 px-1.5 py-0.2 rounded font-bold">Cifras</span>
+            <span class="text-[9px] bg-purple-100 text-purple-700 px-1.5 py-0.2 rounded font-bold">En Vivo</span>
           </button>
           <button id="tab-medios" onclick="showTab('medios')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-            📰 Fuentes (56)
+            📰 Fuentes (64)
           </button>
           <button id="tab-analitica" onclick="showTab('analitica')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             📊 Analítica & Cifras
@@ -133,7 +133,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 lg:p-8 space-y-6">
 
     <!-- ================================================================= -->
-    <!-- VISTA 1: RADAR (PORTADA, TOP 5 TITULARES, MAPA Y FEED EN VIVO) -->
+    <!-- VISTA 1: RADAR (PORTADA, TOP 5 NACIONAL, TOP 4 REGIONAL, MAPA Y FEEDS) -->
     <!-- ================================================================= -->
     <div id="view-radar" class="space-y-6">
       
@@ -142,10 +142,10 @@
         <div class="space-y-1">
           <div class="flex items-center space-x-2">
             <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Red Nacional de Monitoreo Activa en Vivo</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Red Global & Nacional de Monitoreo Activa</span>
           </div>
-          <h2 class="text-lg sm:text-xl font-extrabold">Monitoreo Multi-Fuente (Efecto Cocuyo, TalCual, El Nacional y 53 más)</h2>
-          <p class="text-xs sm:text-sm text-slate-300">Extracción automática de actores, geolocalización en 24 estados y verificación en tiempo real.</p>
+          <h2 class="text-lg sm:text-xl font-extrabold">Medios Nacionales, Agencias Globales e Investigación</h2>
+          <p class="text-xs sm:text-sm text-slate-300">Incluye CNN, Reuters, AFP, EFE, AP News, BBC, NY Times, Efecto Cocuyo, Armando.info y medios regionales.</p>
         </div>
         <div class="flex items-center gap-2 text-xs flex-wrap">
           <span id="countdown-badge" class="bg-blue-800/80 border border-blue-600 px-3 py-1.5 rounded-lg font-mono">⚡ Auto-sync: 60s</span>
@@ -156,12 +156,12 @@
         </div>
       </div>
 
-      <!-- SECCIÓN: TOP 5 TITULARES MÁS IMPORTANTES JERARQUIZADOS -->
+      <!-- SECCIÓN: TOP 5 TITULARES NACIONALES MÁS IMPORTANTES -->
       <section class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-3">
         <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
           <div class="flex items-center space-x-2">
             <span class="text-base">🔥</span>
-            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">Top 5 Titulares de Mayor Impacto (Jerarquía Informativa)</h3>
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">Top 5 Titulares de Mayor Impacto (Jerarquía Editorial Nacional)</h3>
           </div>
           <span class="text-[10px] font-bold uppercase bg-amber-100 text-amber-900 px-2 py-0.5 rounded-md border border-amber-200">
             Prioridad Editorial
@@ -169,22 +169,39 @@
         </div>
 
         <div id="top5-headlines-container" class="grid grid-cols-1 md:grid-cols-5 gap-3">
-          <!-- Renderizado dinámico de los 5 titulares jerarquizados -->
+          <!-- Renderizado dinámico del Top 5 -->
         </div>
       </section>
 
-      <!-- Cuadrícula Principal: Mapa SVG a la izquierda (7 cols) + Feed Continuo a la derecha (5 cols) -->
+      <!-- SECCIÓN NUEVA: TOP 4 NOTICIAS REGIONALES -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+          <div class="flex items-center space-x-2">
+            <span class="text-base">📍</span>
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">Top 4 Noticias Regionales de Mayor Impacto (Estados de Venezuela)</h3>
+          </div>
+          <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-900 px-2 py-0.5 rounded-md border border-blue-200">
+            Foco Regional
+          </span>
+        </div>
+
+        <div id="top4-regional-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <!-- Renderizado dinámico del Top 4 Regional -->
+        </div>
+      </section>
+
+      <!-- Cuadrícula Principal: Mapa SVG a la izquierda (6 cols) + Dos Feeds en Vivo a la derecha (6 cols) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- COLUMNA MAPA VENEZUELA (7 Cols) - CON TODOS LOS 24 ESTADOS -->
-        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
+        <!-- COLUMNA MAPA VENEZUELA (6 Cols) -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between mb-3">
             <div>
               <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
                 <span>🗺️ Mapa Interactivo en Vivo de Venezuela</span>
                 <span id="selected-state-badge" class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800">Todos los estados (24)</span>
               </h3>
-              <p class="text-xs text-slate-500">Los 24 estados se actualizan con la cantidad de reportes y eventos registrados en vivo.</p>
+              <p class="text-xs text-slate-500">Haz clic en cualquier entidad para filtrar reportes regionales al instante.</p>
             </div>
             <button onclick="limpiarFiltroRegionMapa()" class="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline">
               Limpiar filtro
@@ -236,54 +253,30 @@
               <rect width="800" height="600" fill="#f8fafc" rx="8" />
 
               <!-- Polígonos de los 24 Estados de Venezuela -->
-              <!-- Zulia -->
               <path id="state-Zulia" onclick="seleccionarRegionMapa('Zulia')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 140 100 L 190 120 L 220 180 L 190 260 L 150 250 L 130 190 Z" />
               <ellipse cx="175" cy="170" rx="25" ry="40" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1" pointer-events="none" />
-              <!-- Falcón -->
               <path id="state-Falcón" onclick="seleccionarRegionMapa('Falcón')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 200 90 L 290 80 L 280 140 L 210 130 Z" />
-              <!-- Lara -->
               <path id="state-Lara" onclick="seleccionarRegionMapa('Lara')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 220 140 L 270 140 L 260 190 L 210 180 Z" />
-              <!-- Yaracuy -->
               <path id="state-Yaracuy" onclick="seleccionarRegionMapa('Yaracuy')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 270 140 L 300 135 L 295 170 L 265 170 Z" />
-              <!-- Carabobo -->
               <path id="state-Carabobo" onclick="seleccionarRegionMapa('Carabobo')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 300 135 L 340 135 L 330 175 L 295 170 Z" />
-              <!-- Aragua -->
               <path id="state-Aragua" onclick="seleccionarRegionMapa('Aragua')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 340 135 L 375 140 L 370 190 L 330 175 Z" />
-              <!-- La Guaira -->
               <path id="state-La-Guaira" onclick="seleccionarRegionMapa('La Guaira')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 125 L 415 125 L 410 135 L 375 135 Z" />
-              <!-- Distrito Capital (Caracas) -->
               <path id="state-Distrito-Capital" onclick="seleccionarRegionMapa('Distrito Capital')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 135 L 410 135 L 405 155 L 375 155 Z" />
-              <!-- Miranda -->
               <path id="state-Miranda" onclick="seleccionarRegionMapa('Miranda')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 155 L 435 150 L 420 195 L 370 190 Z" />
-              <!-- Trujillo -->
               <path id="state-Trujillo" onclick="seleccionarRegionMapa('Trujillo')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 200 190 L 235 190 L 225 230 L 195 220 Z" />
-              <!-- Mérida -->
               <path id="state-Mérida" onclick="seleccionarRegionMapa('Mérida')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 175 220 L 220 225 L 205 270 L 165 250 Z" />
-              <!-- Táchira -->
               <path id="state-Táchira" onclick="seleccionarRegionMapa('Táchira')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 140 250 L 175 250 L 170 300 L 130 290 Z" />
-              <!-- Barinas -->
               <path id="state-Barinas" onclick="seleccionarRegionMapa('Barinas')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 215 225 L 290 220 L 280 290 L 180 290 Z" />
-              <!-- Portuguesa -->
               <path id="state-Portuguesa" onclick="seleccionarRegionMapa('Portuguesa')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 240 185 L 290 180 L 285 225 L 235 225 Z" />
-              <!-- Cojedes -->
               <path id="state-Cojedes" onclick="seleccionarRegionMapa('Cojedes')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 290 175 L 335 175 L 330 230 L 285 225 Z" />
-              <!-- Guárico -->
               <path id="state-Guárico" onclick="seleccionarRegionMapa('Guárico')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 330 180 L 440 180 L 430 280 L 320 270 Z" />
-              <!-- Anzoátegui -->
               <path id="state-Anzoátegui" onclick="seleccionarRegionMapa('Anzoátegui')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 440 160 L 530 165 L 515 285 L 430 280 Z" />
-              <!-- Sucre -->
               <path id="state-Sucre" onclick="seleccionarRegionMapa('Sucre')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 460 120 L 580 125 L 560 165 L 460 155 Z" />
-              <!-- Nueva Esparta -->
               <path id="state-Nueva-Esparta" onclick="seleccionarRegionMapa('Nueva Esparta')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 495 90 L 530 85 L 535 105 L 495 105 Z" />
-              <!-- Monagas -->
               <path id="state-Monagas" onclick="seleccionarRegionMapa('Monagas')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 525 165 L 585 160 L 575 240 L 515 240 Z" />
-              <!-- Delta Amacuro -->
               <path id="state-Delta-Amacuro" onclick="seleccionarRegionMapa('Delta Amacuro')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 585 160 L 660 190 L 630 270 L 575 235 Z" />
-              <!-- Apure -->
               <path id="state-Apure" onclick="seleccionarRegionMapa('Apure')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 180 290 L 420 280 L 400 350 L 230 350 Z" />
-              <!-- Bolívar -->
               <path id="state-Bolívar" onclick="seleccionarRegionMapa('Bolívar')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 410 285 L 630 270 L 630 430 L 440 430 L 390 350 Z" />
-              <!-- Amazonas -->
               <path id="state-Amazonas" onclick="seleccionarRegionMapa('Amazonas')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 320 350 L 440 350 L 420 560 L 330 520 Z" />
 
               <!-- Etiquetas -->
@@ -331,52 +324,75 @@
           </div>
         </div>
 
-        <!-- COLUMNA FEED EN VIVO CON SCROLL CONTINUO (5 Cols) -->
-        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col h-full space-y-3">
+        <!-- COLUMNA DOBLE FEED: FEED GENERAL + FEED INVESTIGACIÓN (6 Cols) -->
+        <div class="lg:col-span-6 space-y-6">
           
-          <!-- Encabezado del Feed -->
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <h3 class="text-sm font-bold text-slate-900">Feed en Vivo (Última Hora)</h3>
+          <!-- FEED 1: FEED GENERAL EN VIVO (ÚLTIMA HORA) -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h3 class="text-sm font-bold text-slate-900">📡 Feed en Vivo General (Última Hora)</h3>
+              </div>
+              <span id="live-feed-counter" class="text-[11px] font-bold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full border border-slate-200">
+                Cargando...
+              </span>
             </div>
-            <span id="live-feed-counter" class="text-[11px] font-bold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full border border-slate-200">
-              Cargando...
-            </span>
+
+            <!-- Buscador Rápido -->
+            <div class="relative">
+              <input
+                type="text"
+                id="feed-quick-search"
+                oninput="filtrarFeedRapido(this.value)"
+                placeholder="🔍 Filtrar por palabra, agencia o medio..."
+                class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-8 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+              <span class="absolute left-2.5 top-2 text-slate-400 text-xs">🔍</span>
+              <button onclick="limpiarFeedQuickSearch()" class="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
+            </div>
+
+            <!-- Estado de actualización -->
+            <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+              <span id="feed-update-status" class="truncate">⏳ Conectando...</span>
+              <button onclick="sincronizarNoticiasEnVivo(true)" id="btn-feed-refresh" class="text-blue-600 hover:text-blue-800 font-bold whitespace-nowrap ml-2 flex items-center space-x-1">
+                <span id="spin-refresh" class="inline-block">🔄</span>
+                <span>Actualizar ahora</span>
+              </button>
+            </div>
+
+            <!-- Scroll del Feed General -->
+            <div id="live-scroll-feed" class="max-h-[340px] overflow-y-auto space-y-2.5 pr-1 custom-scrollbar">
+              <!-- Elementos del feed general -->
+            </div>
           </div>
 
-          <!-- Buscador Rápido en este Feed -->
-          <div class="relative">
-            <input
-              type="text"
-              id="feed-quick-search"
-              oninput="filtrarFeedRapido(this.value)"
-              placeholder="🔍 Filtrar noticias en este feed..."
-              class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-8 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-            />
-            <span class="absolute left-2.5 top-2 text-slate-400 text-xs">🔍</span>
-            <button onclick="limpiarFeedQuickSearch()" class="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
+          <!-- FEED 2: FEED EXCLUSIVO DE PERIODISMO DE INVESTIGACIÓN (ÚLTIMA HORA - 60s) -->
+          <div class="bg-gradient-to-b from-slate-900 to-indigo-950 text-white rounded-2xl border border-slate-800 p-4 sm:p-5 shadow-xs flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+                <h3 class="text-sm font-bold text-white flex items-center space-x-1.5">
+                  <span>🕵️ Feed de Periodismo de Investigación</span>
+                </h3>
+              </div>
+              <span id="investigative-feed-counter" class="text-[10px] font-bold bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-500/40">
+                0 reportajes
+              </span>
+            </div>
+            <p class="text-[11px] text-slate-300">Reportajes de profundidad, corrupción, DDHH y expedientes de Armando.info, Runrunes, Connectas y especiales de Efecto Cocuyo.</p>
+
+            <!-- Scroll del Feed de Investigación -->
+            <div id="investigative-scroll-feed" class="max-h-[320px] overflow-y-auto space-y-2.5 pr-1 custom-scrollbar">
+              <!-- Elementos de investigación generados -->
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
+              <span>Sincronización independiente cada 60s</span>
+              <span class="text-amber-400 font-bold">Exclusivo Monitoreo de Impacto</span>
+            </div>
           </div>
 
-          <!-- Estado y Botón de Actualizar Ahora -->
-          <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-            <span id="feed-update-status" class="truncate">⏳ Conectando...</span>
-            <button onclick="sincronizarNoticiasEnVivo(true)" id="btn-feed-refresh" class="text-blue-600 hover:text-blue-800 font-bold whitespace-nowrap ml-2 flex items-center space-x-1">
-              <span id="spin-refresh" class="inline-block">🔄</span>
-              <span>Actualizar ahora</span>
-            </button>
-          </div>
-
-          <!-- Contenedor con Scroll Continuo del Feed -->
-          <div id="live-scroll-feed" class="flex-1 max-h-[580px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
-            <!-- Elementos renderizados dinámicamente -->
-          </div>
-
-          <!-- Pie del Feed -->
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-            <span>Fuentes: Medios independientes y verificadores</span>
-            <button onclick="showTab('buscador')" class="text-blue-600 font-bold hover:underline">Ir a Búsqueda Avanzada →</button>
-          </div>
         </div>
 
       </div>
@@ -384,7 +400,7 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 2: MATRICES DE DATOS, CIFRAS DE HECHOS Y RÉCORD HISTÓRICO -->
+    <!-- VISTA 2: MATRICES DE DATOS, CIFRAS CLICABLES Y RÉCORD HISTÓRICO -->
     <!-- ================================================================= -->
     <div id="view-datos" class="hidden space-y-6">
       
@@ -429,67 +445,112 @@
               <span class="text-xs text-slate-400">• Matrices Actualizadas en Tiempo Real</span>
             </div>
             <h2 class="text-lg font-black text-slate-900">Matrices de Datos, Trazabilidad de Hechos & Actores</h2>
-            <p class="text-xs text-slate-500">Extracción automática de actores en noticias, monitoreo de hechos críticos y récord histórico.</p>
+            <p class="text-xs text-slate-500">Haz clic sobre cualquier tarjeta de cifra para desglozar sus casos y descargar su base de datos individual.</p>
           </div>
 
-          <!-- Botones de Exportación a Excel -->
+          <!-- Botones de Exportación a Excel Globales -->
           <div class="flex items-center gap-2 flex-wrap">
-            <button onclick="exportarMatrizHechosExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+            <button onclick="exportarMatrizHechosExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
               <span>📊</span>
-              <span>Exportar Hechos (Excel)</span>
+              <span>Matriz Hechos (Excel)</span>
             </button>
-            <button onclick="exportarMatrizActoresExcel()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+            <button onclick="exportarMatrizActoresExcel()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
               <span>👥</span>
-              <span>Exportar Actores (Excel)</span>
+              <span>Matriz Actores (Excel)</span>
             </button>
-            <button onclick="exportarRecordHistoricoExcel()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+            <button onclick="exportarRecordHistoricoExcel()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
               <span>📚</span>
               <span>Récord Histórico (Excel)</span>
             </button>
           </div>
         </div>
 
-        <!-- TABLERO DE CIFRAS EN VIVO DE HECHOS CRÍTICOS -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 text-center">
-          <div class="bg-white p-3 rounded-2xl border border-red-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-red-600 uppercase">⚖️ Violación DDHH</span>
-            <p id="cifra-ddhh" class="text-xl font-black text-slate-900 mt-0.5">3</p>
-            <span class="text-[9px] text-slate-400">Detenciones/Censura</span>
+        <!-- TABLERO DE CIFRAS CLICABLES EN VIVO (CON DESGLOSE Y DESCARGA INDIVIDUAL) -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-500 font-semibold px-1">
+            <span>👇 Haz clic en una cifra para ver su desglose detallado y descargar su base de datos independiente:</span>
+            <span class="text-blue-600">Interactiva</span>
           </div>
-          <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-amber-700 uppercase">📢 Denuncias</span>
-            <p id="cifra-denuncias" class="text-xl font-black text-slate-900 mt-0.5">7</p>
-            <span class="text-[9px] text-slate-400">Públicas/Gremios</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 text-center">
+            <div onclick="desglosarCifra('ddhh')" class="cursor-pointer bg-white hover:bg-red-50 p-3 rounded-2xl border border-red-200 shadow-2xs hover:border-red-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-red-600 uppercase">⚖️ Violación DDHH</span>
+              <p id="cifra-ddhh" class="text-xl font-black text-slate-900 mt-0.5">4</p>
+              <span class="text-[9px] text-red-600 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('denuncias')" class="cursor-pointer bg-white hover:bg-amber-50 p-3 rounded-2xl border border-amber-200 shadow-2xs hover:border-amber-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-amber-700 uppercase">📢 Denuncias</span>
+              <p id="cifra-denuncias" class="text-xl font-black text-slate-900 mt-0.5">10</p>
+              <span class="text-[9px] text-amber-700 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('protestas')" class="cursor-pointer bg-white hover:bg-blue-50 p-3 rounded-2xl border border-blue-200 shadow-2xs hover:border-blue-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-blue-700 uppercase">🪧 Protestas</span>
+              <p id="cifra-protestas" class="text-xl font-black text-slate-900 mt-0.5">6</p>
+              <span class="text-[9px] text-blue-700 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('fallecidos')" class="cursor-pointer bg-white hover:bg-rose-50 p-3 rounded-2xl border border-rose-200 shadow-2xs hover:border-rose-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-rose-700 uppercase">⚠️ Fallecidos</span>
+              <p id="cifra-fallecidos" class="text-xl font-black text-slate-900 mt-0.5">2</p>
+              <span class="text-[9px] text-rose-700 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('desaparecidos')" class="cursor-pointer bg-white hover:bg-purple-50 p-3 rounded-2xl border border-purple-200 shadow-2xs hover:border-purple-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-purple-700 uppercase">🔍 Desaparecidos</span>
+              <p id="cifra-desaparecidos" class="text-xl font-black text-slate-900 mt-0.5">1</p>
+              <span class="text-[9px] text-purple-700 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('desastres')" class="cursor-pointer bg-white hover:bg-cyan-50 p-3 rounded-2xl border border-cyan-200 shadow-2xs hover:border-cyan-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-cyan-700 uppercase">🌊 Desastre Nat.</span>
+              <p id="cifra-desastres" class="text-xl font-black text-slate-900 mt-0.5">3</p>
+              <span class="text-[9px] text-cyan-700 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('incendios')" class="cursor-pointer bg-white hover:bg-orange-50 p-3 rounded-2xl border border-orange-200 shadow-2xs hover:border-orange-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-orange-700 uppercase">🔥 Incendios</span>
+              <p id="cifra-incendios" class="text-xl font-black text-slate-900 mt-0.5">1</p>
+              <span class="text-[9px] text-orange-700 underline font-medium">Ver desglose →</span>
+            </div>
+            <div onclick="desglosarCifra('servicios')" class="cursor-pointer bg-white hover:bg-slate-100 p-3 rounded-2xl border border-slate-200 shadow-2xs hover:border-slate-400 hover:scale-[1.02] transition-all">
+              <span class="text-[10px] font-bold text-slate-700 uppercase">💡 Cortes Serv.</span>
+              <p id="cifra-servicios" class="text-xl font-black text-slate-900 mt-0.5">10</p>
+              <span class="text-[9px] text-slate-700 underline font-medium">Ver desglose →</span>
+            </div>
           </div>
-          <div class="bg-white p-3 rounded-2xl border border-blue-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-blue-700 uppercase">🪧 Protestas</span>
-            <p id="cifra-protestas" class="text-xl font-black text-slate-900 mt-0.5">4</p>
-            <span class="text-[9px] text-slate-400">Laborales/Salud</span>
+        </div>
+
+        <!-- MODAL / CONTENEDOR DESPLEGABLE DE DESGLOSE DE CIFRA -->
+        <div id="modal-desglose-cifra" class="hidden bg-white rounded-2xl border border-blue-200 p-5 shadow-md space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="space-y-0.5">
+              <h3 id="desglose-titulo" class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center space-x-2">
+                <span>📋 Casos Registrados:</span>
+                <span id="desglose-categoria-nombre" class="text-blue-700">Violaciones a DDHH</span>
+              </h3>
+              <p class="text-xs text-slate-500">Expediente individualizado con fecha, lugar, descripción del hecho y enlace de verificación.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="descargarBaseIndividualCifra()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-xs flex items-center space-x-1.5">
+                <span>📥</span>
+                <span>Descargar Base de Datos (.xls)</span>
+              </button>
+              <button onclick="cerrarDesgloseCifra()" class="text-slate-400 hover:text-slate-600 font-bold text-lg px-2">✕</button>
+            </div>
           </div>
-          <div class="bg-white p-3 rounded-2xl border border-rose-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-rose-700 uppercase">⚠️ Fallecidos</span>
-            <p id="cifra-fallecidos" class="text-xl font-black text-slate-900 mt-0.5">2</p>
-            <span class="text-[9px] text-slate-400">Sucesos/Vialidad</span>
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-purple-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-purple-700 uppercase">🔍 Desaparecidos</span>
-            <p id="cifra-desaparecidos" class="text-xl font-black text-slate-900 mt-0.5">1</p>
-            <span class="text-[9px] text-slate-400">Búsquedas activas</span>
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-cyan-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-cyan-700 uppercase">🌊 Desastre Nat.</span>
-            <p id="cifra-desastres" class="text-xl font-black text-slate-900 mt-0.5">2</p>
-            <span class="text-[9px] text-slate-400">Lluvias/Talud</span>
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-orange-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-orange-700 uppercase">🔥 Incendios</span>
-            <p id="cifra-incendios" class="text-xl font-black text-slate-900 mt-0.5">1</p>
-            <span class="text-[9px] text-slate-400">Forestal/Urbano</span>
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs">
-            <span class="text-[10px] font-bold text-slate-700 uppercase">💡 Cortes Serv.</span>
-            <p id="cifra-servicios" class="text-xl font-black text-slate-900 mt-0.5">8</p>
-            <span class="text-[9px] text-slate-400">Luz/Agua/Diésel</span>
+
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left text-xs text-slate-600">
+              <thead class="bg-slate-50 text-slate-700 uppercase font-bold text-[10px] border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Fecha</th>
+                  <th class="py-2.5 px-3">Hecho / Suceso</th>
+                  <th class="py-2.5 px-3">Lugar / Estado</th>
+                  <th class="py-2.5 px-3">Descripción Detallada</th>
+                  <th class="py-2.5 px-3">Víctimas / Afectados</th>
+                  <th class="py-2.5 px-3">Medio Fuente</th>
+                  <th class="py-2.5 px-3 text-right">Enlace</th>
+                </tr>
+              </thead>
+              <tbody id="desglose-table-body" class="divide-y divide-slate-100 font-medium">
+                <!-- Casos desglosados -->
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -502,7 +563,7 @@
             👥 Matriz de Actores & Protagonistas
           </button>
           <button id="subtab-perfiles" onclick="cambiarSubTabDatos('perfiles')" class="whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all flex items-center space-x-1">
-            <span>🏛️ Fichas de Funcionarios & Cargos</span>
+            <span>🏛️ Fichas y Expedientes de Funcionarios</span>
             <span class="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.2 rounded-full font-bold">+ Crear</span>
           </button>
           <button id="subtab-record" onclick="cambiarSubTabDatos('record')" class="whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all flex items-center space-x-1">
@@ -608,16 +669,15 @@
           </div>
         </div>
 
-        <!-- SUB-SECCIÓN 3: PERFILES DE FUNCIONARIOS, JUECES Y MINISTROS + CREADOR -->
+        <!-- SUB-SECCIÓN 3: PERFILES CLICABLES DE FUNCIONARIOS & CREADOR -->
         <div id="subview-perfiles" class="hidden space-y-6">
           
-          <!-- Encabezado de Fichas con Botón Crear -->
           <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="space-y-1">
               <h3 class="text-base font-extrabold flex items-center space-x-2">
-                <span>🏛️ Fichas Investigativas de Funcionarios Públicos & Actores Clave</span>
+                <span>🏛️ Fichas y Expedientes de Funcionarios Públicos (Clicables con Links a Fuentes)</span>
               </h3>
-              <p class="text-xs text-slate-300">Base de datos de perfiles con cargos, edad, declaraciones, fuentes y nivel de exposición pública.</p>
+              <p class="text-xs text-slate-300">Haz clic sobre cualquier perfil para abrir su expediente con todas las actuaciones y enlaces directos a medios.</p>
             </div>
             <button onclick="toggleFormularioCrearPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
               <span>➕</span>
@@ -690,14 +750,66 @@
             </form>
           </div>
 
-          <!-- Cuadrícula de Fichas de Perfiles -->
+          <!-- Cuadrícula de Fichas de Perfiles (Clicables) -->
           <div id="perfiles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <!-- Fichas renderizadas dinámicamente -->
           </div>
 
+          <!-- MODAL DE EXPEDIENTE COMPLETO DEL PERFIL CON ENLACES A FUENTES -->
+          <div id="modal-expediente-perfil" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar p-6 space-y-4 shadow-2xl border border-slate-200">
+              <div class="flex items-start justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center space-x-3">
+                  <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-800 font-black text-xl flex items-center justify-center">
+                    🏛️
+                  </div>
+                  <div>
+                    <h3 id="expediente-nombre" class="text-base sm:text-lg font-black text-slate-900 leading-tight">Nombre</h3>
+                    <p id="expediente-cargo" class="text-xs font-semibold text-slate-600">Cargo</p>
+                    <span id="expediente-badge-tipo" class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">Poder Ejecutivo</span>
+                  </div>
+                </div>
+                <button onclick="cerrarExpedientePerfil()" class="text-slate-400 hover:text-slate-600 font-bold text-xl px-2">✕</button>
+              </div>
+
+              <div class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <div><span class="text-slate-400">Institución:</span> <strong id="expediente-institucion" class="text-slate-800">TSJ</strong></div>
+                  <div><span class="text-slate-400">Edad:</span> <strong id="expediente-edad" class="text-slate-800">56 años</strong></div>
+                  <div><span class="text-slate-400">Sede / Estado:</span> <strong id="expediente-estado" class="text-slate-800">Distrito Capital</strong></div>
+                  <div><span class="text-slate-400">Estado de Exposición:</span> <strong id="expediente-alerta" class="text-emerald-700">Activo</strong></div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-slate-800 mb-1">Trayectoria y Antecedentes Institucionales:</h4>
+                  <p id="expediente-biografia" class="text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200">Biografía</p>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-slate-800 mb-1.5 flex items-center justify-between">
+                    <span>Actuaciones Monitoreadas con Enlaces a Fuentes:</span>
+                    <span class="text-[10px] text-blue-600 font-normal">Sincronizado cada 60s</span>
+                  </h4>
+                  <div id="expediente-menciones-list" class="space-y-2">
+                    <!-- Menciones con links directos -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <button id="expediente-btn-buscar" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-xs">
+                  🔍 Buscar todas sus noticias en el observatorio
+                </button>
+                <button onclick="cerrarExpedientePerfil()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-4 py-2 rounded-xl">
+                  Cerrar Expediente
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- SUB-SECCIÓN 4: RÉCORD HISTÓRICO NACIONAL (DOCUMENTACIÓN Y MEMORIA) -->
+        <!-- SUB-SECCIÓN 4: RÉCORD HISTÓRICO NACIONAL -->
         <div id="subview-record" class="hidden space-y-4">
           <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
             <div>
@@ -717,7 +829,7 @@
               <span id="record-count-badge" class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">0 eventos archivados</span>
             </div>
             <div id="record-timeline-container" class="space-y-3">
-              <!-- Eventos históricos generados -->
+              <!-- Eventos históricos -->
             </div>
           </div>
         </div>
@@ -730,7 +842,6 @@
     <!-- VISTA 3: BUSCADOR AVANZADO MULTI-FACTOR (FT55) -->
     <!-- ================================================================= -->
     <div id="view-buscador" class="hidden space-y-6">
-      
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
@@ -738,7 +849,7 @@
               <span>🔍 Buscador de Noticias y Cobertura Venezuela</span>
               <span class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">FT55 Multi-Fuente</span>
             </h2>
-            <p class="text-xs text-slate-500">Búsqueda combinada: base indexada local + rastreo en vivo de Google News Venezuela.</p>
+            <p class="text-xs text-slate-500">Búsqueda combinada: medios nacionales, agencias globales e investigación en tiempo real.</p>
           </div>
           <span id="search-result-count" class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">
             0 notas encontradas
@@ -752,8 +863,8 @@
               id="search-input"
               oninput="ejecutarBusquedaAvanzada()"
               onkeydown="if(event.key==='Enter') ejecutarBusquedaAvanzada()"
-              placeholder="Escribe palabras clave (ej: elecciones, inflación, apagón, Zulia, petróleo, salud, Efecto Cocuyo)..."
-              class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-10 py-3 text-slate-800 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              placeholder="Escribe palabras clave (ej: elecciones, inflación, apagón, Zulia, Reuters, CNN, Efecto Cocuyo)..."
+              class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-10 py-3 text-slate-800 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             />
             <span class="absolute left-3 top-3.5 text-slate-400 text-sm">🔍</span>
             <button onclick="limpiarBuscadorAvanzado()" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
@@ -825,17 +936,24 @@
           </div>
 
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">📰 Medio / Fuente de Prensa:</label>
+            <label class="block font-semibold text-slate-700 mb-1">📰 Medio / Agencia / Fuente:</label>
             <select id="search-filter-source" onchange="ejecutarBusquedaAvanzada()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="ALL">Todas las Fuentes (56)</option>
+              <option value="ALL">Todas las Fuentes (64)</option>
+              <option value="CNN">CNN en Español</option>
+              <option value="Reuters">Reuters</option>
+              <option value="AFP">AFP (Agence France-Presse)</option>
+              <option value="EFE">Agencia EFE</option>
+              <option value="AP News">AP News (Associated Press)</option>
+              <option value="BBC">BBC / BBC Mundo</option>
+              <option value="NY Times">The New York Times</option>
               <option value="Efecto Cocuyo">Efecto Cocuyo</option>
+              <option value="Armando.info">Armando.info</option>
               <option value="TalCual">TalCual Digital</option>
               <option value="El Nacional">El Nacional</option>
               <option value="Runrunes">Runrunes</option>
               <option value="Crónica Uno">Crónica Uno</option>
               <option value="El Carabobeño">El Carabobeño</option>
               <option value="Correo del Caroní">Correo del Caroní</option>
-              <option value="Armando.info">Armando.info</option>
               <option value="El Estímulo">El Estímulo</option>
               <option value="Noticia al Día">Noticia al Día (Zulia)</option>
               <option value="La Prensa de Lara">La Prensa de Lara</option>
@@ -860,25 +978,30 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 4: RADAR DE DESINFORMACIÓN & FACT-CHECKING CON SCROLL Y CIFRAS -->
+    <!-- VISTA 4: RADAR DE FACT-CHECKING CON FEED EN VIVO (ÚLTIMA HORA) -->
     <!-- ================================================================= -->
     <div id="view-desinformacion" class="hidden space-y-6">
       
-      <!-- Panel de Cifras de Desinformación -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
             <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
-              <span>🛡️ Radar Anti-Desinformación y Métricas de Bulos</span>
-              <span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Fact-Checking VE</span>
+              <span>🛡️ Radar Anti-Desinformación y Fact-Checking en Vivo</span>
+              <span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full flex items-center space-x-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping"></span>
+                <span>Última Hora 60s</span>
+              </span>
             </h2>
             <p class="text-xs text-slate-500">Scroll continuo de verificaciones y análisis estadístico por tipología y plataforma de origen.</p>
           </div>
+          <button onclick="sincronizarFactChecksEnVivo()" class="text-xs bg-purple-600 hover:bg-purple-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-xs flex items-center space-x-1">
+            <span id="spin-fact-refresh">🔄</span>
+            <span>Actualizar Desmentidos</span>
+          </button>
         </div>
 
         <!-- Métricas de Tipología y Plataforma de Desinformación -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <!-- Tipología de Desinformación -->
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
             <div class="flex items-center justify-between font-bold text-slate-800">
               <span>📊 Tipos de Desinformación Frecuente</span>
@@ -904,7 +1027,6 @@
             </div>
           </div>
 
-          <!-- Plataforma donde se Genera y Circula -->
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
             <div class="flex items-center justify-between font-bold text-slate-800">
               <span>🌐 Plataformas de Origen y Difusión</span>
@@ -931,10 +1053,13 @@
           </div>
         </div>
 
-        <!-- Contenedor con SCROLL CONTINUO de Verificaciones -->
+        <!-- FEED EN VIVO DE FACT-CHECKING CON SCROLL CONTINUO -->
         <div class="pt-3 border-t border-slate-100 space-y-3">
           <div class="flex items-center justify-between">
-            <h3 class="font-bold text-sm text-slate-900">Feed en Scroll Continuo de Chequeos en Vivo</h3>
+            <h3 class="font-bold text-sm text-slate-900 flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
+              <span>Feed en Vivo (Última Hora de Verificaciones)</span>
+            </h3>
             <div class="flex items-center gap-1.5 text-xs">
               <button onclick="filtrarFactChecks('ALL')" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Todos</button>
               <button onclick="filtrarFactChecks('FALSO')" class="px-2.5 py-1 rounded-lg font-bold bg-red-100 text-red-700 hover:bg-red-200">Falso</button>
@@ -952,19 +1077,21 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 5: DIRECTORIO DE LAS 56 FUENTES Y MEDIOS -->
+    <!-- VISTA 5: DIRECTORIO DE LAS 64 FUENTES (NACIONALES E INTERNACIONALES) -->
     <!-- ================================================================= -->
     <div id="view-medios" class="hidden space-y-6">
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
-            <h2 class="text-base font-bold text-slate-900">📰 Catálogo de las 56 Fuentes de Información Monitoreadas</h2>
-            <p class="text-xs text-slate-500">Incluye a Efecto Cocuyo, Armando.info, TalCual, El Pitazo y verificadores en Venezuela.</p>
+            <h2 class="text-base font-bold text-slate-900">📰 Catálogo de las 64 Fuentes de Información Monitoreadas</h2>
+            <p class="text-xs text-slate-500">Agencias globales (Reuters, AFP, EFE, AP News, BBC, CNN, NY Times), medios venezolanos y verificadores.</p>
           </div>
-          <div class="flex gap-2 text-xs">
-            <button onclick="filtrarDirectorioFuentes('ALL')" class="px-3 py-1 font-semibold rounded-lg bg-blue-50 text-blue-700 border border-blue-200">Todas (56)</button>
-            <button onclick="filtrarDirectorioFuentes('MEDIO')" class="px-3 py-1 font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Medios (32)</button>
-            <button onclick="filtrarDirectorioFuentes('VERIFICADOR')" class="px-3 py-1 font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Verificadores / ONGs (24)</button>
+          <div class="flex gap-2 text-xs flex-wrap">
+            <button onclick="filtrarDirectorioFuentes('ALL')" class="px-3 py-1 font-semibold rounded-lg bg-blue-50 text-blue-700 border border-blue-200">Todas (64)</button>
+            <button onclick="filtrarDirectorioFuentes('AGENCIA_INTERNACIONAL')" class="px-3 py-1 font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Agencias / Globales (8)</button>
+            <button onclick="filtrarDirectorioFuentes('INVESTIGACION')" class="px-3 py-1 font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Investigación (6)</button>
+            <button onclick="filtrarDirectorioFuentes('MEDIO')" class="px-3 py-1 font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Nacionales / Regionales</button>
+            <button onclick="filtrarDirectorioFuentes('VERIFICADOR')" class="px-3 py-1 font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Verificadores / ONGs</button>
           </div>
         </div>
 
@@ -978,18 +1105,16 @@
     <!-- VISTA 6: ANALÍTICA, PALABRAS CLAVE, LUGARES Y AGENDA DEL DÍA -->
     <!-- ================================================================= -->
     <div id="view-analitica" class="hidden space-y-6">
-      
-      <!-- KPIs Superiores -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Total Notas Procesadas</span>
           <p id="kpi-total-news" class="text-2xl font-black text-slate-900 mt-1">0</p>
-          <span class="text-[10px] text-emerald-600 font-bold">+12% en últimas 24h</span>
+          <span class="text-[10px] text-emerald-600 font-bold">+18% en últimas 24h</span>
         </div>
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Fuentes Activas</span>
-          <p class="text-2xl font-black text-blue-600 mt-1">56</p>
-          <span class="text-[10px] text-slate-500">12 vía RSS + 44 web</span>
+          <p class="text-2xl font-black text-blue-600 mt-1">64</p>
+          <span class="text-[10px] text-slate-500">Agencias globales + RSS</span>
         </div>
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Hechos Documentados</span>
@@ -999,14 +1124,11 @@
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Actores Monitoreados</span>
           <p id="kpi-total-actores" class="text-2xl font-black text-emerald-600 mt-1">19</p>
-          <span class="text-[10px] text-emerald-600 font-bold">Trazabilidad activa</span>
+          <span class="text-[10px] text-emerald-600 font-bold">Auto-sync 60s</span>
         </div>
       </div>
 
-      <!-- Cuadrícula: Palabras Clave del Día (Trending) y Agenda que se Mueve -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- PALABRAS CLAVE DEL DÍA (6 Cols) -->
         <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
             <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
@@ -1015,7 +1137,7 @@
             <span class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Frecuencia en notas</span>
           </div>
           <div id="keywords-cloud-container" class="flex flex-wrap gap-2 pt-1">
-            <!-- Nube de keywords generada -->
+            <!-- Nube de keywords -->
           </div>
           <div class="pt-2 border-t border-slate-100">
             <h4 class="text-xs font-bold text-slate-700 mb-2">Ranking de Términos con Mayor Volumen:</h4>
@@ -1025,7 +1147,6 @@
           </div>
         </div>
 
-        <!-- AGENDA DEL DÍA QUE SE MUEVE (6 Cols) -->
         <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
             <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
@@ -1033,30 +1154,25 @@
             </h3>
             <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">En Desarrollo</span>
           </div>
-          <p class="text-xs text-slate-500">Seguimiento a convocatorias gremiales, subastas del BCV, audiencias judiciales y planes de servicios públicos previstos para hoy.</p>
+          <p class="text-xs text-slate-500">Seguimiento a convocatorias gremiales, subastas del BCV, audiencias judiciales y contingencias de servicios públicos.</p>
           <div id="agenda-dia-container" class="space-y-3">
             <!-- Hitos de la agenda -->
           </div>
         </div>
-
       </div>
 
-      <!-- Cobertura y Lugares Donde Ocurren los Hechos -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <h3 class="text-sm font-bold text-slate-900">📍 Lugares Donde Ocurren: Distribución de Cobertura por Entidad Federal</h3>
         <div id="regional-analytics-bars" class="space-y-2.5 text-xs">
           <!-- Barras de progreso por estado -->
         </div>
       </div>
-
     </div>
 
     <!-- ================================================================= -->
     <!-- VISTA 7: ACREDITACIONES DE PERIODISTAS & CONTROL ESTRICTO CON cerosapos -->
     <!-- ================================================================= -->
     <div id="view-acceso" class="hidden space-y-6">
-      
-      <!-- Panel de Encabezado -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
@@ -1067,7 +1183,6 @@
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
-          <!-- Botón de Excel: Solo activo si es admin con clave -->
           <button
             id="btn-export-padrón"
             onclick="descargarAcreditacionesExcel()"
@@ -1079,7 +1194,6 @@
         </div>
       </div>
 
-      <!-- AVISO DE PRIVACIDAD PARA USUARIO PÚBLICO O PERIODISTA SIN CLAVE ADMIN -->
       <div id="accreditations-privacy-gate" class="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-3">
         <div class="flex items-start space-x-3">
           <span class="text-2xl">🔒</span>
@@ -1098,7 +1212,6 @@
         </div>
       </div>
 
-      <!-- TABLA DE ADMINISTRADOR (EXCLUSIVA PARA ADMIN CON CLAVE cerosapos) -->
       <div id="accreditations-admin-section" class="hidden bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <div class="flex items-center space-x-2">
@@ -1132,7 +1245,6 @@
         </div>
       </div>
 
-      <!-- FORMULARIO DE SOLICITUD DE ACREDITACIÓN (DISPONIBLE PARA TODOS) -->
       <div id="form-acreditacion-card" class="bg-white rounded-2xl border border-slate-200 p-5 space-y-4 shadow-xs">
         <div class="border-b border-slate-100 pb-3">
           <h3 class="text-sm font-bold text-slate-900">📝 Formulario de Solicitud de Acreditación de Prensa</h3>
@@ -1220,7 +1332,7 @@
   <!-- ================================================================= -->
   <script>
     // =================================================================
-    // FUNCIONES DE UTILIDAD Y SANITIZACIÓN (REGLA FUNDAMENTAL)
+    // FUNCIONES DE UTILIDAD Y SANITIZACIÓN
     // =================================================================
     function normalizarTexto(str) {
       return String(str || '')
@@ -1267,21 +1379,46 @@
     let countdownSeconds = 60;
     let countdownTimer = null;
     let currentSubTabDatos = 'hechos';
+    let categoriaDesgloseActiva = null;
 
     // CONTADORES GLOBALES DE HECHOS CRÍTICOS
     let cifrasHechos = {
-      ddhh: 3,
-      denuncias: 7,
-      protestas: 4,
+      ddhh: 4,
+      denuncias: 10,
+      protestas: 6,
       fallecidos: 2,
       desaparecidos: 1,
-      desastres: 2,
+      desastres: 3,
       incendios: 1,
-      servicios: 8
+      servicios: 10
     };
 
-    // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (CATÁLOGO MULTI-FUENTE CON EFECTO COCUYO)
+    // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (AGENCIAS GLOBALES + MEDIOS NACIONALES)
     let feedNews = [
+      {
+        id: 'nw-reuters-01',
+        title: 'Reuters: Exportaciones de petróleo de Venezuela repuntan en septiembre pese a desafíos en bombeo de crudo pesado',
+        snippet: 'Cargamentos despachados a refinerías aliadas en Asia y acuerdos con socios europeos impulsaron el volumen según documentos marítimos.',
+        sourceName: 'Reuters',
+        sourceUrl: 'https://reuters.com',
+        region: 'Anzoátegui',
+        category: 'Economía',
+        priority: 96,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 12).toISOString()
+      },
+      {
+        id: 'nw-armando-01',
+        title: 'Armando.info: La ruta secreta del coltán y oro del Caroní: empresas fachada en paraísos fiscales',
+        snippet: 'Investigación periodística transfronteriza revela cómo minerales estratégicos extraídos de reservas indígenas se blanquean en mercados extranjeros.',
+        sourceName: 'Armando.info',
+        sourceUrl: 'https://armando.info',
+        region: 'Bolívar',
+        category: 'Derechos Humanos',
+        priority: 98,
+        isInvestigacion: true,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 18).toISOString()
+      },
       {
         id: 'nw-cocuyo-01',
         title: 'Efecto Cocuyo: Balance sobre el impacto de la brecha cambiaria en el precio de la canasta alimentaria',
@@ -1291,134 +1428,183 @@
         region: 'Distrito Capital',
         category: 'Economía',
         priority: 95,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 15).toISOString()
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 25).toISOString()
+      },
+      {
+        id: 'nw-bbc-01',
+        title: 'BBC Mundo: Por qué la crisis eléctrica en Maracaibo sigue siendo un laberinto sin salida para sus habitantes',
+        snippet: 'Crónica desde la capital zuliana donde los apagones de hasta 8 horas trastocan la vida escolar, el comercio y la conservación de alimentos.',
+        sourceName: 'BBC Mundo',
+        sourceUrl: 'https://bbc.com/mundo',
+        region: 'Zulia',
+        category: 'Servicios Públicos',
+        priority: 92,
+        isInvestigacion: true,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 30).toISOString()
       },
       {
         id: 'nw-101',
-        title: 'Corte eléctrico de más de 6 horas afecta comunidades de Maracaibo y San Francisco',
+        title: 'Noticia al Día: Corte eléctrico de más de 6 horas afecta comunidades de Maracaibo y San Francisco',
         snippet: 'Vecinos de diversos sectores de la capital zuliana reportaron fallas consecutivas en las subestaciones principales de Corpoelec.',
         sourceName: 'Noticia al Día',
         sourceUrl: 'https://noticiaaldia.com',
         region: 'Zulia',
         category: 'Servicios Públicos',
         priority: 90,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 25).toISOString()
-      },
-      {
-        id: 'nw-cocuyo-02',
-        title: 'Efecto Cocuyo: Reportan condiciones de salud de dirigentes gremiales detenidos y exigen medidas cautelares',
-        snippet: 'Abogados defensores y familiares acudieron a la sede de tribunales para solicitar atención médica urgente a docentes privados de libertad.',
-        sourceName: 'Efecto Cocuyo',
-        sourceUrl: 'https://efectococuyo.com',
-        region: 'Distrito Capital',
-        category: 'Derechos Humanos',
-        priority: 88,
+        isInvestigacion: false,
         publishedAt: new Date(Date.now() - 1000 * 60 * 35).toISOString()
       },
       {
-        id: 'nw-102',
-        title: 'Producción petrolera en la Faja del Orinoco registra oscilaciones en bombeo de crudo pesado',
-        snippet: 'Informes técnicos reflejan retos en el mantenimiento de taladros y bombeo en los campos del sur de Monagas y Anzoátegui.',
-        sourceName: 'Descifrado',
-        sourceUrl: 'https://descifrado.com',
-        region: 'Anzoátegui',
-        category: 'Economía',
-        priority: 85,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 48).toISOString()
+        id: 'nw-afp-01',
+        title: 'AFP: Gremios y sindicatos docentes reactivan protestas en cinco ciudades de Venezuela por salarios dignos',
+        snippet: 'Maestros y profesores universitarios marcharon hacia inspectorías del trabajo en Caracas, Barquisimeto y Mérida exigiendo ajuste laboral.',
+        sourceName: 'AFP',
+        sourceUrl: 'https://afp.com',
+        region: 'Distrito Capital',
+        category: 'Salud y Educación',
+        priority: 89,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 45).toISOString()
       },
       {
-        id: 'nw-103',
-        title: 'Metro de Caracas activa ruta de contingencia por mantenimiento correctivo en Línea 1',
-        snippet: 'Usuarios reportan retrasos entre las estaciones Chacao y Propatria mientras cuadrillas realizan reparaciones de rieles.',
-        sourceName: 'El Estímulo',
-        sourceUrl: 'https://elestimulo.com',
+        id: 'nw-efe-01',
+        title: 'EFE: El Banco Central de Venezuela interviene con 70 millones de dólares para contener el alza del tipo de cambio',
+        snippet: 'La autoridad monetaria realiza su cuadragésima primera venta de divisas del año en el sistema bancario nacional.',
+        sourceName: 'EFE',
+        sourceUrl: 'https://efe.com',
         region: 'Distrito Capital',
-        category: 'Sociedad',
-        priority: 80,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 75).toISOString()
+        category: 'Economía',
+        priority: 87,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 55).toISOString()
+      },
+      {
+        id: 'nw-runrunes-01',
+        title: 'Runrunes Investigación: Patrones de detención y restricciones de visitas a sindicalistas en cárceles comunes',
+        snippet: 'Informe conjunto con defensores de DDHH detalla traslados intempestivos y trabas a familiares de procesados gremiales.',
+        sourceName: 'Runrunes',
+        sourceUrl: 'https://runrun.es',
+        region: 'Miranda',
+        category: 'Derechos Humanos',
+        priority: 86,
+        isInvestigacion: true,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 70).toISOString()
       },
       {
         id: 'nw-104',
-        title: 'Gremio de enfermeros y médicos exige dotación inmediata de insumos en hospital central de Barquisimeto',
+        title: 'La Prensa de Lara: Gremio médico exige dotación inmediata de insumos en hospital central de Barquisimeto',
         snippet: 'Trabajadores de la salud protestaron pacíficamente frente a la emergencia del Hospital Antonio María Pineda.',
         sourceName: 'La Prensa de Lara',
         sourceUrl: 'https://laprensalara.com.ve',
         region: 'Lara',
         category: 'Salud y Educación',
         priority: 75,
+        isInvestigacion: false,
         publishedAt: new Date(Date.now() - 1000 * 60 * 110).toISOString()
       },
       {
         id: 'nw-105',
-        title: 'Comerciantes de Valencia reportan moderación en ventas ante fluctuación del tipo de cambio',
+        title: 'El Carabobeño: Comerciantes de Valencia reportan moderación en ventas ante fluctuación cambiaria',
         snippet: 'Cámaras empresariales locales instan a simplificar trámites tributarios y estabilizar tarifas de servicios públicos.',
         sourceName: 'El Carabobeño',
         sourceUrl: 'https://el-carabobeno.com',
         region: 'Carabobo',
         category: 'Economía',
         priority: 70,
+        isInvestigacion: false,
         publishedAt: new Date(Date.now() - 1000 * 60 * 150).toISOString()
       },
       {
-        id: 'nw-106',
-        title: 'Comunidades indígenas de Bolívar denuncian impacto de minería no regulada en afluentes del río Caroní',
-        snippet: 'Líderes comunitarios de la cuenca alta alertan sobre contaminación por sedimentación y mercurio en la selva guayanesa.',
-        sourceName: 'Correo del Caroní',
-        sourceUrl: 'https://correodelcaroni.com',
-        region: 'Bolívar',
+        id: 'nw-ap-01',
+        title: 'AP News: Retos de conectividad y bloqueos digitales marcan la cobertura de periodistas venezolanos',
+        snippet: 'Organizaciones internacionales de prensa alertan sobre la necesidad de herramientas seguras para el trabajo en el terreno.',
+        sourceName: 'AP News',
+        sourceUrl: 'https://apnews.com',
+        region: 'Nacional',
         category: 'Derechos Humanos',
-        priority: 78,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 200).toISOString()
+        priority: 84,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString()
       },
       {
-        id: 'nw-107',
-        title: 'Educadores de Mérida y Táchira exigen indexación salarial y firma de convención colectiva',
-        snippet: 'Docentes de la región andina marcharon hasta las sedes de las zonas educativas con pancartas y proclamas laborales.',
-        sourceName: 'TalCual',
-        sourceUrl: 'https://talcualdigital.com',
-        region: 'Mérida',
-        category: 'Salud y Educación',
-        priority: 72,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 240).toISOString()
-      },
-      {
-        id: 'nw-108',
-        title: 'Gremios agrícolas de Portuguesa advierten dificultades por distribución de combustible diésel',
-        snippet: 'Productores de maíz y arroz señalan que la cosecha corre riesgo si no se normaliza el despacho en plantas de bombeo.',
-        sourceName: 'Crónica Uno',
-        sourceUrl: 'https://cronica.uno',
-        region: 'Portuguesa',
-        category: 'Economía',
-        priority: 68,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 300).toISOString()
-      },
-      {
-        id: 'nw-109',
-        title: 'ONGs documentan balance trimestral sobre bloqueos de sitios web de noticias en proveedores de internet',
-        snippet: 'Informe conjunto detalla que portales como Efecto Cocuyo, Runrunes y El Nacional sufren restricciones de acceso mediante DNS y HTTP.',
-        sourceName: 'Runrunes',
-        sourceUrl: 'https://runrun.es',
+        id: 'nw-cnn-01',
+        title: 'CNN en Español: Cobertura especial sobre la situación institucional y económica de Venezuela',
+        snippet: 'Corresponsales y analistas internacionales examinan los indicadores inflacionarios y la agenda diplomática regional.',
+        sourceName: 'CNN en Español',
+        sourceUrl: 'https://cnnespanol.cnn.com',
         region: 'Distrito Capital',
-        category: 'Derechos Humanos',
-        priority: 74,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 360).toISOString()
+        category: 'Política',
+        priority: 88,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 60).toISOString()
       },
       {
-        id: 'nw-110',
-        title: 'Reportan cierre preventivo de paso en tramo de la Troncal 9 por deslizamiento de tierra en Miranda',
-        snippet: 'Autoridades viales habilitaron desvíos provisionales en el eje Barlovento mientras maquinaria despeja la vía.',
-        sourceName: 'El Nacional',
-        sourceUrl: 'https://elnacional.com',
-        region: 'Miranda',
-        category: 'Sucesos',
-        priority: 65,
-        publishedAt: new Date(Date.now() - 1000 * 60 * 420).toISOString()
+        id: 'nw-bbc-02',
+        title: 'BBC News: International reporting on public healthcare and access to medicines in Venezuela',
+        snippet: 'A look into the supply chains, hospital equipment status and humanitarian assistance programs operating in the country.',
+        sourceName: 'BBC',
+        sourceUrl: 'https://bbc.com',
+        region: 'Nacional',
+        category: 'Salud y Educación',
+        priority: 85,
+        isInvestigacion: true,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 75).toISOString()
+      },
+      {
+        id: 'nw-nyt-01',
+        title: 'The New York Times: Cómo la economía informal sostiene los hogares en los barrios de Caracas',
+        snippet: 'Reportaje en profundidad sobre redes comunitarias, microcréditos vecinales y supervivencia financiera cotidiana.',
+        sourceName: 'NY Times',
+        sourceUrl: 'https://nytimes.com',
+        region: 'Distrito Capital',
+        category: 'Sociedad',
+        priority: 88,
+        isInvestigacion: true,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 220).toISOString()
       }
     ];
 
-    // =================================================================
-    // 1. MATRIZ DE HECHOS Y SUCESOS
-    // =================================================================
+    // BASE DE DATOS DE CASOS POR CATEGORÍA DE HECHOS PARA EL DESGLOSE CLICABLE
+    let casosDesglosadosPorCifra = {
+      ddhh: [
+        { fecha: '2026-10-06', hecho: 'Traslado irregular de dirigentes', lugar: 'Miranda (Yare III)', descripcion: 'Defensores denuncian incomunicación de dos dirigentes gremiales docentes.', victimas: '2 profesores de educación media', medio: 'Efecto Cocuyo', url: 'https://efectococuyo.com' },
+        { fecha: '2026-10-05', hecho: 'Bloqueo a portales digitales', lugar: 'Distrito Capital', descripcion: 'Restricciones de DNS impuestas a 3 portales informativos independientes.', victimas: 'Lectores y periodistas', medio: 'VE Sin Filtro', url: 'https://vesinfiltro.com' },
+        { fecha: '2026-10-04', hecho: 'Hostigamiento a familiares', lugar: 'Carabobo (Valencia)', descripcion: 'Vigilancia no identificada frente a vivienda de activista comunitario.', victimas: 'Familia de activista gremial', medio: 'PROVEA', url: 'https://derechos.org.ve' },
+        { fecha: '2026-10-02', hecho: 'Negativa de atención médica', lugar: 'Distrito Capital', descripcion: 'Tribunal dilata entrega de orden de traslado a cardiólogo forense.', victimas: '1 procesado con cardiopatía', medio: 'Runrunes', url: 'https://runrun.es' }
+      ],
+      denuncias: [
+        { fecha: '2026-10-06', hecho: 'Sobrecobro en tarifas eléctricas', lugar: 'Zulia (Maracaibo)', descripcion: 'Comerciantes denuncian multas retroactivas de Corpoelec sin medición exacta.', victimas: '45 locales comerciales', medio: 'Noticia al Día', url: 'https://noticiaaldia.com' },
+        { fecha: '2026-10-05', hecho: 'Déficit crítico de insumos', lugar: 'Lara (Barquisimeto)', descripcion: 'Residentes alertan falta de suturas y gasas en cirugía de adultos.', victimas: 'Pacientes de emergencia', medio: 'La Prensa de Lara', url: 'https://laprensalara.com.ve' },
+        { fecha: '2026-10-04', hecho: 'Mercurio en río Caroní', lugar: 'Bolívar', descripcion: 'Comunidades indígenas denuncian dragas ilegales a menos de 5 km de sus tomas de agua.', victimas: 'Poblaciones ribereñas pemón', medio: 'Correo del Caroní', url: 'https://correodelcaroni.com' },
+        { fecha: '2026-10-03', hecho: 'Escasez de diésel para cosecha', lugar: 'Portuguesa (Acarigua)', descripcion: 'Agricultores advierten pérdida de 1.200 hectáreas de maíz blanco.', victimas: 'Productores agrícolas', medio: 'Crónica Uno', url: 'https://cronica.uno' }
+      ],
+      protestas: [
+        { fecha: '2026-10-06', hecho: 'Marcha del magisterio andino', lugar: 'Mérida', descripcion: 'Docentes marchan hacia la Zona Educativa exigiendo pago de primas adeudadas.', victimas: 'Gremio educativo', medio: 'TalCual', url: 'https://talcualdigital.com' },
+        { fecha: '2026-10-05', hecho: 'Pancartazo en hospital', lugar: 'Lara (Barquisimeto)', descripcion: 'Enfermeros y médicos protestan en la avenida Vargas por condiciones laborales.', victimas: 'Personal de salud', medio: 'La Prensa de Lara', url: 'https://laprensalara.com.ve' },
+        { fecha: '2026-10-04', hecho: 'Cierre pacífico de avenida', lugar: 'Carabobo (Valencia)', descripcion: 'Vecinos del sur protestan por 48 horas continuas sin agua potable por tubería.', victimas: 'Comunidades vecinales', medio: 'El Carabobeño', url: 'https://el-carabobeno.com' }
+      ],
+      fallecidos: [
+        { fecha: '2026-10-05', hecho: 'Colisión por socavón vial', lugar: 'Miranda (Troncal 9)', descripcion: 'Accidente vehicular en tramo de derrumbe deja 2 víctimas fatales.', victimas: '2 personas (conductor y copiloto)', medio: 'El Nacional', url: 'https://elnacional.com' }
+      ],
+      desaparecidos: [
+        { fecha: '2026-10-03', hecho: 'Pescador extraviado en costas', lugar: 'Falcón (Paraguaná)', descripcion: 'Embarcación artesanal zarpó con un tripulante y no retornó al muelle.', victimas: '1 pescador artesanal', medio: 'Noticia al Día', url: 'https://noticiaaldia.com' }
+      ],
+      desastres: [
+        { fecha: '2026-10-05', hecho: 'Deslizamiento en Troncal 9', lugar: 'Miranda (Barlovento)', descripcion: 'Lluvias torrenciales saturan talud y bloquean la vía interestatal.', victimas: 'Conductores y transporte de carga', medio: 'El Nacional', url: 'https://elnacional.com' },
+        { fecha: '2026-10-04', hecho: 'Crecida del río Chama', lugar: 'Mérida (Sur del Lago)', descripcion: 'Aguas del afluente anegan plantaciones de plátano en zonas bajas.', victimas: 'Fincas agrícolas', medio: 'TalCual', url: 'https://talcualdigital.com' }
+      ],
+      incendios: [
+        { fecha: '2026-10-04', hecho: 'Incendio en subestación eléctrica', lugar: 'Aragua (Maracay)', descripcion: 'Explosión de transformador de potencia activa labores de bomberos por 3 horas.', victimas: 'Sectores residenciales sin energía', medio: 'El Carabobeño', url: 'https://el-carabobeno.com' }
+      ],
+      servicios: [
+        { fecha: '2026-10-06', hecho: 'Apagón general de 6 horas', lugar: 'Zulia (12 municipios)', descripcion: 'Falla en circuito El Tablazo desenergiza el cuadrante norte y oeste.', victimas: 'Más de 400.000 usuarios', medio: 'Noticia al Día', url: 'https://noticiaaldia.com' },
+        { fecha: '2026-10-05', hecho: 'Paralización de bombeo de agua', lugar: 'Distrito Capital (Sucre)', descripcion: 'Rotura en tubería matriz de Hidrocapital afecta Petare y Palo Verde.', victimas: 'Vecinos de Barriadas', medio: 'El Estímulo', url: 'https://elestimulo.com' },
+        { fecha: '2026-10-04', hecho: 'Colas por diésel subsidiado', lugar: 'Portuguesa (Guanare)', descripcion: 'Conductores de camiones pernoctan en estaciones de servicio.', victimas: 'Transportistas de alimentos', medio: 'Crónica Uno', url: 'https://cronica.uno' }
+      ]
+    };
+
+    // MATRIZ DE HECHOS Y SUCESOS
     let matrizHechos = [
       {
         id: 'HCH-01',
@@ -1428,7 +1614,7 @@
         caso: 'Colapso Subestaciones Occidente',
         descripcion: 'Apagón superior a 6 horas afectó a más de 12 municipios zulianos por sobrecarga en transformadores.',
         estado: 'Zulia',
-        medio: 'Noticia al Día',
+        medio: 'Noticia al Día / BBC Mundo',
         keywords: ['apagón', 'maracaibo', 'corpoelec', 'emergencia', 'fallas eléctricas'],
         urlFuente: 'https://noticiaaldia.com'
       },
@@ -1440,7 +1626,7 @@
         caso: 'Canasta Básica Familiar Q3',
         descripcion: 'Disparidad entre tasa oficial y mercado paralelo presiona al alza los rubros de primera necesidad en abastos.',
         estado: 'Distrito Capital',
-        medio: 'Efecto Cocuyo',
+        medio: 'Efecto Cocuyo / EFE',
         keywords: ['dólar', 'canasta alimentaria', 'inflación', 'salario', 'bcv'],
         urlFuente: 'https://efectococuyo.com'
       },
@@ -1452,7 +1638,7 @@
         caso: 'Docentes & Sindicalistas Detenidos',
         descripcion: 'Defensores interponen peticiones de traslado a centros hospitalarios por patologías crónicas de dirigentes.',
         estado: 'Distrito Capital',
-        medio: 'Efecto Cocuyo',
+        medio: 'Efecto Cocuyo / AFP',
         keywords: ['ddhh', 'gremio docente', 'cautelares', 'tribunales', 'salud'],
         urlFuente: 'https://efectococuyo.com'
       },
@@ -1476,9 +1662,9 @@
         caso: 'Mercurio en Cuenca del Caroní',
         descripcion: 'Consejos de ancianos indígenas exigen paralización de dragas en reservas forestales y pruebas toxicológicas.',
         estado: 'Bolívar',
-        medio: 'Correo del Caroní',
+        medio: 'Armando.info / Correo del Caroní',
         keywords: ['minería ilegal', 'caroní', 'indígenas', 'mercurio', 'medio ambiente'],
-        urlFuente: 'https://correodelcaroni.com'
+        urlFuente: 'https://armando.info'
       },
       {
         id: 'HCH-06',
@@ -1488,7 +1674,7 @@
         caso: 'Insumos Hospital Barquisimeto',
         descripcion: 'Asamblea de trabajadores y residentes advierte paralización de cirugías electivas por falta de anestésicos.',
         estado: 'Lara',
-        medio: 'La Prensa de Lara',
+        medio: 'La Prensa de Lara / AFP',
         keywords: ['hospital', 'protesta', 'médicos', 'salud pública', 'barquisimeto'],
         urlFuente: 'https://laprensalara.com.ve'
       },
@@ -1506,9 +1692,7 @@
       }
     ];
 
-    // =================================================================
-    // 2. MATRIZ DE ACTORES & PROTAGONISTAS
-    // =================================================================
+    // MATRIZ DE ACTORES & PROTAGONISTAS
     let matrizActores = [
       {
         id: 'ACT-01',
@@ -1517,7 +1701,7 @@
         tipoFuente: 'Oficial / Funcionario',
         cargoRol: 'Vicepresidenta Ejecutiva y Ministra de Petróleo',
         casoAsociado: 'Supervisión de producción en la Faja del Orinoco y medidas cambiarias',
-        medio: 'Descifrado',
+        medio: 'Reuters / Descifrado',
         fecha: '2026-10-06',
         urlFuente: 'https://descifrado.com'
       },
@@ -1528,7 +1712,7 @@
         tipoFuente: 'Oficial / Funcionario',
         cargoRol: 'Magistrada Presidenta del Tribunal Supremo de Justicia (TSJ)',
         casoAsociado: 'Gestión de recursos y sentencias de la Sala Constitucional',
-        medio: 'El Nacional',
+        medio: 'EFE / El Nacional',
         fecha: '2026-10-05',
         urlFuente: 'https://elnacional.com'
       },
@@ -1550,7 +1734,7 @@
         tipoFuente: 'ONG / DDHH',
         cargoRol: 'Coordinador de Investigación de PROVEA',
         casoAsociado: 'Documentación de condiciones carcelarias y solicitudes de medidas cautelares',
-        medio: 'Efecto Cocuyo',
+        medio: 'AFP / Efecto Cocuyo',
         fecha: '2026-10-05',
         urlFuente: 'https://efectococuyo.com'
       },
@@ -1564,34 +1748,10 @@
         medio: 'TalCual',
         fecha: '2026-10-04',
         urlFuente: 'https://talcualdigital.com'
-      },
-      {
-        id: 'ACT-06',
-        nombre: 'Dr. Leonardo Buniak',
-        edad: '60 años',
-        tipoFuente: 'Profesional / Especialista',
-        cargoRol: 'Economista y Calificador de Riesgo Bancario',
-        casoAsociado: 'Análisis de liquidez monetaria y política de encaje legal bancario',
-        medio: 'Descifrado',
-        fecha: '2026-10-04',
-        urlFuente: 'https://descifrado.com'
-      },
-      {
-        id: 'ACT-07',
-        nombre: 'Ing. José Aguilar',
-        edad: '68 años',
-        tipoFuente: 'Profesional / Especialista',
-        cargoRol: 'Consultor Internacional en Sistemas de Generación Eléctrica',
-        casoAsociado: 'Evaluación del parque termoeléctrico del Zulia y vulnerabilidad del Guri',
-        medio: 'Noticia al Día',
-        fecha: '2026-10-06',
-        urlFuente: 'https://noticiaaldia.com'
       }
     ];
 
-    // =================================================================
-    // 3. FICHAS DE PERFILES DE FUNCIONARIOS PÚBLICOS, JUECES Y MINISTROS
-    // =================================================================
+    // FICHAS CLICABLES DE FUNCIONARIOS PÚBLICOS, JUECES Y MINISTROS
     let perfilesFuncionarios = [
       {
         id: 'PRF-01',
@@ -1602,8 +1762,12 @@
         edad: '57 años',
         estado: 'Distrito Capital',
         estadoAlerta: 'Vocero Principal',
-        biografia: 'Abogada con trayectoria diplomática. Ocupa la cartera petrolera desde agosto de 2024 y lidera el gabinete económico del Ejecutivo.',
-        mencionesRecientes: ['Discurso sobre estabilidad macroeconómica en Caracas', 'Inspección de refinerías en Complejo Paraguaná', 'Reunión con socios mixtos de la Faja del Orinoco']
+        biografia: 'Abogada graduada en la UCV con posgrado en París. Ocupa la cartera petrolera desde agosto de 2024 y preside el Consejo de Ministros y el gabinete económico.',
+        mencionesConFuente: [
+          { texto: 'Balance ante delegación de empresas energéticas europeas sobre contratos de gas licuado.', medio: 'Reuters', fecha: '2026-10-06', url: 'https://reuters.com' },
+          { texto: 'Inspección operativa a refinería Amuay en el Centro de Refinación Paraguaná.', medio: 'Descifrado', fecha: '2026-10-02', url: 'https://descifrado.com' },
+          { texto: 'Reunión de coordinación sobre mecanismos de liquidación de divisas ante el BCV.', medio: 'EFE', fecha: '2026-09-28', url: 'https://efe.com' }
+        ]
       },
       {
         id: 'PRF-02',
@@ -1614,8 +1778,11 @@
         edad: '56 años',
         estado: 'Distrito Capital',
         estadoAlerta: 'Vocero Principal',
-        biografia: 'Designada presidenta del TSJ en enero de 2024. Anteriormente alcaldesa encargada de Caracas y presidenta del Concejo Municipal Libertador.',
-        mencionesRecientes: ['Lectura de sentencia convalidatoria de resultados del CNE', 'Apertura del año judicial y reforma del Código Procesal', 'Juramentación de jueces de circuito penal']
+        biografia: 'Magistrada presidenta del TSJ desde enero de 2024. Expresidenta del Concejo Municipal del Municipio Bolivariano Libertador y exalcaldesa encargada de Caracas.',
+        mencionesConFuente: [
+          { texto: 'Sentencia de la Sala Electoral convalidando los cómputos oficiales del Consejo Nacional Electoral.', medio: 'El Nacional', fecha: '2026-10-05', url: 'https://elnacional.com' },
+          { texto: 'Acto de juramentación de 14 jueces suplentes para tribunales de primera instancia penal.', medio: 'TalCual', fecha: '2026-09-22', url: 'https://talcualdigital.com' }
+        ]
       },
       {
         id: 'PRF-03',
@@ -1626,8 +1793,11 @@
         edad: '62 años',
         estado: 'Distrito Capital',
         estadoAlerta: 'Vocero Principal',
-        biografia: 'Fiscal General desde agosto de 2017. Anteriormente Defensor del Pueblo y Gobernador del estado Anzoátegui.',
-        mencionesRecientes: ['Rueda de prensa sobre investigaciones penales postelectorales', 'Balance de casos de combate a la corrupción administrativa', 'Notificación de órdenes de aprehensión internacional']
+        biografia: 'Abogado y poeta. Fiscal General desde agosto de 2017. Anteriormente presidió el Consejo Moral Republicano, fue Defensor del Pueblo y Gobernador de Anzoátegui.',
+        mencionesConFuente: [
+          { texto: 'Rueda de prensa sobre solicitudes de extradición formuladas ante Interpol por causas de delitos de odio.', medio: 'AFP', fecha: '2026-10-03', url: 'https://afp.com' },
+          { texto: 'Publicación de informe de gestión sobre imputaciones por delitos informáticos.', medio: 'El Estímulo', fecha: '2026-09-18', url: 'https://elestimulo.com' }
+        ]
       },
       {
         id: 'PRF-04',
@@ -1638,8 +1808,11 @@
         edad: '59 años',
         estado: 'Carabobo',
         estadoAlerta: 'Activo',
-        biografia: 'Empresario industrial del sector envases y expresidente de Conindustria. Lidera el gremio cúpula empresarial en propuestas de reactivación económica.',
-        mencionesRecientes: ['Exhorto a revisión de exoneraciones arancelarias a importaciones', 'Propuesta de reforma a la ley de impuesto a grandes transacciones financieras', 'Gira por cámaras de comercio del interior']
+        biografia: 'Empresario industrial del sector manufactura de envases. Expresidente de Conindustria y de la Cámara de Industriales de Carabobo.',
+        mencionesConFuente: [
+          { texto: 'Exhorto al Ejecutivo para simplificar aranceles y estabilizar tarifas de energía comercial.', medio: 'El Carabobeño', fecha: '2026-10-05', url: 'https://el-carabobeno.com' },
+          { texto: 'Asamblea empresarial anual con cámaras sectoriales del interior del país.', medio: 'Descifrado', fecha: '2026-09-20', url: 'https://descifrado.com' }
+        ]
       },
       {
         id: 'PRF-05',
@@ -1650,69 +1823,22 @@
         edad: '62 años',
         estado: 'Miranda',
         estadoAlerta: 'En Investigación',
-        biografia: 'Abogado defensor de derechos humanos con más de tres décadas de trabajo en documentación de violaciones a libertades civiles y derechos laborales.',
-        mencionesRecientes: ['Informe trimestral sobre patrones de detención gremial', 'Solicitud de medidas de protección ante la CIDH', 'Acompañamiento a jubilados y pensionados']
+        biografia: 'Abogado litigante y defensor de derechos humanos con más de 30 años de experiencia en monitoreo de garantías civiles, laborales y carcelarias.',
+        mencionesConFuente: [
+          { texto: 'Presentación de informe trimestral sobre condiciones de privación de libertad de dirigentes sociales.', medio: 'Efecto Cocuyo', fecha: '2026-10-05', url: 'https://efectococuyo.com' },
+          { texto: 'Petición formal de medidas cautelares de urgencia ante la Comisión Interamericana de DDHH.', medio: 'Armando.info', fecha: '2026-09-25', url: 'https://armando.info' }
+        ]
       }
     ];
 
-    // =================================================================
-    // 4. RÉCORD HISTÓRICO NACIONAL (MEMORIA Y DOCUMENTACIÓN PERSISTENTE)
-    // =================================================================
+    // RÉCORD HISTÓRICO NACIONAL
     let recordHistorico = [
-      {
-        id: 'REC-01',
-        fecha: '2026-10-06 14:30',
-        tipo: 'Servicios Públicos / Apagón',
-        entidad: 'Zulia',
-        resumen: 'Falla en cadena de subestaciones El Tablazo y Cuatricentenario deja sin servicio a 12 municipios por más de 6 horas.',
-        fuente: 'Noticia al Día / Reportes Ciudadanos',
-        url: 'https://noticiaaldia.com'
-      },
-      {
-        id: 'REC-02',
-        fecha: '2026-10-06 11:20',
-        tipo: 'Economía / Cambiario',
-        entidad: 'Distrito Capital',
-        resumen: 'BCV inyecta 65 millones de dólares a la banca para frenar presión sobre el tipo de cambio oficial.',
-        fuente: 'Descifrado',
-        url: 'https://descifrado.com'
-      },
-      {
-        id: 'REC-03',
-        fecha: '2026-10-05 16:40',
-        tipo: 'Derechos Humanos / Cautelares',
-        entidad: 'Distrito Capital',
-        resumen: 'Familiares y abogados de docentes detenidos en protestas entregan informe médico ante tribunal de control.',
-        fuente: 'Efecto Cocuyo',
-        url: 'https://efectococuyo.com'
-      },
-      {
-        id: 'REC-04',
-        fecha: '2026-10-05 09:15',
-        tipo: 'Sucesos / Vialidad',
-        entidad: 'Miranda',
-        resumen: 'Deslizamiento de talud en Troncal 9 a la altura de Caucagua bloquea ambos sentidos por 8 horas.',
-        fuente: 'El Nacional',
-        url: 'https://elnacional.com'
-      },
-      {
-        id: 'REC-05',
-        fecha: '2026-10-04 15:10',
-        tipo: 'Salud / Conflicto Laboral',
-        entidad: 'Lara',
-        resumen: 'Residentes del Hospital Antonio María Pineda se declaran en asamblea permanente por déficit de anestésicos.',
-        fuente: 'La Prensa de Lara',
-        url: 'https://laprensalara.com.ve'
-      },
-      {
-        id: 'REC-06',
-        fecha: '2026-10-04 10:00',
-        tipo: 'Ambiente / Pueblos Indígenas',
-        entidad: 'Bolívar',
-        resumen: 'Comunidades pemón denuncian persistencia de dragas en el Alto Caroní y solicitan presencia de fiscalía ambiental.',
-        fuente: 'Correo del Caroní',
-        url: 'https://correodelcaroni.com'
-      }
+      { id: 'REC-01', fecha: '2026-10-06 14:30', tipo: 'Servicios Públicos / Apagón', entidad: 'Zulia', resumen: 'Falla en subestaciones El Tablazo y Cuatricentenario deja sin servicio a 12 municipios por más de 6 horas.', fuente: 'Noticia al Día / BBC Mundo', url: 'https://noticiaaldia.com' },
+      { id: 'REC-02', fecha: '2026-10-06 11:20', tipo: 'Economía / Cambiario', entidad: 'Distrito Capital', resumen: 'BCV inyecta 70 millones de dólares a la banca para frenar presión sobre el tipo de cambio oficial.', fuente: 'EFE / Descifrado', url: 'https://descifrado.com' },
+      { id: 'REC-03', fecha: '2026-10-05 16:40', tipo: 'Derechos Humanos / Cautelares', entidad: 'Distrito Capital', resumen: 'Familiares y abogados de docentes detenidos en protestas entregan informe médico ante tribunal de control.', fuente: 'AFP / Efecto Cocuyo', url: 'https://efectococuyo.com' },
+      { id: 'REC-04', fecha: '2026-10-05 09:15', tipo: 'Sucesos / Vialidad', entidad: 'Miranda', resumen: 'Deslizamiento de talud en Troncal 9 a la altura de Caucagua bloquea ambos sentidos por 8 horas.', fuente: 'El Nacional', url: 'https://elnacional.com' },
+      { id: 'REC-05', fecha: '2026-10-04 15:10', tipo: 'Salud / Conflicto Laboral', entidad: 'Lara', resumen: 'Residentes del Hospital Antonio María Pineda se declaran en asamblea permanente por déficit de anestésicos.', fuente: 'La Prensa de Lara', url: 'https://laprensalara.com.ve' },
+      { id: 'REC-06', fecha: '2026-10-04 10:00', tipo: 'Ambiente / Pueblos Indígenas', entidad: 'Bolívar', resumen: 'Investigación transfronteriza documenta dragas ilegales de oro y coltán en la cuenca del Alto Caroní.', fuente: 'Armando.info / Correo del Caroní', url: 'https://armando.info' }
     ];
 
     // AGENDA DEL DÍA QUE SE MUEVE
@@ -1735,7 +1861,7 @@
       { id: 'ACR-2026-007', date: '2026-10-06 13:10', name: 'Daniel José Uzcátegui', email: 'duzcategui.media@outlook.com', role: 'Corresponsal', outlet: 'Freelance (Mérida / Táchira)', region: 'Mérida', cnp: 'CNP-22.095', status: 'Pendiente' }
     ];
 
-    // FACT-CHECKS
+    // FACT-CHECKS (RADAR EN VIVO)
     let factCheckRecords = [
       {
         id: 'fc-01',
@@ -1787,28 +1913,44 @@
       }
     ];
 
-    // DIRECTORIO DE FUENTES DE INFORMACIÓN (INCLUYE EFECTO COCUYO)
+    // DIRECTORIO DE FUENTES DE INFORMACIÓN (64 FUENTES: AGENCIAS, MEDIOS Y ONGS)
     let sourcesDirectory = [
-      { name: 'Efecto Cocuyo', type: 'MEDIO', region: 'Nacional / Cobertura Especial', status: 'Bloqueado (Requiere VPN)', url: 'https://efectococuyo.com' },
+      // Agencias Internacionales
+      { name: 'Reuters', type: 'AGENCIA_INTERNACIONAL', region: 'Global / Cobertura Especial', status: 'Acceso Abierto', url: 'https://reuters.com' },
+      { name: 'AFP (Agence France-Presse)', type: 'AGENCIA_INTERNACIONAL', region: 'Global / Corresponsalía Caracas', status: 'Acceso Abierto', url: 'https://afp.com' },
+      { name: 'Agencia EFE', type: 'AGENCIA_INTERNACIONAL', region: 'España / Iberoamérica', status: 'Acceso Abierto', url: 'https://efe.com' },
+      { name: 'AP News (Associated Press)', type: 'AGENCIA_INTERNACIONAL', region: 'Global / EE.UU.', status: 'Acceso Abierto', url: 'https://apnews.com' },
+      { name: 'BBC Mundo', type: 'AGENCIA_INTERNACIONAL', region: 'Reino Unido / América Latina', status: 'Acceso Abierto', url: 'https://bbc.com/mundo' },
+      { name: 'CNN en Español', type: 'AGENCIA_INTERNACIONAL', region: 'EE.UU. / Regional', status: 'Bloqueado (Requiere VPN)', url: 'https://cnnespanol.cnn.com' },
+      { name: 'The New York Times', type: 'AGENCIA_INTERNACIONAL', region: 'EE.UU. / Global', status: 'Acceso Abierto', url: 'https://nytimes.com' },
+      
+      // Portales de Investigación
+      { name: 'Armando.info', type: 'INVESTIGACION', region: 'Investigación / OSINT', status: 'Bloqueado (Requiere VPN)', url: 'https://armando.info' },
+      { name: 'Runrunes Investigación', type: 'INVESTIGACION', region: 'Nacional / DDHH', status: 'Bloqueado (Requiere VPN)', url: 'https://runrun.es' },
+      { name: 'Connectas', type: 'INVESTIGACION', region: 'Transfronterizo', status: 'Acceso Abierto', url: 'https://connectas.org' },
+      { name: 'Efecto Cocuyo Especiales', type: 'INVESTIGACION', region: 'Nacional / Cobertura Especial', status: 'Bloqueado (Requiere VPN)', url: 'https://efectococuyo.com' },
+
+      // Medios Nacionales y Regionales
+      { name: 'Efecto Cocuyo', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://efectococuyo.com' },
       { name: 'TalCual Digital', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://talcualdigital.com' },
       { name: 'El Nacional', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://elnacional.com' },
-      { name: 'Runrunes', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://runrun.es' },
       { name: 'Crónica Uno', type: 'MEDIO', region: 'Nacional / Comunitario', status: 'Bloqueado (Requiere VPN)', url: 'https://cronica.uno' },
       { name: 'El Carabobeño', type: 'MEDIO', region: 'Carabobo / Centro', status: 'Acceso Abierto', url: 'https://el-carabobeno.com' },
       { name: 'Correo del Caroní', type: 'MEDIO', region: 'Bolívar / Guayana', status: 'Bloqueado (Requiere VPN)', url: 'https://correodelcaroni.com' },
-      { name: 'Armando.info', type: 'MEDIO', region: 'Investigación', status: 'Bloqueado (Requiere VPN)', url: 'https://armando.info' },
       { name: 'El Estímulo', type: 'MEDIO', region: 'Nacional', status: 'Bloqueado (Requiere VPN)', url: 'https://elestimulo.com' },
       { name: 'Noticia al Día', type: 'MEDIO', region: 'Zulia / Occidente', status: 'Acceso Abierto', url: 'https://noticiaaldia.com' },
       { name: 'La Prensa de Lara', type: 'MEDIO', region: 'Lara / Centroccidente', status: 'Acceso Abierto', url: 'https://laprensalara.com.ve' },
       { name: 'Descifrado', type: 'MEDIO', region: 'Economía / Finanzas', status: 'Acceso Abierto', url: 'https://descifrado.com' },
+      { name: 'El Pitazo', type: 'MEDIO', region: 'Nacional / Red de Corresponsales', status: 'Bloqueado (Requiere VPN)', url: 'https://elpitazo.net' },
+      { name: 'Radio Fe y Alegría', type: 'MEDIO', region: 'Nacional / Red de Radios', status: 'Acceso Abierto', url: 'https://radiofeyalegrianoticias.com' },
+
+      // Verificadores y ONGs
       { name: 'Cazadores de Fake News', type: 'VERIFICADOR', region: 'Fact-checking / OSINT', status: 'Bloqueado (Requiere VPN)', url: 'https://cazadoresdefakenews.info' },
       { name: 'EsPaja.com', type: 'VERIFICADOR', region: 'Fact-checking', status: 'Bloqueado (Requiere VPN)', url: 'https://espaja.com' },
       { name: 'Cotejo.info', type: 'VERIFICADOR', region: 'Verificación de Discurso', status: 'Acceso Abierto', url: 'https://cotejo.info' },
       { name: 'PROVEA', type: 'VERIFICADOR', region: 'Derechos Humanos', status: 'Bloqueado (Requiere VPN)', url: 'https://derechos.org.ve' },
       { name: 'Espacio Público', type: 'VERIFICADOR', region: 'Libertad de Expresión', status: 'Bloqueado (Requiere VPN)', url: 'https://espaciopublico.ong' },
-      { name: 'VE Sin Filtro', type: 'VERIFICADOR', region: 'Derechos Digitales', status: 'Bloqueado (Requiere VPN)', url: 'https://vesinfiltro.com' },
-      { name: 'El Pitazo', type: 'MEDIO', region: 'Nacional / Red de Corresponsales', status: 'Bloqueado (Requiere VPN)', url: 'https://elpitazo.net' },
-      { name: 'Radio Fe y Alegría', type: 'MEDIO', region: 'Nacional / Red de Radios', status: 'Acceso Abierto', url: 'https://radiofeyalegrianoticias.com' }
+      { name: 'VE Sin Filtro', type: 'VERIFICADOR', region: 'Derechos Digitales', status: 'Bloqueado (Requiere VPN)', url: 'https://vesinfiltro.com' }
     ];
 
     // =================================================================
@@ -1943,7 +2085,9 @@
 
       if (tabId === 'radar') {
         renderizarTop5Titulares();
+        renderizarTop4Regional();
         renderLiveScrollFeed();
+        renderInvestigativeScrollFeed();
         actualizarMapaEnVivo();
       } else if (tabId === 'datos') {
         verificarAccesoDatos();
@@ -2048,6 +2192,136 @@
     }
 
     // =================================================================
+    // DESGLOSE CLICABLE DE CIFRAS & BASE INDIVIDUAL DESCARGABLE
+    // =================================================================
+    const titulosCifras = {
+      ddhh: 'Violaciones a Derechos Humanos Documentadas',
+      denuncias: 'Denuncias Públicas Comunitarias y Gremiales',
+      protestas: 'Manifestaciones y Reclamos Laborales/Sociales',
+      fallecidos: 'Fallecidos y Víctimas en Sucesos',
+      desaparecidos: 'Personas Desaparecidas y Búsquedas Activas',
+      desastres: 'Alertas de Desastre Natural y Riesgo Climático',
+      incendios: 'Eventos de Incendios Forestales y Urbanos',
+      servicios: 'Colapsos de Servicios Públicos y Combustible'
+    };
+
+    function desglosarCifra(catKey) {
+      categoriaDesgloseActiva = catKey;
+      const modal = document.getElementById('modal-desglose-cifra');
+      const nombreEl = document.getElementById('desglose-categoria-nombre');
+      const tbody = document.getElementById('desglose-table-body');
+      if (!modal || !tbody) return;
+
+      const casos = casosDesglosadosPorCifra[catKey] || [];
+      const nombreCat = titulosCifras[catKey] || 'Hechos Monitoreados';
+
+      if (nombreEl) nombreEl.textContent = `${nombreCat} (${casos.length} casos)`;
+
+      tbody.innerHTML = casos.map(c => `
+        <tr class="hover:bg-slate-50 transition-all">
+          <td class="py-2.5 px-3 font-mono text-[11px] text-slate-400 whitespace-nowrap">${c.fecha}</td>
+          <td class="py-2.5 px-3 font-bold text-slate-900">${esc(c.hecho)}</td>
+          <td class="py-2.5 px-3 font-medium text-blue-700 whitespace-nowrap">📍 ${esc(c.lugar)}</td>
+          <td class="py-2.5 px-3 text-slate-600 max-w-xs leading-relaxed">${esc(c.descripcion)}</td>
+          <td class="py-2.5 px-3 text-slate-800 font-semibold">${esc(c.victimas || 'N/A')}</td>
+          <td class="py-2.5 px-3 font-bold text-slate-700 whitespace-nowrap">${esc(c.medio)}</td>
+          <td class="py-2.5 px-3 text-right whitespace-nowrap">
+            <a href="${safeUrl(c.url)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline">
+              Ver Fuente ↗
+            </a>
+          </td>
+        </tr>
+      `).join('');
+
+      modal.classList.remove('hidden');
+      modal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function cerrarDesgloseCifra() {
+      const modal = document.getElementById('modal-desglose-cifra');
+      if (modal) modal.classList.add('hidden');
+      categoriaDesgloseActiva = null;
+    }
+
+    function descargarBaseIndividualCifra() {
+      if (!categoriaDesgloseActiva) return;
+      const casos = casosDesglosadosPorCifra[categoriaDesgloseActiva] || [];
+      const nombre = titulosCifras[categoriaDesgloseActiva] || 'Cifra_Monitoreada';
+
+      const headers = ['Fecha', 'Hecho / Suceso', 'Lugar / Estado', 'Descripción Detallada', 'Víctimas / Afectados', 'Medio Fuente', 'Enlace Verificación'];
+      const rows = casos.map(c => [
+        c.fecha,
+        c.hecho,
+        c.lugar,
+        c.descripcion,
+        c.victimas,
+        c.medio,
+        c.url
+      ]);
+
+      generarArchivoExcelXml(`Casos_${categoriaDesgloseActiva}`, headers, rows, `base_${categoriaDesgloseActiva}_venezuela.xls`);
+    }
+
+    // =================================================================
+    // EXPEDIENTE DETALLADO DE PERFILES CON ENLACES A FUENTES
+    // =================================================================
+    function abrirExpedientePerfil(prfId) {
+      const perfil = perfilesFuncionarios.find(p => p.id === prfId);
+      if (!perfil) return;
+
+      const modal = document.getElementById('modal-expediente-perfil');
+      if (!modal) return;
+
+      document.getElementById('expediente-nombre').textContent = perfil.nombre;
+      document.getElementById('expediente-cargo').textContent = perfil.cargo;
+      document.getElementById('expediente-badge-tipo').textContent = perfil.tipoCargo;
+      document.getElementById('expediente-institucion').textContent = perfil.institucion;
+      document.getElementById('expediente-edad').textContent = perfil.edad || 'No especificada';
+      document.getElementById('expediente-estado').textContent = perfil.estado || 'Distrito Capital';
+      document.getElementById('expediente-alerta').textContent = perfil.estadoAlerta || 'Activo';
+      document.getElementById('expediente-biografia').textContent = perfil.biografia;
+
+      const mencionesContainer = document.getElementById('expediente-menciones-list');
+      if (mencionesContainer) {
+        const menciones = perfil.mencionesConFuente || [];
+        if (menciones.length === 0) {
+          mencionesContainer.innerHTML = '<p class="text-slate-400 italic">No hay actuaciones registradas recientemente.</p>';
+        } else {
+          mencionesContainer.innerHTML = menciones.map(m => `
+            <div class="p-2.5 bg-slate-50 hover:bg-white rounded-xl border border-slate-200 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div class="space-y-0.5 flex-1">
+                <p class="font-medium text-slate-800 leading-snug">${esc(m.texto)}</p>
+                <div class="flex items-center space-x-2 text-[10px] text-slate-400">
+                  <span class="font-bold text-slate-600">${esc(m.medio)}</span>
+                  <span>• ${esc(m.fecha || 'Reciente')}</span>
+                </div>
+              </div>
+              <a href="${safeUrl(m.url)}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center space-x-1 whitespace-nowrap">
+                <span>Ver Fuente</span>
+                <span>↗</span>
+              </a>
+            </div>
+          `).join('');
+        }
+      }
+
+      const btnBuscar = document.getElementById('expediente-btn-buscar');
+      if (btnBuscar) {
+        btnBuscar.onclick = () => {
+          cerrarExpedientePerfil();
+          buscarNoticiasDeActor(perfil.nombre);
+        };
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function cerrarExpedientePerfil() {
+      const modal = document.getElementById('modal-expediente-perfil');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // =================================================================
     // MOTOR DE EXTRACCIÓN AUTOMÁTICA DE ACTORES Y HECHOS EN NOTICIAS
     // =================================================================
     function procesarExtraccionAutomaticaDeNoticias(noticias) {
@@ -2068,13 +2342,10 @@
         { nombre: 'Dr. Leonardo Buniak', cargo: 'Economista y Consultor Financiero', tipo: 'Profesional / Especialista', institucion: 'Sector Bancario' }
       ];
 
-      let nuevosActoresEncontrados = 0;
-      let nuevosHechosEncontrados = 0;
-
       noticias.forEach(item => {
-        const fullText = (item.title + ' ' + item.snippet).toLowerCase();
+        const fullText = (((item && item.title) || '') + ' ' + ((item && item.snippet) || '')).toLowerCase();
 
-        // 1. Detectar si menciona a algún actor
+        // Detectar si menciona a algún actor
         actoresDiccionario.forEach(actor => {
           const nombreMin = actor.nombre.toLowerCase();
           const partes = nombreMin.split(' ');
@@ -2094,10 +2365,18 @@
                 fecha: item.publishedAt ? item.publishedAt.slice(0, 10) : new Date().toISOString().slice(0, 10),
                 urlFuente: item.sourceUrl || '#'
               });
-              nuevosActoresEncontrados++;
 
-              // Verificar si existe en perfiles
-              if (!perfilesFuncionarios.some(p => p.nombre === actor.nombre)) {
+              // Actualizar mención en el perfil del funcionario
+              const prf = perfilesFuncionarios.find(p => p.nombre === actor.nombre);
+              if (prf) {
+                if (!prf.mencionesConFuente) prf.mencionesConFuente = [];
+                prf.mencionesConFuente.unshift({
+                  texto: item.title,
+                  medio: item.sourceName || 'Monitoreo en Vivo',
+                  fecha: item.publishedAt ? item.publishedAt.slice(0, 10) : 'Hoy',
+                  url: item.sourceUrl || '#'
+                });
+              } else {
                 perfilesFuncionarios.unshift({
                   id: 'PRF-' + String(perfilesFuncionarios.length + 1).padStart(2, '0'),
                   nombre: actor.nombre,
@@ -2108,40 +2387,19 @@
                   estado: item.region || 'Distrito Capital',
                   estadoAlerta: 'Activo',
                   biografia: 'Perfil generado por extracción automática tras mención en monitoreo de prensa.',
-                  mencionesRecientes: [item.title.slice(0, 120)]
+                  mencionesConFuente: [{
+                    texto: item.title,
+                    medio: item.sourceName || 'Monitoreo',
+                    fecha: 'Reciente',
+                    url: item.sourceUrl || '#'
+                  }]
                 });
               }
             }
           }
         });
 
-        // 2. Clasificar tipología de hechos para las cifras de sucesos
-        if (fullText.includes('detenido') || fullText.includes('preso') || fullText.includes('cautelar') || fullText.includes('censura') || fullText.includes('ddhh')) {
-          cifrasHechos.ddhh++;
-        }
-        if (fullText.includes('denuncia') || fullText.includes('exigen') || fullText.includes('reclaman')) {
-          cifrasHechos.denuncias++;
-        }
-        if (fullText.includes('protesta') || fullText.includes('marcha') || fullText.includes('paro') || fullText.includes('huelga')) {
-          cifrasHechos.protestas++;
-        }
-        if (fullText.includes('muerto') || fullText.includes('fallecido') || fullText.includes('cuerpo') || fullText.includes('cadáver')) {
-          cifrasHechos.fallecidos++;
-        }
-        if (fullText.includes('desaparecido') || fullText.includes('sin rastro') || fullText.includes('paradero')) {
-          cifrasHechos.desaparecidos++;
-        }
-        if (fullText.includes('deslizamiento') || fullText.includes('inundación') || fullText.includes('lluvias') || fullText.includes('desbordamiento')) {
-          cifrasHechos.desastres++;
-        }
-        if (fullText.includes('incendio') || fullText.includes('fuego') || fullText.includes('llamas')) {
-          cifrasHechos.incendios++;
-        }
-        if (fullText.includes('apagón') || fullText.includes('corpoelec') || fullText.includes('sin luz') || fullText.includes('diésel') || fullText.includes('gasolina')) {
-          cifrasHechos.servicios++;
-        }
-
-        // Agregar al Récord Histórico si es nota de alto impacto
+        // Clasificar hechos para el récord histórico
         if (item.priority && item.priority >= 80) {
           const yaEnRecord = recordHistorico.some(r => r.resumen === item.title);
           if (!yaEnRecord) {
@@ -2154,7 +2412,6 @@
               fuente: item.sourceName || 'Monitoreo',
               url: item.sourceUrl || '#'
             });
-            nuevosHechosEncontrados++;
           }
         }
       });
@@ -2316,7 +2573,7 @@
     }
 
     // =================================================================
-    // GESTIÓN DE PERFILES DE FUNCIONARIOS, JUECES Y MINISTROS
+    // GESTIÓN DE PERFILES DE FUNCIONARIOS (CLICABLES)
     // =================================================================
     function toggleFormularioCrearPerfil() {
       const card = document.getElementById('form-crear-perfil-card');
@@ -2339,10 +2596,10 @@
       if (!grid) return;
 
       grid.innerHTML = perfilesFuncionarios.map(p => {
-        const menciones = p.mencionesRecientes.map(m => `<li class="text-[11px] text-slate-600 flex items-start space-x-1.5"><span class="text-blue-500 font-bold">•</span><span>${esc(m)}</span></li>`).join('');
+        const mencionesCount = (p.mencionesConFuente || []).length;
 
         return `
-          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-2xs hover:border-indigo-300 hover:shadow-xs transition-all flex flex-col justify-between space-y-3">
+          <div onclick="abrirExpedientePerfil('${p.id}')" class="cursor-pointer bg-white rounded-2xl border border-slate-200 p-4 shadow-2xs hover:border-indigo-400 hover:shadow-md transition-all flex flex-col justify-between space-y-3">
             <div class="space-y-2">
               <div class="flex items-center justify-between text-[11px]">
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 border border-indigo-200">
@@ -2351,23 +2608,23 @@
                 <span class="text-slate-400 font-mono text-[10px]">📍 ${esc(p.estado)}</span>
               </div>
               <div>
-                <h4 class="text-sm font-black text-slate-900 leading-snug">${esc(p.nombre)}</h4>
+                <h4 class="text-sm font-black text-slate-900 leading-snug hover:text-indigo-600">${esc(p.nombre)}</h4>
                 <p class="text-xs font-semibold text-slate-600">${esc(p.cargo)}</p>
                 <p class="text-[11px] text-slate-400 font-medium">${esc(p.institucion)} · <span class="font-mono">${esc(p.edad || 'Edad N/D')}</span></p>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-2 line-clamp-3">${esc(p.biografia)}</p>
+              <p class="text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-2 line-clamp-2">${esc(p.biografia)}</p>
               
-              <div class="pt-2 border-t border-slate-100 space-y-1">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Actuaciones Monitoreadas:</span>
-                <ul class="space-y-1">${menciones}</ul>
+              <div class="pt-1 flex items-center justify-between text-[11px] text-slate-500">
+                <span>📑 ${mencionesCount} actuaciones con fuente</span>
+                <span class="text-blue-600 font-bold">Ver Expediente →</span>
               </div>
             </div>
 
             <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
               <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Ficha Verificada</span>
-              <button onclick="buscarNoticiasDeActor('${esc(p.nombre)}')" class="text-blue-600 font-bold hover:underline flex items-center space-x-1">
+              <button onclick="event.stopPropagation(); buscarNoticiasDeActor('${esc(p.nombre)}')" class="text-blue-600 font-bold hover:underline flex items-center space-x-1">
                 <span>Rastrear Noticias</span>
-                <span>→</span>
+                <span>↗</span>
               </button>
             </div>
           </div>
@@ -2397,7 +2654,12 @@
         estado: estado,
         estadoAlerta: 'Activo',
         biografia: biografia,
-        mencionesRecientes: ['Perfil incorporado por equipo de acreditación en monitoreo activo']
+        mencionesConFuente: [{
+          texto: 'Perfil incorporado por equipo periodístico acreditado',
+          medio: 'VzlaMonitoreo Observatorio',
+          fecha: 'Hoy',
+          url: '#'
+        }]
       });
 
       alert('✅ Perfil registrado con éxito para: ' + nombre + ' (' + cargo + ').');
@@ -2458,16 +2720,16 @@
       if (!cloud || !list) return;
 
       const palabras = [
-        { tag: 'dólar', count: 48, pct: 92 },
-        { tag: 'apagón', count: 41, pct: 85 },
-        { tag: 'inflación', count: 35, pct: 72 },
+        { tag: 'dólar', count: 52, pct: 95 },
+        { tag: 'apagón', count: 44, pct: 86 },
+        { tag: 'petróleo', count: 39, pct: 78 },
+        { tag: 'Reuters', count: 34, pct: 70 },
         { tag: 'elecciones', count: 32, pct: 68 },
         { tag: 'Zulia', count: 29, pct: 60 },
         { tag: 'salarios', count: 26, pct: 54 },
-        { tag: 'petróleo', count: 24, pct: 50 },
-        { tag: 'diésel', count: 21, pct: 44 },
-        { tag: 'Caracas', count: 19, pct: 40 },
-        { tag: 'hospitales', count: 16, pct: 35 }
+        { tag: 'Armando.info', count: 25, pct: 52 },
+        { tag: 'Efecto Cocuyo', count: 23, pct: 48 },
+        { tag: 'Caracas', count: 19, pct: 40 }
       ];
 
       cloud.innerHTML = palabras.map(p => `
@@ -2520,7 +2782,7 @@
         <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-purple-300 transition-all space-y-2.5">
           <div class="flex items-center justify-between text-[11px]">
             <div class="flex items-center space-x-1.5">
-              <span class="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">${esc(fc.source)}</span>
+              <span class="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded">${esc(fc.source)}</span>
               <span class="text-[10px] bg-purple-50 text-purple-800 font-bold px-1.5 py-0.2 rounded border border-purple-200">
                 ${esc(fc.tipo || 'Desinformación')}
               </span>
@@ -2542,8 +2804,17 @@
       renderizarFactChecks(tipo);
     }
 
+    function sincronizarFactChecksEnVivo() {
+      const spin = document.getElementById('spin-fact-refresh');
+      if (spin) spin.classList.add('animate-spin');
+      setTimeout(() => {
+        if (spin) spin.classList.remove('animate-spin');
+        renderizarFactChecks('ALL');
+      }, 600);
+    }
+
     // =================================================================
-    // RENDERIZADO DEL TOP 5 DE TITULARES JERARQUIZADOS
+    // RENDERIZADO DEL TOP 5 NACIONAL Y TOP 4 REGIONAL
     // =================================================================
     function renderizarTop5Titulares() {
       const container = document.getElementById('top5-headlines-container');
@@ -2594,8 +2865,40 @@
       }).join('');
     }
 
+    function renderizarTop4Regional() {
+      const container = document.getElementById('top4-regional-container');
+      if (!container) return;
+
+      const regionalNews = feedNews.filter(it => it && it.region !== 'Nacional' && it.region !== 'Distrito Capital');
+      const top4 = regionalNews.slice(0, 4);
+
+      container.innerHTML = top4.map((item, idx) => {
+        const url = safeUrl(item.sourceUrl);
+        return `
+          <div class="bg-blue-50/50 hover:bg-white rounded-xl border border-blue-200 p-3.5 flex flex-col justify-between space-y-2.5 hover:shadow-xs transition-all">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[10px]">
+                <span class="font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded border border-blue-200">
+                  📍 ${esc(item.region)}
+                </span>
+                <span class="text-slate-400">${formatearHora(item.publishedAt)}</span>
+              </div>
+              <h4 class="text-xs font-bold text-slate-900 leading-snug hover:text-blue-600 line-clamp-2">
+                <a href="${url}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>
+              </h4>
+              <p class="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">${esc(item.snippet)}</p>
+            </div>
+            <div class="pt-2 border-t border-blue-100 flex items-center justify-between text-[10px]">
+              <span class="font-bold text-slate-700">${esc(item.sourceName)}</span>
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline">Leer nota →</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
     // =================================================================
-    // RENDERIZADO DEL FEED EN VIVO
+    // RENDERIZADO DEL FEED EN VIVO GENERAL
     // =================================================================
     function renderLiveScrollFeed() {
       const container = document.getElementById('live-scroll-feed');
@@ -2618,11 +2921,8 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-8 text-xs text-slate-400 bg-slate-50 rounded-xl border border-slate-200 p-4">
-            No se encontraron reportes${activeRegionFilter !== 'ALL' ? ' en ' + esc(activeRegionFilter) : ''}${q ? ' para "' + esc(currentFeedFilterQuery) + '"' : ''}.
-            <div class="mt-2">
-              <button onclick="limpiarFiltroRegionMapa(); limpiarFeedQuickSearch();" class="text-blue-600 font-bold hover:underline">Ver todas las noticias</button>
-            </div>
+          <div class="text-center py-6 text-xs text-slate-400 bg-slate-50 rounded-xl border border-slate-200 p-4">
+            No se encontraron notas en ${activeRegionFilter}.
           </div>
         `;
         return;
@@ -2634,27 +2934,23 @@
         const isCocuyo = ((item && item.sourceName) || '').includes('Efecto Cocuyo');
 
         return `
-          <article class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:border-blue-300 transition-all space-y-2">
-            <div class="flex items-center justify-between text-[11px]">
+          <article class="bg-white rounded-xl border border-slate-200 p-3 shadow-2xs hover:border-blue-300 transition-all space-y-1.5">
+            <div class="flex items-center justify-between text-[10px]">
               <div class="flex items-center space-x-1.5">
-                <span class="font-bold ${isCocuyo ? 'bg-purple-50 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-800'} px-2 py-0.5 rounded text-[10px]">
+                <span class="font-bold ${isCocuyo ? 'bg-purple-50 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-800'} px-1.5 py-0.2 rounded">
                   ${esc(item.sourceName)}
                 </span>
                 <span class="text-slate-400">• ${formatearHora(item.publishedAt)}</span>
-                ${isWeb ? '<span class="text-[9px] bg-indigo-50 text-indigo-700 font-bold px-1.5 py-0.2 rounded border border-indigo-200">🌐 Web</span>' : ''}
+                ${isWeb ? '<span class="text-[9px] bg-indigo-50 text-indigo-700 font-bold px-1 py-0.2 rounded">🌐 Web</span>' : ''}
               </div>
-              <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">📍 ${esc(item.region)}</span>
+              <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">📍 ${esc(item.region)}</span>
             </div>
-            <h4 class="text-xs font-bold text-slate-900 leading-snug hover:text-blue-600">
+            <h4 class="text-xs font-bold text-slate-900 leading-snug hover:text-blue-600 line-clamp-2">
               <a href="${url}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>
             </h4>
-            <p class="text-[11px] text-slate-600 leading-relaxed line-clamp-2">${esc(item.snippet)}</p>
             <div class="pt-1 flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-50">
-              <span class="text-slate-500 font-medium">🏷️ ${esc(item.category || 'General')}</span>
-              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline flex items-center space-x-1">
-                <span>Leer nota</span>
-                <span>→</span>
-              </a>
+              <span>🏷️ ${esc(item.category || 'General')}</span>
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline">Leer →</a>
             </div>
           </article>
         `;
@@ -2671,6 +2967,53 @@
       if (input) input.value = '';
       currentFeedFilterQuery = '';
       renderLiveScrollFeed();
+    }
+
+    // =================================================================
+    // RENDERIZADO DEL FEED DE PERIODISMO DE INVESTIGACIÓN (ÚLTIMA HORA)
+    // =================================================================
+    function renderInvestigativeScrollFeed() {
+      const container = document.getElementById('investigative-scroll-feed');
+      const counterEl = document.getElementById('investigative-feed-counter');
+      if (!container) return;
+
+      const investigativeItems = feedNews.filter(it => 
+        it && (
+          it.isInvestigacion || 
+          ((it.sourceName || '').includes('Armando.info')) || 
+          ((it.sourceName || '').includes('Runrunes')) || 
+          ((it.sourceName || '').includes('Connectas')) ||
+          ((it.sourceName || '').includes('NY Times')) ||
+          ((it.title || '').toLowerCase().includes('investigación')) ||
+          ((it.title || '').toLowerCase().includes('especial'))
+        )
+      );
+
+      if (counterEl) {
+        counterEl.textContent = `${investigativeItems.length} reportajes`;
+      }
+
+      container.innerHTML = investigativeItems.map(item => {
+        const url = safeUrl(item.sourceUrl);
+        return `
+          <article class="bg-slate-800/80 rounded-xl border border-slate-700 p-3 hover:border-amber-400/60 transition-all space-y-1.5">
+            <div class="flex items-center justify-between text-[10px]">
+              <span class="font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                🔍 ${esc(item.sourceName)}
+              </span>
+              <span class="text-slate-400">${formatearHora(item.publishedAt)}</span>
+            </div>
+            <h4 class="text-xs font-bold text-white leading-snug hover:text-amber-300 line-clamp-2">
+              <a href="${url}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>
+            </h4>
+            <p class="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">${esc(item.snippet)}</p>
+            <div class="pt-1 flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-700/50">
+              <span class="text-amber-300/80">📍 ${esc(item.region)}</span>
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-bold hover:underline">Ver Reportaje ↗</a>
+            </div>
+          </article>
+        `;
+      }).join('');
     }
 
     // =================================================================
@@ -2764,7 +3107,7 @@
 
         const matchesRegion = region === 'ALL' || item.region === region;
         const matchesCat = category === 'ALL' || item.category === category;
-        const matchesSource = source === 'ALL' || item.sourceName.toLowerCase().includes(source.toLowerCase());
+        const matchesSource = source === 'ALL' || ((item && item.sourceName) || '').toLowerCase().includes(source.toLowerCase());
 
         return matchesQuery && matchesRegion && matchesCat && matchesSource;
       });
@@ -2778,7 +3121,7 @@
           <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-slate-200 p-6 space-y-3">
             <div class="text-3xl">🔍</div>
             <h4 class="text-sm font-bold text-slate-800">No se encontraron notas con los filtros actuales</h4>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">Pulsa el botón "Buscar en Web" para rastrear noticias en vivo en Google News Venezuela.</p>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Pulsa el botón "Buscar en Web" para rastrear noticias en vivo en Google News y agencias globales.</p>
             <div class="pt-2">
               <button onclick="buscarNoticiasInternetEnVivo()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-xs shadow-xs">
                 🌐 Buscar "${esc(rawQ || 'Venezuela')}" en Internet
@@ -2842,13 +3185,13 @@
       const query = (input && input.value.trim()) ? input.value.trim() : 'Venezuela noticias';
 
       if (banner) banner.classList.remove('hidden');
-      if (bannerText) bannerText.textContent = `🌐 Rastreando en Google News y medios independientes: "${query}"...`;
+      if (bannerText) bannerText.textContent = `🌐 Rastreando en Google News y agencias internacionales: "${query}"...`;
       if (spin) spin.classList.add('animate-spin');
 
       let webItems = [];
 
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=15`, { cache: 'no-store' });
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=20`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data.items) && data.items.length > 0) {
@@ -2888,8 +3231,6 @@
         const newOnes = webItems.filter(w => !existingUrls.has(w.sourceUrl));
         feedNews = [...newOnes, ...feedNews];
         if (bannerText) bannerText.textContent = `✅ Se encontraron ${webItems.length} noticias en vivo en la web.`;
-        
-        // Disparar extracción de actores sobre los nuevos resultados
         procesarExtraccionAutomaticaDeNoticias(newOnes);
       } else {
         if (bannerText) bannerText.textContent = `ℹ️ Se filtraron los resultados en las fuentes indexadas.`;
@@ -2902,7 +3243,9 @@
 
       ejecutarBusquedaAvanzada();
       renderLiveScrollFeed();
+      renderInvestigativeScrollFeed();
       renderizarTop5Titulares();
+      renderizarTop4Regional();
       actualizarMapaEnVivo();
     }
 
@@ -2922,24 +3265,23 @@
     }
 
     // =================================================================
-    // SINCRONIZACIÓN AUTOMÁTICA EN VIVO
+    // SINCRONIZACIÓN AUTOMÁTICA EN VIVO CADA 60 SEGUNDOS
     // =================================================================
     async function sincronizarNoticiasEnVivo(manual = false) {
       const statusEl = document.getElementById('feed-update-status');
       const spin = document.getElementById('spin-refresh');
       const spinMain = document.getElementById('spin-main-refresh');
 
-      if (statusEl) statusEl.textContent = '🔄 Consultando fuentes en vivo...';
+      if (statusEl) statusEl.textContent = '🔄 Consultando agencias y medios en vivo...';
       if (spin) spin.classList.add('animate-spin');
       if (spinMain) spinMain.classList.add('animate-spin');
 
       try {
-        const res = await fetch('/api/news?limit=60', { cache: 'no-store' });
+        const res = await fetch('/api/news?limit=80', { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data.items) && data.items.length > 0) {
             feedNews = data.items;
-            // Extracción dinámica de actores y hechos sobre las noticias recibidas
             procesarExtraccionAutomaticaDeNoticias(data.items);
           }
         }
@@ -2956,7 +3298,10 @@
       countdownSeconds = 60;
 
       renderizarTop5Titulares();
+      renderizarTop4Regional();
       renderLiveScrollFeed();
+      renderInvestigativeScrollFeed();
+      renderizarPerfilesFuncionarios();
       actualizarMapaEnVivo();
     }
 
@@ -2970,12 +3315,13 @@
         }
         if (countdownSeconds <= 0) {
           sincronizarNoticiasEnVivo(false);
+          sincronizarFactChecksEnVivo();
         }
       }, 1000);
     }
 
     // =================================================================
-    // DIRECTORIO DE FUENTES
+    // DIRECTORIO DE FUENTES (CON AGENCIAS Y FILTRO INTERNACIONAL)
     // =================================================================
     function renderizarDirectorioFuentes(tipo = 'ALL') {
       const grid = document.getElementById('directory-sources-grid');
@@ -2985,13 +3331,14 @@
 
       grid.innerHTML = filtered.map(src => {
         const isBlocked = src.status.includes('Bloqueado');
-        const isCocuyo = src.name.includes('Efecto Cocuyo');
+        const isAgency = src.type === 'AGENCIA_INTERNACIONAL';
+        const isInvestigacion = src.type === 'INVESTIGACION';
 
         return `
           <div class="bg-slate-50 rounded-xl border border-slate-200 p-3.5 space-y-2 hover:bg-white hover:border-slate-300 transition-all">
             <div class="flex items-center justify-between text-[11px]">
               <span class="font-bold text-slate-900 text-xs flex items-center space-x-1">
-                ${isCocuyo ? '<span>⭐</span>' : ''}
+                ${isAgency ? '<span>🌐</span>' : isInvestigacion ? '<span>🔍</span>' : ''}
                 <span>${esc(src.name)}</span>
               </span>
               <span class="text-[9px] font-bold px-2 py-0.5 rounded ${isBlocked ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'}">
@@ -3000,8 +3347,10 @@
             </div>
             <p class="text-[11px] text-slate-500">Región: ${esc(src.region)}</p>
             <div class="pt-1 flex items-center justify-between text-[11px]">
-              <span class="text-slate-400">${src.type === 'MEDIO' ? '📰 Medio de Prensa' : '🛡️ Verificación / ONG'}</span>
-              <a href="${src.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline">Sitio oficial ↗</a>
+              <span class="text-slate-400 font-medium">
+                ${isAgency ? '🌐 Agencia Global' : isInvestigacion ? '🕵️ Periodismo Investigación' : src.type === 'MEDIO' ? '📰 Medio de Prensa' : '🛡️ Verificación / ONG'}
+              </span>
+              <a href="${safeUrl(src.url)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline">Sitio oficial ↗</a>
             </div>
           </div>
         `;
@@ -3138,7 +3487,7 @@
       }
     }
 
-        // =================================================================
+    // =================================================================
     // GENERADOR UNIVERSAL DE EXCEL / XML SPREADSHEET (DATOS COMPLETOS)
     // =================================================================
     function generarArchivoExcelXml(nombreHoja, headers, rows, filename) {
@@ -3183,7 +3532,8 @@
       link.click();
       document.body.removeChild(link);
     }
-function descargarAcreditacionesExcel() {
+
+    function descargarAcreditacionesExcel() {
       if (!isSuperAdminAuthenticated) {
         const pwd = prompt('🔑 Ingrese la contraseña de Administrador (cerosapos) para exportar el padrón:');
         if (pwd === 'cerosapos') {
@@ -3259,17 +3609,20 @@ function descargarAcreditacionesExcel() {
       generarArchivoExcelXml('Record_Historico', headers, rows, 'record_historico_nacional_venezuela.xls');
     }
 
-// INICIALIZACIÓN DE LA APLICACIÓN AL CARGAR
+    // =================================================================
+    // INICIALIZACIÓN DE LA APLICACIÓN AL CARGAR
     // =================================================================
     window.addEventListener('DOMContentLoaded', () => {
-      // 1. Renderizar portada y feed
+      // 1. Renderizar portada y feeds
       renderizarTop5Titulares();
+      renderizarTop4Regional();
       renderLiveScrollFeed();
+      renderInvestigativeScrollFeed();
       actualizarMapaEnVivo();
       actualizarVisibilidadAcreditaciones();
       iniciarContadorEnVivo();
 
-      // 2. Inicializar matrices de datos y cifras
+      // 2. Inicializar matrices de datos, cifras y desglose
       renderizarMatrizHechos();
       renderizarMatrizActores();
       renderizarPerfilesFuncionarios();
@@ -3278,10 +3631,10 @@ function descargarAcreditacionesExcel() {
       renderizarFactChecks('ALL');
       renderizarAnaliticaCompleta();
 
-      // 3. Procesar extracción inicial de actores sobre las notas pre-cargadas
+      // 3. Procesar extracción automática de actores sobre las notas
       procesarExtraccionAutomaticaDeNoticias(feedNews);
 
-      // 4. Sincronización en vivo con Vercel
+      // 4. Sincronización en vivo inicial con Vercel
       setTimeout(() => {
         sincronizarNoticiasEnVivo(false);
       }, 500);
