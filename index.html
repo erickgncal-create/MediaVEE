@@ -1039,6 +1039,42 @@
   <!-- JAVASCRIPT DE LA APLICACIÓN -->
   <!-- ================================================================= -->
   <script>
+    // =================================================================
+    // FUNCIONES DE UTILIDAD Y SANITIZACIÓN
+    // =================================================================
+    function normalizarTexto(str) {
+      return String(str || '')
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .trim();
+    }
+
+    function esc(val) {
+      return String(val ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function safeUrl(url) {
+      return /^https?:\/\//i.test(url || '') ? esc(url) : '#';
+    }
+
+    function formatearHora(iso) {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return 'Reciente';
+      const now = new Date();
+      const diffMin = Math.floor((now - d) / 60000);
+      if (diffMin < 1) return 'Hace un instante';
+      if (diffMin < 60) return 'Hace ' + diffMin + ' min';
+      const diffHours = Math.floor(diffMin / 60);
+      if (diffHours < 24) return 'Hace ' + diffHours + ' h';
+      return d.toLocaleDateString([], { day: '2-digit', month: 'short' });
+    }
+
     // ESTADO GLOBAL DE LA APLICACIÓN
     let activeRegionFilter = 'ALL';
     let currentFeedFilterQuery = '';
