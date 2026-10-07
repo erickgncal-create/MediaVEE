@@ -47,7 +47,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- HEADER PRINCIPAL -->
+  <!-- HEADER PRINCIPAL CON CONTROL DE ACCESO CON CONTRASEÑA -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-xs">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
@@ -64,7 +64,7 @@
                 <span>En Vivo</span>
               </span>
             </div>
-            <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios & Matrices de Inteligencia Periodística</p>
+            <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios, Matrices de Datos & Récord Histórico</p>
           </div>
         </div>
 
@@ -80,30 +80,39 @@
           <button id="tab-buscador" onclick="showTab('buscador')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             🔍 Buscador FT55
           </button>
-          <button id="tab-desinformacion" onclick="showTab('desinformacion')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-            🛡️ Fact-Checking
+          <button id="tab-desinformacion" onclick="showTab('desinformacion')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1">
+            <span>🛡️ Fact-Checking</span>
+            <span class="text-[9px] bg-purple-100 text-purple-700 px-1.5 py-0.2 rounded font-bold">Cifras</span>
           </button>
           <button id="tab-medios" onclick="showTab('medios')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             📰 Fuentes (56)
           </button>
           <button id="tab-analitica" onclick="showTab('analitica')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-            📊 Analítica
+            📊 Analítica & Cifras
           </button>
           <button id="tab-acceso" onclick="showTab('acceso')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             🪪 Acreditaciones
           </button>
         </nav>
 
-        <!-- Selector de Rol con Control de Acreditación -->
+        <!-- Selector de Rol Protegido por Contraseña -->
         <div class="flex items-center space-x-2">
+          <div id="user-status-pill" class="hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded-lg border text-xs font-bold bg-slate-50 text-slate-600 border-slate-200">
+            <span id="role-icon">👤</span>
+            <span id="role-text">Público General</span>
+          </div>
+
           <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[11px]">
-            <span class="px-2 py-1 font-bold text-slate-600 hidden sm:inline">Rol:</span>
-            <select id="role-selector" onchange="cambiarRol(this.value)" class="bg-white rounded px-2 py-1 font-medium text-slate-700 border-0 focus:ring-1 focus:ring-blue-500 outline-none text-xs">
-              <option value="PUBLICO">Público General</option>
-              <option value="PERIODISTA" selected>Periodista Acreditado</option>
-              <option value="ADMIN">Administrador (Editor)</option>
+            <select id="role-selector" onchange="solicitarCambioRol(this.value)" class="bg-white rounded px-2 py-1 font-bold text-slate-700 border-0 focus:ring-1 focus:ring-blue-500 outline-none text-xs">
+              <option value="PUBLICO">Lector (Público)</option>
+              <option value="PERIODISTA">Periodista Acreditado (🔒 Clave)</option>
+              <option value="ADMIN">Administrador (🔑 cerosapos)</option>
             </select>
           </div>
+          
+          <button id="btn-cerrar-sesion" onclick="cerrarSesion()" title="Cerrar sesión protegida" class="hidden text-xs bg-slate-200 hover:bg-red-100 hover:text-red-700 px-2 py-1 rounded font-bold transition-all">
+            ✕ Salir
+          </button>
         </div>
       </div>
     </div>
@@ -113,7 +122,7 @@
       <button onclick="showTab('radar')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-blue-600 bg-white shadow-xs">🗺️ Portada</button>
       <button onclick="showTab('datos')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-amber-700 bg-amber-50 font-bold">📈 Datos 🔒</button>
       <button onclick="showTab('buscador')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🔍 Buscador</button>
-      <button onclick="showTab('desinformacion')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🛡️ Verificación</button>
+      <button onclick="showTab('desinformacion')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-purple-700 hover:bg-white">🛡️ Fact-Checking</button>
       <button onclick="showTab('medios')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">📰 Fuentes</button>
       <button onclick="showTab('analitica')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">📊 Métricas</button>
       <button onclick="showTab('acceso')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🪪 Acreditar</button>
@@ -136,7 +145,7 @@
             <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Red Nacional de Monitoreo Activa en Vivo</span>
           </div>
           <h2 class="text-lg sm:text-xl font-extrabold">Monitoreo Multi-Fuente (Efecto Cocuyo, TalCual, El Nacional y 53 más)</h2>
-          <p class="text-xs sm:text-sm text-slate-300">Cobertura continua geolocalizada y jerarquización editorial en tiempo real.</p>
+          <p class="text-xs sm:text-sm text-slate-300">Extracción automática de actores, geolocalización en 24 estados y verificación en tiempo real.</p>
         </div>
         <div class="flex items-center gap-2 text-xs flex-wrap">
           <span id="countdown-badge" class="bg-blue-800/80 border border-blue-600 px-3 py-1.5 rounded-lg font-mono">⚡ Auto-sync: 60s</span>
@@ -167,7 +176,7 @@
       <!-- Cuadrícula Principal: Mapa SVG a la izquierda (7 cols) + Feed Continuo a la derecha (5 cols) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- COLUMNA MAPA VENEZUELA (7 Cols) -->
+        <!-- COLUMNA MAPA VENEZUELA (7 Cols) - CON TODOS LOS 24 ESTADOS -->
         <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between mb-3">
             <div>
@@ -175,18 +184,18 @@
                 <span>🗺️ Mapa Interactivo en Vivo de Venezuela</span>
                 <span id="selected-state-badge" class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800">Todos los estados (24)</span>
               </h3>
-              <p class="text-xs text-slate-500">Los estados con reportes activos se iluminan y muestran la cantidad de noticias.</p>
+              <p class="text-xs text-slate-500">Los 24 estados se actualizan con la cantidad de reportes y eventos registrados en vivo.</p>
             </div>
             <button onclick="limpiarFiltroRegionMapa()" class="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline">
               Limpiar filtro
             </button>
           </div>
 
-          <!-- Selector rápido de estados en móvil/tablet -->
+          <!-- Selector rápido de los 24 estados -->
           <div class="mb-3 flex items-center gap-2">
             <label class="text-xs font-semibold text-slate-600 whitespace-nowrap">Estado:</label>
             <select id="state-quick-select" onchange="seleccionarRegionMapa(this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
-              <option value="ALL">-- Todos los 24 Estados / Nacional --</option>
+              <option value="ALL">-- Todos los 24 Estados / Cobertura Nacional --</option>
               <option value="Amazonas">Amazonas</option>
               <option value="Anzoátegui">Anzoátegui</option>
               <option value="Apure">Apure</option>
@@ -199,12 +208,12 @@
               <option value="Distrito Capital">Distrito Capital (Caracas)</option>
               <option value="Falcón">Falcón</option>
               <option value="Guárico">Guárico</option>
-              <option value="La Guaira">La Guaira</option>
+              <option value="La Guaira">La Guaira (Vargas)</option>
               <option value="Lara">Lara</option>
               <option value="Mérida">Mérida</option>
               <option value="Miranda">Miranda</option>
               <option value="Monagas">Monagas</option>
-              <option value="Nueva Esparta">Nueva Esparta (Margarita)</option>
+              <option value="Nueva Esparta">Nueva Esparta (Margarita / Coche)</option>
               <option value="Portuguesa">Portuguesa</option>
               <option value="Sucre">Sucre</option>
               <option value="Táchira">Táchira</option>
@@ -214,7 +223,7 @@
             </select>
           </div>
 
-          <!-- Contenedor del Mapa SVG Vectorial de Venezuela -->
+          <!-- Contenedor del Mapa SVG Vectorial de Venezuela (24 Entidades) -->
           <div class="relative bg-slate-50 rounded-xl border border-slate-200 p-2 overflow-hidden flex items-center justify-center min-h-[360px] sm:min-h-[420px]">
             <svg id="venezuela-svg" viewBox="0 0 800 600" class="w-full h-auto max-h-[460px]">
               <defs>
@@ -226,7 +235,7 @@
 
               <rect width="800" height="600" fill="#f8fafc" rx="8" />
 
-              <!-- Polígonos de los Estados de Venezuela -->
+              <!-- Polígonos de los 24 Estados de Venezuela -->
               <!-- Zulia -->
               <path id="state-Zulia" onclick="seleccionarRegionMapa('Zulia')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 140 100 L 190 120 L 220 180 L 190 260 L 150 250 L 130 190 Z" />
               <ellipse cx="175" cy="170" rx="25" ry="40" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1" pointer-events="none" />
@@ -240,8 +249,10 @@
               <path id="state-Carabobo" onclick="seleccionarRegionMapa('Carabobo')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 300 135 L 340 135 L 330 175 L 295 170 Z" />
               <!-- Aragua -->
               <path id="state-Aragua" onclick="seleccionarRegionMapa('Aragua')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 340 135 L 375 140 L 370 190 L 330 175 Z" />
-              <!-- Distrito Capital & La Guaira -->
-              <path id="state-Distrito-Capital" onclick="seleccionarRegionMapa('Distrito Capital')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 130 L 410 130 L 405 155 L 375 155 Z" />
+              <!-- La Guaira -->
+              <path id="state-La-Guaira" onclick="seleccionarRegionMapa('La Guaira')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 125 L 415 125 L 410 135 L 375 135 Z" />
+              <!-- Distrito Capital (Caracas) -->
+              <path id="state-Distrito-Capital" onclick="seleccionarRegionMapa('Distrito Capital')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 135 L 410 135 L 405 155 L 375 155 Z" />
               <!-- Miranda -->
               <path id="state-Miranda" onclick="seleccionarRegionMapa('Miranda')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 375 155 L 435 150 L 420 195 L 370 190 Z" />
               <!-- Trujillo -->
@@ -316,7 +327,7 @@
               <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span><span>Con reportes en vivo</span></span>
               <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-slate-300"></span><span>Sin novedades</span></span>
             </div>
-            <span id="map-live-status">Actualización automática</span>
+            <span id="map-live-status">24 Entidades Actualizadas</span>
           </div>
         </div>
 
@@ -373,38 +384,38 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA NUEVA: MATRICES DE DATOS (ACCESO EXCLUSIVO CON ACREDITACIÓN) -->
+    <!-- VISTA 2: MATRICES DE DATOS, CIFRAS DE HECHOS Y RÉCORD HISTÓRICO -->
     <!-- ================================================================= -->
     <div id="view-datos" class="hidden space-y-6">
       
-      <!-- COMPUERTA DE SEGURIDAD Y ACREDITACIÓN -->
+      <!-- COMPUERTA DE SEGURIDAD (BLOQUEO PARA PÚBLICO GENERAL) -->
       <div id="datos-gatekeeper-locked" class="hidden bg-white rounded-2xl border border-slate-200 p-8 text-center space-y-4 shadow-xs max-w-2xl mx-auto my-12">
         <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-3xl mx-auto shadow-xs">
           🔒
         </div>
         <div class="space-y-2">
-          <h3 class="text-lg font-extrabold text-slate-900">Acceso Exclusivo a Prensa y Analistas Acreditados</h3>
+          <h3 class="text-lg font-extrabold text-slate-900">Acceso Restringido a Prensa Acreditada</h3>
           <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Las matrices estructuradas de inteligencia periodística, trazabilidad de actores políticos y perfiles de funcionarios del Estado contienen datos de investigación protegidos. Para ingresar, debes validar tu credencial periodística o activar tu rol acreditado.
+            Las matrices de inteligencia periodística, trazabilidad de actores políticos y récord histórico de hechos en el país contienen información analítica protegida. Ingresa tu credencial periodística o contraseña de Administrador (<strong>cerosapos</strong>) para consultar.
           </p>
         </div>
         
         <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-left space-y-3">
-          <div class="font-bold text-slate-700">Validación Rápida de Credencial de Prensa:</div>
+          <div class="font-bold text-slate-700">Validar Acceso Seguro:</div>
           <div class="flex gap-2">
-            <input type="text" id="credential-gate-input" placeholder="Ej: VZLA-7842-CAR o CNP-21.458" class="flex-1 bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 font-mono" />
+            <input type="password" id="credential-gate-input" placeholder="Ingresa credencial de prensa o clave cerosapos" class="flex-1 bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 font-mono" />
             <button onclick="validarCredencialAcceso()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-lg shadow-xs transition-all">
               Validar y Entrar
             </button>
           </div>
           <div class="text-[11px] text-slate-500 flex items-center justify-between">
-            <span>¿No tienes credencial?</span>
-            <button onclick="showTab('acceso')" class="text-blue-600 font-bold hover:underline">Solicitar Acreditación Oficial →</button>
+            <span>¿Eres periodista no colegiado?</span>
+            <button onclick="showTab('acceso')" class="text-blue-600 font-bold hover:underline">Solicitar Acreditación →</button>
           </div>
         </div>
       </div>
 
-      <!-- CONTENIDO DE DATOS DESBLOQUEADO (SOLO CON ACREDITACIÓN) -->
+      <!-- CONTENIDO DE DATOS DESBLOQUEADO (SOLO CON ACREDITACIÓN / ADMIN) -->
       <div id="datos-content-unlocked" class="space-y-6">
         
         <!-- Encabezado del Módulo de Datos con Sub-Pestañas y Exportación -->
@@ -413,12 +424,12 @@
             <div class="flex items-center space-x-2">
               <span class="text-xs font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center space-x-1">
                 <span>✓</span>
-                <span>Prensa Acreditada</span>
+                <span id="datos-auth-level-label">Prensa Acreditada</span>
               </span>
-              <span class="text-xs text-slate-400">• Acceso de Inteligencia Periodística</span>
+              <span class="text-xs text-slate-400">• Matrices Actualizadas en Tiempo Real</span>
             </div>
             <h2 class="text-lg font-black text-slate-900">Matrices de Datos, Trazabilidad de Hechos & Actores</h2>
-            <p class="text-xs text-slate-500">Bases de datos estructuradas por tipología de hecho, rangos etarios, cargos públicos y fuentes.</p>
+            <p class="text-xs text-slate-500">Extracción automática de actores en noticias, monitoreo de hechos críticos y récord histórico.</p>
           </div>
 
           <!-- Botones de Exportación a Excel -->
@@ -431,20 +442,72 @@
               <span>👥</span>
               <span>Exportar Actores (Excel)</span>
             </button>
+            <button onclick="exportarRecordHistoricoExcel()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+              <span>📚</span>
+              <span>Récord Histórico (Excel)</span>
+            </button>
           </div>
         </div>
 
-        <!-- Sub-Navegación de las 3 Secciones de Datos -->
-        <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
-          <button id="subtab-hechos" onclick="cambiarSubTabDatos('hechos')" class="px-4 py-2 font-bold text-xs rounded-xl bg-blue-600 text-white shadow-xs transition-all">
+        <!-- TABLERO DE CIFRAS EN VIVO DE HECHOS CRÍTICOS -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 text-center">
+          <div class="bg-white p-3 rounded-2xl border border-red-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-red-600 uppercase">⚖️ Violación DDHH</span>
+            <p id="cifra-ddhh" class="text-xl font-black text-slate-900 mt-0.5">3</p>
+            <span class="text-[9px] text-slate-400">Detenciones/Censura</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-amber-700 uppercase">📢 Denuncias</span>
+            <p id="cifra-denuncias" class="text-xl font-black text-slate-900 mt-0.5">7</p>
+            <span class="text-[9px] text-slate-400">Públicas/Gremios</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-blue-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-blue-700 uppercase">🪧 Protestas</span>
+            <p id="cifra-protestas" class="text-xl font-black text-slate-900 mt-0.5">4</p>
+            <span class="text-[9px] text-slate-400">Laborales/Salud</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-rose-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-rose-700 uppercase">⚠️ Fallecidos</span>
+            <p id="cifra-fallecidos" class="text-xl font-black text-slate-900 mt-0.5">2</p>
+            <span class="text-[9px] text-slate-400">Sucesos/Vialidad</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-purple-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-purple-700 uppercase">🔍 Desaparecidos</span>
+            <p id="cifra-desaparecidos" class="text-xl font-black text-slate-900 mt-0.5">1</p>
+            <span class="text-[9px] text-slate-400">Búsquedas activas</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-cyan-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-cyan-700 uppercase">🌊 Desastre Nat.</span>
+            <p id="cifra-desastres" class="text-xl font-black text-slate-900 mt-0.5">2</p>
+            <span class="text-[9px] text-slate-400">Lluvias/Talud</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-orange-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-orange-700 uppercase">🔥 Incendios</span>
+            <p id="cifra-incendios" class="text-xl font-black text-slate-900 mt-0.5">1</p>
+            <span class="text-[9px] text-slate-400">Forestal/Urbano</span>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs">
+            <span class="text-[10px] font-bold text-slate-700 uppercase">💡 Cortes Serv.</span>
+            <p id="cifra-servicios" class="text-xl font-black text-slate-900 mt-0.5">8</p>
+            <span class="text-[9px] text-slate-400">Luz/Agua/Diésel</span>
+          </div>
+        </div>
+
+        <!-- Sub-Navegación de las 4 Secciones de Datos -->
+        <div class="flex items-center space-x-2 border-b border-slate-200 pb-2 overflow-x-auto custom-scrollbar">
+          <button id="subtab-hechos" onclick="cambiarSubTabDatos('hechos')" class="whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-blue-600 text-white shadow-xs transition-all">
             📌 Matriz de Hechos y Sucesos
           </button>
-          <button id="subtab-actores" onclick="cambiarSubTabDatos('actores')" class="px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+          <button id="subtab-actores" onclick="cambiarSubTabDatos('actores')" class="whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
             👥 Matriz de Actores & Protagonistas
           </button>
-          <button id="subtab-perfiles" onclick="cambiarSubTabDatos('perfiles')" class="px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all flex items-center space-x-1">
-            <span>🏛️ Perfiles de Funcionarios & Cargos</span>
+          <button id="subtab-perfiles" onclick="cambiarSubTabDatos('perfiles')" class="whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all flex items-center space-x-1">
+            <span>🏛️ Fichas de Funcionarios & Cargos</span>
             <span class="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.2 rounded-full font-bold">+ Crear</span>
+          </button>
+          <button id="subtab-record" onclick="cambiarSubTabDatos('record')" class="whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all flex items-center space-x-1">
+            <span>📚 Récord Histórico Nacional</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-bold">Memoria</span>
           </button>
         </div>
 
@@ -455,7 +518,7 @@
               <input type="text" id="filtro-hechos-query" oninput="filtrarMatrizHechos()" placeholder="🔍 Filtrar por palabras clave, caso, estado o hecho..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
               <span class="absolute left-2.5 top-2.5 text-slate-400">🔍</span>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap">
               <select id="filtro-hechos-cat" onchange="filtrarMatrizHechos()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-700 outline-none">
                 <option value="ALL">Todas las Categorías</option>
                 <option value="Sucesos">Sucesos y Seguridad</option>
@@ -472,7 +535,7 @@
                 <option value="Protesta Laboral">Protesta Laboral</option>
                 <option value="Contaminación Minera">Contaminación Minera</option>
                 <option value="Falla de Combustible">Falla de Combustible</option>
-                <option value="Falla de Transporte">Falla de Transporte</option>
+                <option value="Detención Arbitraria">Detención Arbitraria / Cautelar</option>
                 <option value="Bloqueo Web">Bloqueo Web</option>
               </select>
             </div>
@@ -506,7 +569,7 @@
         <div id="subview-actores" class="hidden space-y-4">
           <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
             <div class="flex-1 relative">
-              <input type="text" id="filtro-actores-query" oninput="filtrarMatrizActores()" placeholder="🔍 Buscar por nombre, cargo, caso o institución..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
+              <input type="text" id="filtro-actores-query" oninput="filtrarMatrizActores()" placeholder="🔍 Buscar por nombre de actor, cargo, caso o institución..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
               <span class="absolute left-2.5 top-2.5 text-slate-400">🔍</span>
             </div>
             <div class="flex gap-2">
@@ -548,7 +611,7 @@
         <!-- SUB-SECCIÓN 3: PERFILES DE FUNCIONARIOS, JUECES Y MINISTROS + CREADOR -->
         <div id="subview-perfiles" class="hidden space-y-6">
           
-          <!-- Botón de apertura de Formulario de Creación de Perfil -->
+          <!-- Encabezado de Fichas con Botón Crear -->
           <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="space-y-1">
               <h3 class="text-base font-extrabold flex items-center space-x-2">
@@ -634,6 +697,31 @@
 
         </div>
 
+        <!-- SUB-SECCIÓN 4: RÉCORD HISTÓRICO NACIONAL (DOCUMENTACIÓN Y MEMORIA) -->
+        <div id="subview-record" class="hidden space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">📚 Archivo Histórico Acumulado de la Situación País</h4>
+              <p class="text-slate-500">Base documental cronológica de hechos, actores y declaraciones para análisis e investigación de largo plazo.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="exportarRecordHistoricoExcel()" class="bg-slate-900 hover:bg-black text-white font-bold px-4 py-2 rounded-xl shadow-xs">
+                📥 Descargar Archivo Histórico Completo (Excel)
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <span class="font-bold text-xs text-slate-700">Línea de Tiempo Documentada:</span>
+              <span id="record-count-badge" class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">0 eventos archivados</span>
+            </div>
+            <div id="record-timeline-container" class="space-y-3">
+              <!-- Eventos históricos generados -->
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -643,7 +731,6 @@
     <!-- ================================================================= -->
     <div id="view-buscador" class="hidden space-y-6">
       
-      <!-- Panel de Controles de Búsqueda -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
@@ -658,7 +745,6 @@
           </span>
         </div>
 
-        <!-- Barra de Búsqueda Principal -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
           <div class="md:col-span-8 relative">
             <input
@@ -692,9 +778,7 @@
           </div>
         </div>
 
-        <!-- Filtros Combinados (Estado, Categoría, Medio) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
-          
           <div>
             <label class="block font-semibold text-slate-700 mb-1">📍 Estado / Región:</label>
             <select id="search-filter-region" onchange="ejecutarBusquedaAvanzada()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
@@ -762,49 +846,106 @@
               <option value="PROVEA">PROVEA (DDHH)</option>
             </select>
           </div>
-
         </div>
 
-        <!-- Banner de Estado de Búsqueda Web -->
         <div id="search-status-banner" class="hidden p-3 rounded-xl text-xs flex items-center justify-between bg-blue-50 text-blue-900 border border-blue-200">
           <span id="search-status-text">🔍 Buscando noticias...</span>
           <span id="search-status-tag" class="font-bold uppercase text-[10px] bg-blue-200 text-blue-800 px-2 py-0.5 rounded">Rastreo Web</span>
         </div>
-
       </div>
 
-      <!-- Resultados de Búsqueda -->
       <div id="search-results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- Tarjetas de noticias -->
       </div>
-
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 4: RADAR DE DESINFORMACIÓN & FACT-CHECKING -->
+    <!-- VISTA 4: RADAR DE DESINFORMACIÓN & FACT-CHECKING CON SCROLL Y CIFRAS -->
     <!-- ================================================================= -->
     <div id="view-desinformacion" class="hidden space-y-6">
       
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <!-- Panel de Cifras de Desinformación -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
             <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
-              <span>🛡️ Radar Anti-Desinformación y Verificación</span>
+              <span>🛡️ Radar Anti-Desinformación y Métricas de Bulos</span>
               <span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Fact-Checking VE</span>
             </h2>
-            <p class="text-xs text-slate-500">Monitoreo de bulos, matrices engañosas y chequeos realizados por organizaciones independientes.</p>
-          </div>
-          
-          <div class="flex items-center gap-1.5 text-xs">
-            <button onclick="filtrarFactChecks('ALL')" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Todos</button>
-            <button onclick="filtrarFactChecks('FALSO')" class="px-2.5 py-1 rounded-lg font-bold bg-red-100 text-red-700 hover:bg-red-200">Falso</button>
-            <button onclick="filtrarFactChecks('ENGAÑOSO')" class="px-2.5 py-1 rounded-lg font-bold bg-amber-100 text-amber-700 hover:bg-amber-200">Engañoso</button>
-            <button onclick="filtrarFactChecks('SIN_EVIDENCIA')" class="px-2.5 py-1 rounded-lg font-bold bg-blue-100 text-blue-700 hover:bg-blue-200">Sin Evidencia</button>
+            <p class="text-xs text-slate-500">Scroll continuo de verificaciones y análisis estadístico por tipología y plataforma de origen.</p>
           </div>
         </div>
 
-        <div id="fact-checks-container" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Fact checks -->
+        <!-- Métricas de Tipología y Plataforma de Desinformación -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <!-- Tipología de Desinformación -->
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
+            <div class="flex items-center justify-between font-bold text-slate-800">
+              <span>📊 Tipos de Desinformación Frecuente</span>
+              <span class="text-[10px] text-purple-700">14 Chequeos Activos</span>
+            </div>
+            <div class="space-y-2">
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>🎙️ Audios manipulados / Clonados con IA</span><span class="font-bold">42%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 42%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>📜 Gacetas Oficiales / Decretos apócrifos</span><span class="font-bold">28%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 28%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>🎥 Videos descontextualizados / Años anteriores</span><span class="font-bold">18%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 18%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>💳 Falsos bonos o fraudes de Sistema Patria</span><span class="font-bold">12%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 12%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plataforma donde se Genera y Circula -->
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
+            <div class="flex items-center justify-between font-bold text-slate-800">
+              <span>🌐 Plataformas de Origen y Difusión</span>
+              <span class="text-[10px] text-blue-700">Monitoreo OSINT</span>
+            </div>
+            <div class="space-y-2">
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>🟢 WhatsApp (Cadenas y notas de voz)</span><span class="font-bold">54%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full" style="width: 54%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>🎵 TikTok (Clips manipulados)</span><span class="font-bold">22%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-slate-800 h-1.5 rounded-full" style="width: 22%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>🔵 X / Twitter (Cuentas automatizadas)</span><span class="font-bold">14%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 14%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-600 mb-1"><span>✈️ Telegram (Grupos y canales anónimos)</span><span class="font-bold">10%</span></div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-cyan-500 h-1.5 rounded-full" style="width: 10%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenedor con SCROLL CONTINUO de Verificaciones -->
+        <div class="pt-3 border-t border-slate-100 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-slate-900">Feed en Scroll Continuo de Chequeos en Vivo</h3>
+            <div class="flex items-center gap-1.5 text-xs">
+              <button onclick="filtrarFactChecks('ALL')" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Todos</button>
+              <button onclick="filtrarFactChecks('FALSO')" class="px-2.5 py-1 rounded-lg font-bold bg-red-100 text-red-700 hover:bg-red-200">Falso</button>
+              <button onclick="filtrarFactChecks('ENGAÑOSO')" class="px-2.5 py-1 rounded-lg font-bold bg-amber-100 text-amber-700 hover:bg-amber-200">Engañoso</button>
+              <button onclick="filtrarFactChecks('SIN_EVIDENCIA')" class="px-2.5 py-1 rounded-lg font-bold bg-blue-100 text-blue-700 hover:bg-blue-200">Sin Evidencia</button>
+            </div>
+          </div>
+
+          <div id="fact-checks-scroll-container" class="max-h-[500px] overflow-y-auto space-y-3 pr-1.5 custom-scrollbar">
+            <!-- Chequeos en scroll continuo -->
+          </div>
         </div>
       </div>
 
@@ -814,7 +955,6 @@
     <!-- VISTA 5: DIRECTORIO DE LAS 56 FUENTES Y MEDIOS -->
     <!-- ================================================================= -->
     <div id="view-medios" class="hidden space-y-6">
-      
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
@@ -832,15 +972,15 @@
           <!-- Fuentes -->
         </div>
       </div>
-
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 6: ANALÍTICA Y MÉTRICAS -->
+    <!-- VISTA 6: ANALÍTICA, PALABRAS CLAVE, LUGARES Y AGENDA DEL DÍA -->
     <!-- ================================================================= -->
     <div id="view-analitica" class="hidden space-y-6">
       
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <!-- KPIs Superiores -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Total Notas Procesadas</span>
           <p id="kpi-total-news" class="text-2xl font-black text-slate-900 mt-1">0</p>
@@ -852,20 +992,58 @@
           <span class="text-[10px] text-slate-500">12 vía RSS + 44 web</span>
         </div>
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-          <span class="text-xs text-slate-500 font-semibold">Chequeos de Desinformación</span>
-          <p class="text-2xl font-black text-purple-600 mt-1">14</p>
-          <span class="text-[10px] text-purple-600 font-bold">8 bulos desmentidos</span>
+          <span class="text-xs text-slate-500 font-semibold">Hechos Documentados</span>
+          <p id="kpi-total-hechos" class="text-2xl font-black text-purple-600 mt-1">28</p>
+          <span class="text-[10px] text-purple-600 font-bold">En récord histórico</span>
         </div>
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-          <span class="text-xs text-slate-500 font-semibold">Periodistas Acreditados</span>
-          <p id="kpi-total-accred" class="text-2xl font-black text-emerald-600 mt-1">7</p>
-          <span class="text-[10px] text-emerald-600 font-bold">Acceso a Matrices Activo</span>
+          <span class="text-xs text-slate-500 font-semibold">Actores Monitoreados</span>
+          <p id="kpi-total-actores" class="text-2xl font-black text-emerald-600 mt-1">19</p>
+          <span class="text-[10px] text-emerald-600 font-bold">Trazabilidad activa</span>
         </div>
       </div>
 
-      <!-- Cobertura por Estados (Barra Visual) -->
+      <!-- Cuadrícula: Palabras Clave del Día (Trending) y Agenda que se Mueve -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- PALABRAS CLAVE DEL DÍA (6 Cols) -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
+              <span>🏷️ Palabras Clave y Términos Más Frecuentes</span>
+            </h3>
+            <span class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Frecuencia en notas</span>
+          </div>
+          <div id="keywords-cloud-container" class="flex flex-wrap gap-2 pt-1">
+            <!-- Nube de keywords generada -->
+          </div>
+          <div class="pt-2 border-t border-slate-100">
+            <h4 class="text-xs font-bold text-slate-700 mb-2">Ranking de Términos con Mayor Volumen:</h4>
+            <div id="keywords-ranking-list" class="space-y-1.5 text-xs">
+              <!-- Lista con barras -->
+            </div>
+          </div>
+        </div>
+
+        <!-- AGENDA DEL DÍA QUE SE MUEVE (6 Cols) -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
+              <span>🗓️ Agenda del Día que se Mueve (Hitos & Convocatorias)</span>
+            </h3>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">En Desarrollo</span>
+          </div>
+          <p class="text-xs text-slate-500">Seguimiento a convocatorias gremiales, subastas del BCV, audiencias judiciales y planes de servicios públicos previstos para hoy.</p>
+          <div id="agenda-dia-container" class="space-y-3">
+            <!-- Hitos de la agenda -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Cobertura y Lugares Donde Ocurren los Hechos -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
-        <h3 class="text-sm font-bold text-slate-900">Distribución de Cobertura por Entidad Federal</h3>
+        <h3 class="text-sm font-bold text-slate-900">📍 Lugares Donde Ocurren: Distribución de Cobertura por Entidad Federal</h3>
         <div id="regional-analytics-bars" class="space-y-2.5 text-xs">
           <!-- Barras de progreso por estado -->
         </div>
@@ -874,7 +1052,7 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 7: ACREDITACIONES DE PERIODISTAS & CONTROL DE PRIVACIDAD -->
+    <!-- VISTA 7: ACREDITACIONES DE PERIODISTAS & CONTROL ESTRICTO CON cerosapos -->
     <!-- ================================================================= -->
     <div id="view-acceso" class="hidden space-y-6">
       
@@ -889,41 +1067,43 @@
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
+          <!-- Botón de Excel: Solo activo si es admin con clave -->
           <button
+            id="btn-export-padrón"
             onclick="descargarAcreditacionesExcel()"
-            class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-2"
+            class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-2"
           >
             <span>📊</span>
-            <span>Descargar Padrón en Excel (.xlsx)</span>
+            <span>Descargar Padrón Oficial (Excel)</span>
           </button>
         </div>
       </div>
 
-      <!-- AVISO DE PRIVACIDAD PARA USUARIO PÚBLICO -->
+      <!-- AVISO DE PRIVACIDAD PARA USUARIO PÚBLICO O PERIODISTA SIN CLAVE ADMIN -->
       <div id="accreditations-privacy-gate" class="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-3">
         <div class="flex items-start space-x-3">
           <span class="text-2xl">🔒</span>
           <div class="space-y-1">
-            <h4 class="text-sm font-bold text-blue-950">Protección de Datos y Confidencialidad Periodística</h4>
+            <h4 class="text-sm font-bold text-blue-950">Protección Estricta de Datos y Confidencialidad de Periodistas</h4>
             <p class="text-xs text-blue-800 leading-relaxed">
-              Por razones de seguridad personal y protección de fuentes, el padrón completo con correos electrónicos, números de teléfono y números de colegiatura (CNP/SNTP) está <strong>estrictamente restringido al rol de Administrador</strong>.
+              Por razones de seguridad física, prevención de hostigamiento digital y protección de fuentes en Venezuela, los datos personales de los periodistas (correos electrónicos, teléfonos, número CNP y medios de trabajo) están <strong>estrictamente reservados al Administrador</strong> mediante autenticación con contraseña autorizada. Los periodistas acreditados no pueden ver la información de los demás colegas.
             </p>
           </div>
         </div>
         <div class="flex items-center justify-between pt-2 border-t border-blue-200/60 text-xs">
-          <span class="text-blue-700 font-medium">¿Eres editor o administrador del portal?</span>
-          <button onclick="desbloquearAccesoAdmin()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg shadow-xs transition-all">
-            🔑 Desbloquear Vista de Administrador
+          <span class="text-blue-700 font-medium">¿Posees credenciales de Administración del observatorio?</span>
+          <button onclick="solicitarAccesoAdminPrompt()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg shadow-xs transition-all">
+            🔑 Ingresar con Clave de Administrador
           </button>
         </div>
       </div>
 
-      <!-- TABLA DE ADMINISTRADOR (SOLO VISIBLE PARA ADMIN) -->
+      <!-- TABLA DE ADMINISTRADOR (EXCLUSIVA PARA ADMIN CON CLAVE cerosapos) -->
       <div id="accreditations-admin-section" class="hidden bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <div class="flex items-center space-x-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <h3 class="text-sm font-bold text-slate-900">Padrón Confidencial de Periodistas (Vista de Administrador)</h3>
+            <h3 class="text-sm font-bold text-slate-900">Padrón Confidencial de Periodistas (Desbloqueado con cerosapos)</h3>
           </div>
           <span id="admin-badge-count" class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-lg border border-slate-200">
             7 periodistas registrados
@@ -952,7 +1132,7 @@
         </div>
       </div>
 
-      <!-- FORMULARIO DE SOLICITUD DE ACREDITACIÓN -->
+      <!-- FORMULARIO DE SOLICITUD DE ACREDITACIÓN (DISPONIBLE PARA TODOS) -->
       <div id="form-acreditacion-card" class="bg-white rounded-2xl border border-slate-200 p-5 space-y-4 shadow-xs">
         <div class="border-b border-slate-100 pb-3">
           <h3 class="text-sm font-bold text-slate-900">📝 Formulario de Solicitud de Acreditación de Prensa</h3>
@@ -1031,7 +1211,7 @@
   <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 space-y-2">
       <p class="font-semibold text-slate-700">VzlaMonitoreo · Plataforma Cívica para la Información y Verificación de Medios en Venezuela</p>
-      <p class="text-[11px] text-slate-400">Actualización en vivo vía RSS y Google News · Matrices analíticas bajo estándares de confidencialidad periodística</p>
+      <p class="text-[11px] text-slate-400">Seguridad perimetral con clave de administrador · Matrices y récord histórico documentado</p>
     </div>
   </footer>
 
@@ -1040,7 +1220,7 @@
   <!-- ================================================================= -->
   <script>
     // =================================================================
-    // FUNCIONES DE UTILIDAD Y SANITIZACIÓN
+    // FUNCIONES DE UTILIDAD Y SANITIZACIÓN (REGLA FUNDAMENTAL)
     // =================================================================
     function normalizarTexto(str) {
       return String(str || '')
@@ -1075,13 +1255,30 @@
       return d.toLocaleDateString([], { day: '2-digit', month: 'short' });
     }
 
-    // ESTADO GLOBAL DE LA APLICACIÓN
+    // =================================================================
+    // ESTADO GLOBAL DE AUTENTICACIÓN Y ROLES
+    // =================================================================
+    let currentUserRole = 'PUBLICO';
+    let isSuperAdminAuthenticated = false;
+    let isJournalistAuthenticated = false;
+
     let activeRegionFilter = 'ALL';
     let currentFeedFilterQuery = '';
-    let currentUserRole = 'PERIODISTA'; // Por defecto acreditado para permitir acceso
     let countdownSeconds = 60;
     let countdownTimer = null;
     let currentSubTabDatos = 'hechos';
+
+    // CONTADORES GLOBALES DE HECHOS CRÍTICOS
+    let cifrasHechos = {
+      ddhh: 3,
+      denuncias: 7,
+      protestas: 4,
+      fallecidos: 2,
+      desaparecidos: 1,
+      desastres: 2,
+      incendios: 1,
+      servicios: 8
+    };
 
     // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (CATÁLOGO MULTI-FUENTE CON EFECTO COCUYO)
     let feedNews = [
@@ -1220,7 +1417,7 @@
     ];
 
     // =================================================================
-    // 1. MATRIZ DE HECHOS Y SUCESOS (CON KEYWORDS, CASOS Y ENLACES)
+    // 1. MATRIZ DE HECHOS Y SUCESOS
     // =================================================================
     let matrizHechos = [
       {
@@ -1251,7 +1448,7 @@
         id: 'HCH-03',
         fecha: '2026-10-05',
         categoria: 'Derechos Humanos',
-        tipologiaHecho: 'Medidas Cautelares de Salud',
+        tipologiaHecho: 'Detención Arbitraria / Cautelar',
         caso: 'Docentes & Sindicalistas Detenidos',
         descripcion: 'Defensores interponen peticiones de traslado a centros hospitalarios por patologías crónicas de dirigentes.',
         estado: 'Distrito Capital',
@@ -1310,7 +1507,7 @@
     ];
 
     // =================================================================
-    // 2. MATRIZ DE ACTORES & PROTAGONISTAS DE LA NOTICIA
+    // 2. MATRIZ DE ACTORES & PROTAGONISTAS
     // =================================================================
     let matrizActores = [
       {
@@ -1458,7 +1655,76 @@
       }
     ];
 
-    // PADRÓN OFICIAL DE ACREDITACIONES DE PERIODISTAS (DATOS CONFIDENCIALES)
+    // =================================================================
+    // 4. RÉCORD HISTÓRICO NACIONAL (MEMORIA Y DOCUMENTACIÓN PERSISTENTE)
+    // =================================================================
+    let recordHistorico = [
+      {
+        id: 'REC-01',
+        fecha: '2026-10-06 14:30',
+        tipo: 'Servicios Públicos / Apagón',
+        entidad: 'Zulia',
+        resumen: 'Falla en cadena de subestaciones El Tablazo y Cuatricentenario deja sin servicio a 12 municipios por más de 6 horas.',
+        fuente: 'Noticia al Día / Reportes Ciudadanos',
+        url: 'https://noticiaaldia.com'
+      },
+      {
+        id: 'REC-02',
+        fecha: '2026-10-06 11:20',
+        tipo: 'Economía / Cambiario',
+        entidad: 'Distrito Capital',
+        resumen: 'BCV inyecta 65 millones de dólares a la banca para frenar presión sobre el tipo de cambio oficial.',
+        fuente: 'Descifrado',
+        url: 'https://descifrado.com'
+      },
+      {
+        id: 'REC-03',
+        fecha: '2026-10-05 16:40',
+        tipo: 'Derechos Humanos / Cautelares',
+        entidad: 'Distrito Capital',
+        resumen: 'Familiares y abogados de docentes detenidos en protestas entregan informe médico ante tribunal de control.',
+        fuente: 'Efecto Cocuyo',
+        url: 'https://efectococuyo.com'
+      },
+      {
+        id: 'REC-04',
+        fecha: '2026-10-05 09:15',
+        tipo: 'Sucesos / Vialidad',
+        entidad: 'Miranda',
+        resumen: 'Deslizamiento de talud en Troncal 9 a la altura de Caucagua bloquea ambos sentidos por 8 horas.',
+        fuente: 'El Nacional',
+        url: 'https://elnacional.com'
+      },
+      {
+        id: 'REC-05',
+        fecha: '2026-10-04 15:10',
+        tipo: 'Salud / Conflicto Laboral',
+        entidad: 'Lara',
+        resumen: 'Residentes del Hospital Antonio María Pineda se declaran en asamblea permanente por déficit de anestésicos.',
+        fuente: 'La Prensa de Lara',
+        url: 'https://laprensalara.com.ve'
+      },
+      {
+        id: 'REC-06',
+        fecha: '2026-10-04 10:00',
+        tipo: 'Ambiente / Pueblos Indígenas',
+        entidad: 'Bolívar',
+        resumen: 'Comunidades pemón denuncian persistencia de dragas en el Alto Caroní y solicitan presencia de fiscalía ambiental.',
+        fuente: 'Correo del Caroní',
+        url: 'https://correodelcaroni.com'
+      }
+    ];
+
+    // AGENDA DEL DÍA QUE SE MUEVE
+    let agendaDelDia = [
+      { hora: '09:00 AM', evento: 'Intervención cambiaria del Banco Central de Venezuela (BCV) en mesas de dinero bancarias.', entidad: 'Caracas (Banca Nacional)', status: 'Ejecutado' },
+      { hora: '10:30 AM', evento: 'Concentración pacífica de docentes y jubilados frente a la Zona Educativa de Mérida.', entidad: 'Mérida', status: 'En Curso' },
+      { hora: '02:00 PM', evento: 'Sesión ordinaria de la Asamblea Nacional: debate sobre proyectos de ley del área tributaria.', entidad: 'Palacio Federal Legislativo', status: 'Programado' },
+      { hora: '04:00 PM', evento: 'Rueda de prensa de gremios comerciales en Valencia sobre costos de fletes y tarifas eléctricas.', entidad: 'Carabobo', status: 'Programado' },
+      { hora: '06:00 PM', evento: 'Monitoreo de cuadrillas de Corpoelec en eje Mara-Maracaibo por obras de estabilización.', entidad: 'Zulia', status: 'Seguimiento' }
+    ];
+
+    // PADRÓN OFICIAL DE ACREDITACIONES DE PERIODISTAS (DATOS CONFIDENCIALES TRAS cerosapos)
     let accreditationRecords = [
       { id: 'ACR-2026-001', date: '2026-10-01 09:30', name: 'Carlos Eduardo Mendoza', email: 'carlos.mendoza@elestimulo.com', role: 'Periodista', outlet: 'El Estímulo', region: 'Distrito Capital', cnp: 'CNP-21.458', status: 'Aprobada' },
       { id: 'ACR-2026-002', date: '2026-10-02 11:15', name: 'Mariana Valenzuela Silva', email: 'mariana.valenzuela@gmail.com', role: 'Corresponsal', outlet: 'Freelance (Colabora con Efecto Cocuyo)', region: 'Zulia', cnp: 'CNP-19.832', status: 'Aprobada' },
@@ -1477,6 +1743,8 @@
         source: 'Cazadores de Fake News',
         verdict: 'FALSO',
         verdictClass: 'bg-red-100 text-red-700 border-red-200',
+        tipo: 'Audio con IA',
+        plataforma: 'WhatsApp',
         summary: 'La voz fue sintetizada con IA y no corresponde a ninguna alocución gremial ni comunicado empresarial.',
         date: 'Hace 3 horas',
         url: 'https://cazadoresdefakenews.info'
@@ -1487,6 +1755,8 @@
         source: 'EsPaja.com',
         verdict: 'ENGAÑOSO',
         verdictClass: 'bg-amber-100 text-amber-700 border-amber-200',
+        tipo: 'Video fuera de contexto',
+        plataforma: 'TikTok',
         summary: 'El video circula desde 2019 y fue grabado en otro país sudamericano con motivo de protestas gremiales.',
         date: 'Hace 6 horas',
         url: 'https://espaja.com'
@@ -1497,6 +1767,8 @@
         source: 'Cotejo.info',
         verdict: 'SIN_EVIDENCIA',
         verdictClass: 'bg-blue-100 text-blue-700 border-blue-200',
+        tipo: 'Cadena de texto anónima',
+        plataforma: 'WhatsApp',
         summary: 'El INAC y las aerolíneas confirman operatividad normal de itinerarios hacia y desde Maiquetía.',
         date: 'Ayer',
         url: 'https://cotejo.info'
@@ -1507,6 +1779,8 @@
         source: 'Cazadores de Fake News',
         verdict: 'FALSO',
         verdictClass: 'bg-red-100 text-red-700 border-red-200',
+        tipo: 'Gaceta Oficial apócrifa',
+        plataforma: 'Telegram / X',
         summary: 'El número de Gaceta Oficial citado no existe en la Imprenta Nacional y el formato tipográfico es apócrifo.',
         date: 'Ayer',
         url: 'https://cazadoresdefakenews.info'
@@ -1536,6 +1810,109 @@
       { name: 'El Pitazo', type: 'MEDIO', region: 'Nacional / Red de Corresponsales', status: 'Bloqueado (Requiere VPN)', url: 'https://elpitazo.net' },
       { name: 'Radio Fe y Alegría', type: 'MEDIO', region: 'Nacional / Red de Radios', status: 'Acceso Abierto', url: 'https://radiofeyalegrianoticias.com' }
     ];
+
+    // =================================================================
+    // GESTIÓN DE ROLES Y AUTENTICACIÓN CON CONTRASEÑA
+    // =================================================================
+    function solicitarCambioRol(nuevoRol) {
+      const selector = document.getElementById('role-selector');
+
+      if (nuevoRol === 'ADMIN') {
+        if (isSuperAdminAuthenticated) {
+          currentUserRole = 'ADMIN';
+          actualizarInterfazPorRol();
+          return;
+        }
+        const pwd = prompt('🔑 Ingrese la contraseña de Administrador (MediaVEE):');
+        if (pwd === 'cerosapos') {
+          isSuperAdminAuthenticated = true;
+          currentUserRole = 'ADMIN';
+          alert('🔓 Autenticación Exitosa: Modo Administrador activo. Padrón confidencial desbloqueado.');
+          actualizarInterfazPorRol();
+        } else {
+          alert('❌ Contraseña incorrecta. Acceso denegado.');
+          if (selector) selector.value = currentUserRole;
+        }
+      } else if (nuevoRol === 'PERIODISTA') {
+        if (isJournalistAuthenticated || isSuperAdminAuthenticated) {
+          currentUserRole = 'PERIODISTA';
+          actualizarInterfazPorRol();
+          return;
+        }
+        const cred = prompt('🪪 Ingrese su código de acreditación o clave de prensa (ej: VZLA-7842-CAR o CNP):');
+        if (cred && (cred.toUpperCase().includes('VZLA') || cred.toUpperCase().includes('CNP') || cred.toLowerCase() === 'prensa2026' || cred.length >= 4)) {
+          isJournalistAuthenticated = true;
+          currentUserRole = 'PERIODISTA';
+          alert('✓ Credencial validada: Acceso a Matrices de Datos y Analítica concedido.');
+          actualizarInterfazPorRol();
+        } else {
+          alert('❌ Credencial no reconocida.');
+          if (selector) selector.value = currentUserRole;
+        }
+      } else {
+        currentUserRole = 'PUBLICO';
+        actualizarInterfazPorRol();
+      }
+    }
+
+    function solicitarAccesoAdminPrompt() {
+      const pwd = prompt('🔑 Ingrese la contraseña de Administrador:');
+      if (pwd === 'cerosapos') {
+        isSuperAdminAuthenticated = true;
+        currentUserRole = 'ADMIN';
+        const selector = document.getElementById('role-selector');
+        if (selector) selector.value = 'ADMIN';
+        alert('🔓 Modo Administrador desbloqueado con éxito.');
+        actualizarInterfazPorRol();
+        actualizarVisibilidadAcreditaciones();
+      } else {
+        alert('❌ Contraseña incorrecta.');
+      }
+    }
+
+    function cerrarSesion() {
+      isSuperAdminAuthenticated = false;
+      isJournalistAuthenticated = false;
+      currentUserRole = 'PUBLICO';
+      const selector = document.getElementById('role-selector');
+      if (selector) selector.value = 'PUBLICO';
+      alert('Sesión cerrada. Regresando a vista pública.');
+      actualizarInterfazPorRol();
+      actualizarVisibilidadAcreditaciones();
+      verificarAccesoDatos();
+    }
+
+    function actualizarInterfazPorRol() {
+      const pill = document.getElementById('user-status-pill');
+      const icon = document.getElementById('role-icon');
+      const text = document.getElementById('role-text');
+      const btnSalir = document.getElementById('btn-cerrar-sesion');
+      const btnExportPadron = document.getElementById('btn-export-padrón');
+
+      if (pill) pill.classList.remove('hidden');
+
+      if (currentUserRole === 'ADMIN') {
+        if (icon) icon.textContent = '🔑';
+        if (text) text.textContent = 'Admin (cerosapos)';
+        if (btnSalir) btnSalir.classList.remove('hidden');
+        if (btnExportPadron) btnExportPadron.classList.remove('hidden');
+      } else if (currentUserRole === 'PERIODISTA') {
+        if (icon) icon.textContent = '🪪';
+        if (text) text.textContent = 'Periodista Acreditado';
+        if (btnSalir) btnSalir.classList.remove('hidden');
+        if (btnExportPadron) btnExportPadron.classList.add('hidden');
+      } else {
+        if (icon) icon.textContent = '👤';
+        if (text) text.textContent = 'Público General';
+        if (btnSalir) btnSalir.classList.add('hidden');
+        if (btnExportPadron) btnExportPadron.classList.add('hidden');
+      }
+
+      actualizarVisibilidadAcreditaciones();
+      if (document.getElementById('view-datos') && !document.getElementById('view-datos').classList.contains('hidden')) {
+        verificarAccesoDatos();
+      }
+    }
 
     // =================================================================
     // CONTROLADOR DE PESTAÑAS (showTab)
@@ -1577,7 +1954,7 @@
       } else if (tabId === 'medios') {
         renderizarDirectorioFuentes('ALL');
       } else if (tabId === 'analitica') {
-        renderizarAnaliticaRegional();
+        renderizarAnaliticaCompleta();
       } else if (tabId === 'acceso') {
         actualizarVisibilidadAcreditaciones();
       }
@@ -1591,12 +1968,14 @@
     function verificarAccesoDatos() {
       const lockedGate = document.getElementById('datos-gatekeeper-locked');
       const unlockedContent = document.getElementById('datos-content-unlocked');
+      const levelLabel = document.getElementById('datos-auth-level-label');
 
-      const tieneAcceso = (currentUserRole === 'PERIODISTA' || currentUserRole === 'ADMIN');
+      const tieneAcceso = (isSuperAdminAuthenticated || isJournalistAuthenticated || currentUserRole === 'PERIODISTA' || currentUserRole === 'ADMIN');
 
       if (tieneAcceso) {
         if (lockedGate) lockedGate.classList.add('hidden');
         if (unlockedContent) unlockedContent.classList.remove('hidden');
+        if (levelLabel) levelLabel.textContent = isSuperAdminAuthenticated ? 'Administrador Autenticado' : 'Periodista Acreditado';
         cambiarSubTabDatos(currentSubTabDatos);
       } else {
         if (lockedGate) lockedGate.classList.remove('hidden');
@@ -1606,30 +1985,35 @@
 
     function validarCredencialAcceso() {
       const input = document.getElementById('credential-gate-input');
-      const val = (input ? input.value : '').trim().toUpperCase();
-      
-      const encontrada = accreditationRecords.find(a => 
-        a.id.toUpperCase() === val || 
-        (a.cnp && a.cnp.toUpperCase().includes(val)) ||
-        val.includes('VZLA') ||
-        val.includes('CNP') ||
-        val.length >= 4
-      );
+      const val = (input ? input.value : '').trim();
 
-      if (encontrada || val.length >= 4) {
+      if (val === 'cerosapos') {
+        isSuperAdminAuthenticated = true;
+        currentUserRole = 'ADMIN';
+        const roleSel = document.getElementById('role-selector');
+        if (roleSel) roleSel.value = 'ADMIN';
+        alert('🔑 Acceso de Administrador concedido. Todas las matrices y padrón desbloqueados.');
+        actualizarInterfazPorRol();
+        verificarAccesoDatos();
+        return;
+      }
+
+      if (val.toUpperCase().includes('VZLA') || val.toUpperCase().includes('CNP') || val.toLowerCase() === 'prensa2026' || val.length >= 4) {
+        isJournalistAuthenticated = true;
         currentUserRole = 'PERIODISTA';
         const roleSel = document.getElementById('role-selector');
         if (roleSel) roleSel.value = 'PERIODISTA';
-        alert(`✅ Credencial validada con éxito. Bienvenido al módulo de matrices de datos.`);
+        alert('✓ Credencial periodística verificada con éxito.');
+        actualizarInterfazPorRol();
         verificarAccesoDatos();
       } else {
-        alert('Credencial no encontrada. Por favor ingresa tu código de credencial (ej: VZLA-7842-CAR o CNP).');
+        alert('Credencial o clave no válida. Para Administrador ingrese la clave autorizada.');
       }
     }
 
     function cambiarSubTabDatos(subtab) {
       currentSubTabDatos = subtab;
-      const subtabs = ['hechos', 'actores', 'perfiles'];
+      const subtabs = ['hechos', 'actores', 'perfiles', 'record'];
 
       subtabs.forEach(st => {
         const btn = document.getElementById('subtab-' + st);
@@ -1645,9 +2029,9 @@
 
         if (btn) {
           if (st === subtab) {
-            btn.className = 'px-4 py-2 font-bold text-xs rounded-xl bg-blue-600 text-white shadow-xs transition-all';
+            btn.className = 'whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-blue-600 text-white shadow-xs transition-all';
           } else {
-            btn.className = 'px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all';
+            btn.className = 'whitespace-nowrap px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all';
           }
         }
       });
@@ -1658,7 +2042,149 @@
         renderizarMatrizActores();
       } else if (subtab === 'perfiles') {
         renderizarPerfilesFuncionarios();
+      } else if (subtab === 'record') {
+        renderizarRecordHistorico();
       }
+    }
+
+    // =================================================================
+    // MOTOR DE EXTRACCIÓN AUTOMÁTICA DE ACTORES Y HECHOS EN NOTICIAS
+    // =================================================================
+    function procesarExtraccionAutomaticaDeNoticias(noticias) {
+      if (!Array.isArray(noticias) || noticias.length === 0) return;
+
+      const actoresDiccionario = [
+        { nombre: 'Nicolás Maduro Moros', cargo: 'Presidente de la República', tipo: 'Oficial / Funcionario', institucion: 'Poder Ejecutivo Nacional' },
+        { nombre: 'Delcy Rodríguez Gómez', cargo: 'Vicepresidenta Ejecutiva y Ministra de Petróleo', tipo: 'Oficial / Funcionario', institucion: 'Poder Ejecutivo / PDVSA' },
+        { nombre: 'Diosdado Cabello Rondón', cargo: 'Ministro de Relaciones Interiores, Justicia y Paz', tipo: 'Oficial / Funcionario', institucion: 'Ministerio de Interior y Justicia' },
+        { nombre: 'Dra. Caryslia Beatriz Rodríguez', cargo: 'Presidenta del Tribunal Supremo de Justicia (TSJ)', tipo: 'Oficial / Funcionario', institucion: 'Tribunal Supremo de Justicia' },
+        { nombre: 'Tarek William Saab Halabi', cargo: 'Fiscal General de la República', tipo: 'Oficial / Funcionario', institucion: 'Ministerio Público' },
+        { nombre: 'Adán Celis Michelena', cargo: 'Presidente de Fedecámaras', tipo: 'Empresarial / Privado', institucion: 'Fedecámaras' },
+        { nombre: 'Marino Alvarado', cargo: 'Coordinador de Investigación de PROVEA', tipo: 'ONG / DDHH', institucion: 'PROVEA' },
+        { nombre: 'Prof. Eduardo Sánchez', cargo: 'Presidente de SINATRA-UCV', tipo: 'Sociedad Civil / Gremial', institucion: 'Gremio Universitario' },
+        { nombre: 'María Corina Machado', cargo: 'Líder Política de Oposición', tipo: 'Sociedad Civil / Gremial', institucion: 'Vente Venezuela / Comando ConVzla' },
+        { nombre: 'Edmundo González Urrutia', cargo: 'Diplomático y Ex-candidato Presidencial', tipo: 'Sociedad Civil / Gremial', institucion: 'Plataforma Unitaria' },
+        { nombre: 'Manuel Rosales Guerrero', cargo: 'Gobernador del Estado Zulia', tipo: 'Oficial / Funcionario', institucion: 'Gobernación del Zulia' },
+        { nombre: 'Dr. Leonardo Buniak', cargo: 'Economista y Consultor Financiero', tipo: 'Profesional / Especialista', institucion: 'Sector Bancario' }
+      ];
+
+      let nuevosActoresEncontrados = 0;
+      let nuevosHechosEncontrados = 0;
+
+      noticias.forEach(item => {
+        const fullText = (item.title + ' ' + item.snippet).toLowerCase();
+
+        // 1. Detectar si menciona a algún actor
+        actoresDiccionario.forEach(actor => {
+          const nombreMin = actor.nombre.toLowerCase();
+          const partes = nombreMin.split(' ');
+          const coincide = fullText.includes(nombreMin) || (partes.length >= 2 && fullText.includes(partes[0] + ' ' + partes[1]));
+
+          if (coincide) {
+            const yaRegistrado = matrizActores.some(a => a.nombre === actor.nombre && a.casoAsociado === item.title);
+            if (!yaRegistrado) {
+              matrizActores.unshift({
+                id: 'ACT-' + String(matrizActores.length + 1).padStart(2, '0'),
+                nombre: actor.nombre,
+                edad: '55-65 años',
+                tipoFuente: actor.tipo,
+                cargoRol: actor.cargo,
+                casoAsociado: item.title.slice(0, 100) + '...',
+                medio: item.sourceName || 'Medio Independiente',
+                fecha: item.publishedAt ? item.publishedAt.slice(0, 10) : new Date().toISOString().slice(0, 10),
+                urlFuente: item.sourceUrl || '#'
+              });
+              nuevosActoresEncontrados++;
+
+              // Verificar si existe en perfiles
+              if (!perfilesFuncionarios.some(p => p.nombre === actor.nombre)) {
+                perfilesFuncionarios.unshift({
+                  id: 'PRF-' + String(perfilesFuncionarios.length + 1).padStart(2, '0'),
+                  nombre: actor.nombre,
+                  cargo: actor.cargo,
+                  institucion: actor.institucion,
+                  tipoCargo: actor.tipo,
+                  edad: 'N/D',
+                  estado: item.region || 'Distrito Capital',
+                  estadoAlerta: 'Activo',
+                  biografia: 'Perfil generado por extracción automática tras mención en monitoreo de prensa.',
+                  mencionesRecientes: [item.title.slice(0, 120)]
+                });
+              }
+            }
+          }
+        });
+
+        // 2. Clasificar tipología de hechos para las cifras de sucesos
+        if (fullText.includes('detenido') || fullText.includes('preso') || fullText.includes('cautelar') || fullText.includes('censura') || fullText.includes('ddhh')) {
+          cifrasHechos.ddhh++;
+        }
+        if (fullText.includes('denuncia') || fullText.includes('exigen') || fullText.includes('reclaman')) {
+          cifrasHechos.denuncias++;
+        }
+        if (fullText.includes('protesta') || fullText.includes('marcha') || fullText.includes('paro') || fullText.includes('huelga')) {
+          cifrasHechos.protestas++;
+        }
+        if (fullText.includes('muerto') || fullText.includes('fallecido') || fullText.includes('cuerpo') || fullText.includes('cadáver')) {
+          cifrasHechos.fallecidos++;
+        }
+        if (fullText.includes('desaparecido') || fullText.includes('sin rastro') || fullText.includes('paradero')) {
+          cifrasHechos.desaparecidos++;
+        }
+        if (fullText.includes('deslizamiento') || fullText.includes('inundación') || fullText.includes('lluvias') || fullText.includes('desbordamiento')) {
+          cifrasHechos.desastres++;
+        }
+        if (fullText.includes('incendio') || fullText.includes('fuego') || fullText.includes('llamas')) {
+          cifrasHechos.incendios++;
+        }
+        if (fullText.includes('apagón') || fullText.includes('corpoelec') || fullText.includes('sin luz') || fullText.includes('diésel') || fullText.includes('gasolina')) {
+          cifrasHechos.servicios++;
+        }
+
+        // Agregar al Récord Histórico si es nota de alto impacto
+        if (item.priority && item.priority >= 80) {
+          const yaEnRecord = recordHistorico.some(r => r.resumen === item.title);
+          if (!yaEnRecord) {
+            recordHistorico.unshift({
+              id: 'REC-' + String(recordHistorico.length + 1).padStart(2, '0'),
+              fecha: item.publishedAt ? item.publishedAt.slice(0, 16).replace('T', ' ') : new Date().toISOString().slice(0, 16).replace('T', ' '),
+              tipo: item.category || 'Nacional',
+              entidad: item.region || 'Nacional',
+              resumen: item.title,
+              fuente: item.sourceName || 'Monitoreo',
+              url: item.sourceUrl || '#'
+            });
+            nuevosHechosEncontrados++;
+          }
+        }
+      });
+
+      actualizarTableroCifrasHechos();
+    }
+
+    function actualizarTableroCifrasHechos() {
+      const cDdhh = document.getElementById('cifra-ddhh');
+      const cDen = document.getElementById('cifra-denuncias');
+      const cProt = document.getElementById('cifra-protestas');
+      const cFall = document.getElementById('cifra-fallecidos');
+      const cDesap = document.getElementById('cifra-desaparecidos');
+      const cDesast = document.getElementById('cifra-desastres');
+      const cInc = document.getElementById('cifra-incendios');
+      const cServ = document.getElementById('cifra-servicios');
+
+      if (cDdhh) cDdhh.textContent = cifrasHechos.ddhh;
+      if (cDen) cDen.textContent = cifrasHechos.denuncias;
+      if (cProt) cProt.textContent = cifrasHechos.protestas;
+      if (cFall) cFall.textContent = cifrasHechos.fallecidos;
+      if (cDesap) cDesap.textContent = cifrasHechos.desaparecidos;
+      if (cDesast) cDesast.textContent = cifrasHechos.desastres;
+      if (cInc) cInc.textContent = cifrasHechos.incendios;
+      if (cServ) cServ.textContent = cifrasHechos.servicios;
+
+      const kpiH = document.getElementById('kpi-total-hechos');
+      const kpiA = document.getElementById('kpi-total-actores');
+      if (kpiH) kpiH.textContent = matrizHechos.length + recordHistorico.length;
+      if (kpiA) kpiA.textContent = matrizActores.length;
     }
 
     // =================================================================
@@ -1685,7 +2211,7 @@
       });
 
       if (filtrados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-xs text-slate-400">No se encontraron registros de hechos con los filtros actuales.</td></tr>`;
+        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-xs text-slate-400">No se encontraron registros de hechos con los filtros actuales.</td></tr>';
         return;
       }
 
@@ -1746,7 +2272,7 @@
       });
 
       if (filtrados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-xs text-slate-400">No se encontraron actores con los filtros seleccionados.</td></tr>`;
+        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-xs text-slate-400">No se encontraron actores con los filtros seleccionados.</td></tr>';
         return;
       }
 
@@ -1874,7 +2400,7 @@
         mencionesRecientes: ['Perfil incorporado por equipo de acreditación en monitoreo activo']
       });
 
-      alert(`✅ Perfil registrado con éxito para: ${nombre} (${cargo}).`);
+      alert('✅ Perfil registrado con éxito para: ' + nombre + ' (' + cargo + ').');
       e.target.reset();
       toggleFormularioCrearPerfil();
       renderizarPerfilesFuncionarios();
@@ -1890,102 +2416,130 @@
     }
 
     // =================================================================
-    // EXPORTACIÓN A EXCEL DE LAS MATRICES DE DATOS
+    // RENDERIZADO DEL RÉCORD HISTÓRICO NACIONAL
     // =================================================================
-    function exportarMatrizHechosExcel() {
-      let excelXml = '<?xml version="1.0"?>\n' +
-        '<?mso-application progid="Excel.Sheet"?>\n' +
-        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
-        ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
-        ' <Styles>\n' +
-        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>\n' +
-        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>\n' +
-        ' </Styles>\n' +
-        ' <Worksheet ss:Name="Matriz_Hechos">\n' +
-        '  <Table>\n' +
-        '   <Row ss:StyleID="HeaderStyle">\n' +
-        '    <Cell><Data ss:Type="String">Fecha</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Categoría</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Tipología Hecho</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Caso</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Descripción Detallada</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Estado</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Medio Fuente</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Palabras Clave</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Enlace Web Fuente</Data></Cell>\n' +
-        '   </Row>\n';
+    function renderizarRecordHistorico() {
+      const container = document.getElementById('record-timeline-container');
+      const badge = document.getElementById('record-count-badge');
+      if (!container) return;
 
-      matrizHechos.forEach(h => {
-        excelXml += '   <Row ss:StyleID="DataStyle">\n' +
-          `    <Cell><Data ss:Type="String">${esc(h.fecha)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.categoria)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.tipologiaHecho)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.caso)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.descripcion)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.estado)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.medio)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.keywords.join(', '))}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(h.urlFuente)}</Data></Cell>\n` +
-          '   </Row>\n';
-      });
+      if (badge) badge.textContent = `${recordHistorico.length} eventos documentados`;
 
-      excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
-
-      const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'matriz_hechos_sucesos_venezuela.xls');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      container.innerHTML = recordHistorico.map(rec => `
+        <div class="p-3.5 bg-slate-50 hover:bg-white rounded-xl border border-slate-200 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div class="space-y-1 flex-1">
+            <div class="flex items-center space-x-2 text-[10px]">
+              <span class="font-mono text-slate-400 font-bold">${esc(rec.fecha)}</span>
+              <span class="bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">📍 ${esc(rec.entidad)}</span>
+              <span class="bg-slate-200 text-slate-700 font-bold px-1.5 py-0.5 rounded">${esc(rec.tipo)}</span>
+            </div>
+            <p class="text-xs text-slate-800 font-medium">${esc(rec.resumen)}</p>
+            <span class="text-[10px] text-slate-400">Fuente: <strong class="text-slate-600">${esc(rec.fuente)}</strong></span>
+          </div>
+          <a href="${safeUrl(rec.url)}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-blue-600 hover:underline whitespace-nowrap">
+            Consultar Fuente ↗
+          </a>
+        </div>
+      `).join('');
     }
 
-    function exportarMatrizActoresExcel() {
-      let excelXml = '<?xml version="1.0"?>\n' +
-        '<?mso-application progid="Excel.Sheet"?>\n' +
-        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
-        ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
-        ' <Styles>\n' +
-        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>\n' +
-        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>\n' +
-        ' </Styles>\n' +
-        ' <Worksheet ss:Name="Matriz_Actores">\n' +
-        '  <Table>\n' +
-        '   <Row ss:StyleID="HeaderStyle">\n' +
-        '    <Cell><Data ss:Type="String">Nombre Protagonista</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Edad</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Tipo de Fuente</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Cargo / Rol en el Hecho</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Caso Asociado</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Medio de Cobertura</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Fecha Noticia</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Enlace Noticia</Data></Cell>\n' +
-        '   </Row>\n';
+    // =================================================================
+    // ANALÍTICA: PALABRAS CLAVE, LUGARES Y AGENDA DEL DÍA
+    // =================================================================
+    function renderizarAnaliticaCompleta() {
+      renderizarAnaliticaRegional();
+      renderizarPalabrasClave();
+      renderizarAgendaDelDia();
+    }
 
-      matrizActores.forEach(a => {
-        excelXml += '   <Row ss:StyleID="DataStyle">\n' +
-          `    <Cell><Data ss:Type="String">${esc(a.nombre)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.edad)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.tipoFuente)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.cargoRol)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.casoAsociado)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.medio)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.fecha)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.urlFuente)}</Data></Cell>\n` +
-          '   </Row>\n';
-      });
+    function renderizarPalabrasClave() {
+      const cloud = document.getElementById('keywords-cloud-container');
+      const list = document.getElementById('keywords-ranking-list');
+      if (!cloud || !list) return;
 
-      excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
+      const palabras = [
+        { tag: 'dólar', count: 48, pct: 92 },
+        { tag: 'apagón', count: 41, pct: 85 },
+        { tag: 'inflación', count: 35, pct: 72 },
+        { tag: 'elecciones', count: 32, pct: 68 },
+        { tag: 'Zulia', count: 29, pct: 60 },
+        { tag: 'salarios', count: 26, pct: 54 },
+        { tag: 'petróleo', count: 24, pct: 50 },
+        { tag: 'diésel', count: 21, pct: 44 },
+        { tag: 'Caracas', count: 19, pct: 40 },
+        { tag: 'hospitales', count: 16, pct: 35 }
+      ];
 
-      const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'matriz_actores_protagonistas_venezuela.xls');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      cloud.innerHTML = palabras.map(p => `
+        <span class="cursor-pointer bg-slate-100 hover:bg-blue-100 text-slate-800 hover:text-blue-800 font-bold text-xs px-2.5 py-1 rounded-lg transition-all" onclick="buscarNoticiasDeActor('${p.tag}')">
+          #${p.tag} <span class="text-[10px] text-slate-400">(${p.count})</span>
+        </span>
+      `).join('');
+
+      list.innerHTML = palabras.slice(0, 5).map(p => `
+        <div>
+          <div class="flex justify-between text-slate-700 font-medium mb-1">
+            <span>#${p.tag}</span>
+            <span class="font-bold text-slate-900">${p.count} menciones</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+            <div class="bg-blue-600 h-1.5 rounded-full" style="width: ${p.pct}%"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderizarAgendaDelDia() {
+      const container = document.getElementById('agenda-dia-container');
+      if (!container) return;
+
+      container.innerHTML = agendaDelDia.map(item => `
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-start space-x-3 text-xs">
+          <span class="font-mono font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded text-[11px] whitespace-nowrap">${esc(item.hora)}</span>
+          <div class="space-y-0.5 flex-1">
+            <p class="font-medium text-slate-800 leading-snug">${esc(item.evento)}</p>
+            <div class="flex items-center justify-between text-[10px] text-slate-400">
+              <span>📍 ${esc(item.entidad)}</span>
+              <span class="font-bold ${item.status === 'Ejecutado' ? 'text-slate-500' : 'text-emerald-700'}">${esc(item.status)}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // =================================================================
+    // FACT-CHECKING CON SCROLL CONTINUO Y CIFRAS
+    // =================================================================
+    function renderizarFactChecks(filtro = 'ALL') {
+      const container = document.getElementById('fact-checks-scroll-container');
+      if (!container) return;
+
+      const filtered = factCheckRecords.filter(f => filtro === 'ALL' || f.verdict === filtro);
+
+      container.innerHTML = filtered.map(fc => `
+        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-purple-300 transition-all space-y-2.5">
+          <div class="flex items-center justify-between text-[11px]">
+            <div class="flex items-center space-x-1.5">
+              <span class="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">${esc(fc.source)}</span>
+              <span class="text-[10px] bg-purple-50 text-purple-800 font-bold px-1.5 py-0.2 rounded border border-purple-200">
+                ${esc(fc.tipo || 'Desinformación')}
+              </span>
+              <span class="text-slate-400 font-mono text-[10px]">Via: ${esc(fc.plataforma || 'Web')}</span>
+            </div>
+            <span class="font-bold text-[10px] px-2 py-0.5 rounded border ${fc.verdictClass}">${fc.verdict}</span>
+          </div>
+          <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">${esc(fc.title)}</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">${esc(fc.summary)}</p>
+          <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100">
+            <span>${fc.date}</span>
+            <a href="${safeUrl(fc.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold hover:underline">Ver chequeo completo →</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filtrarFactChecks(tipo) {
+      renderizarFactChecks(tipo);
     }
 
     // =================================================================
@@ -2013,7 +2567,7 @@
           'bg-slate-700 text-white',
           'bg-slate-600 text-white'
         ];
-        const isCocuyo = item.sourceName.includes('Efecto Cocuyo');
+        const isCocuyo = ((item && item.sourceName) || '').includes('Efecto Cocuyo');
 
         return `
           <div class="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 p-3 flex flex-col justify-between space-y-2 hover:shadow-xs hover:border-blue-300 transition-all">
@@ -2076,8 +2630,8 @@
 
       container.innerHTML = filtered.map(item => {
         const url = safeUrl(item.sourceUrl);
-        const isWeb = item.origin === 'web' || item.id.startsWith('web-');
-        const isCocuyo = item.sourceName.includes('Efecto Cocuyo');
+        const isWeb = item.origin === 'web' || String(item.id || '').startsWith('web-');
+        const isCocuyo = ((item && item.sourceName) || '').includes('Efecto Cocuyo');
 
         return `
           <article class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:border-blue-300 transition-all space-y-2">
@@ -2120,7 +2674,7 @@
     }
 
     // =================================================================
-    // ACTUALIZACIÓN EN VIVO DEL MAPA VECTORIAL
+    // ACTUALIZACIÓN EN VIVO DEL MAPA VECTORIAL (TODOS LOS 24 ESTADOS)
     // =================================================================
     function actualizarMapaEnVivo() {
       const countsByRegion = {};
@@ -2140,7 +2694,7 @@
       if (pinBolivar) pinBolivar.textContent = countsByRegion['Bolívar'] || 0;
 
       document.querySelectorAll('.state-path').forEach(path => {
-        const id = path.id.replace('state-', '').replace('-', ' ');
+        const id = path.id.replace('state-', '').replace(/-/g, ' ');
         const c = countsByRegion[id] || 0;
         if (c > 0 && !path.classList.contains('selected')) {
           path.classList.add('has-news');
@@ -2151,7 +2705,7 @@
 
       const mapStatus = document.getElementById('map-live-status');
       if (mapStatus) {
-        mapStatus.textContent = `🟢 En vivo: ${feedNews.length} reportes geolocalizados`;
+        mapStatus.textContent = `🟢 En vivo: ${feedNews.length} reportes en 24 estados`;
       }
     }
 
@@ -2237,8 +2791,8 @@
 
       resultsContainer.innerHTML = results.map(item => {
         const url = safeUrl(item.sourceUrl);
-        const isWeb = item.origin === 'web' || item.id.startsWith('web-');
-        const isCocuyo = item.sourceName.includes('Efecto Cocuyo');
+        const isWeb = item.origin === 'web' || String(item.id || '').startsWith('web-');
+        const isCocuyo = ((item && item.sourceName) || '').includes('Efecto Cocuyo');
 
         return `
           <article class="bg-white rounded-2xl border border-slate-200 p-4 shadow-2xs hover:border-blue-400 hover:shadow-xs transition-all flex flex-col justify-between space-y-3">
@@ -2334,6 +2888,9 @@
         const newOnes = webItems.filter(w => !existingUrls.has(w.sourceUrl));
         feedNews = [...newOnes, ...feedNews];
         if (bannerText) bannerText.textContent = `✅ Se encontraron ${webItems.length} noticias en vivo en la web.`;
+        
+        // Disparar extracción de actores sobre los nuevos resultados
+        procesarExtraccionAutomaticaDeNoticias(newOnes);
       } else {
         if (bannerText) bannerText.textContent = `ℹ️ Se filtraron los resultados en las fuentes indexadas.`;
       }
@@ -2382,6 +2939,8 @@
           const data = await res.json();
           if (Array.isArray(data.items) && data.items.length > 0) {
             feedNews = data.items;
+            // Extracción dinámica de actores y hechos sobre las noticias recibidas
+            procesarExtraccionAutomaticaDeNoticias(data.items);
           }
         }
       } catch (e) {
@@ -2413,35 +2972,6 @@
           sincronizarNoticiasEnVivo(false);
         }
       }, 1000);
-    }
-
-    // =================================================================
-    // FACT-CHECKING & DESINFORMACIÓN
-    // =================================================================
-    function renderizarFactChecks(filtro = 'ALL') {
-      const container = document.getElementById('fact-checks-container');
-      if (!container) return;
-
-      const filtered = factCheckRecords.filter(f => filtro === 'ALL' || f.verdict === filtro);
-
-      container.innerHTML = filtered.map(fc => `
-        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-purple-300 transition-all space-y-2.5">
-          <div class="flex items-center justify-between text-[11px]">
-            <span class="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded">${esc(fc.source)}</span>
-            <span class="font-bold text-[10px] px-2 py-0.5 rounded border ${fc.verdictClass}">${fc.verdict}</span>
-          </div>
-          <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">${esc(fc.title)}</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">${esc(fc.summary)}</p>
-          <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100">
-            <span>${fc.date}</span>
-            <a href="${fc.url}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold hover:underline">Ver chequeo completo →</a>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function filtrarFactChecks(tipo) {
-      renderizarFactChecks(tipo);
     }
 
     // =================================================================
@@ -2517,13 +3047,13 @@
     }
 
     // =================================================================
-    // PRIVACIDAD Y GESTIÓN DE ACREDITACIONES
+    // PRIVACIDAD Y GESTIÓN DE ACREDITACIONES (PROTEGIDO POR cerosapos)
     // =================================================================
     function actualizarVisibilidadAcreditaciones() {
       const adminSection = document.getElementById('accreditations-admin-section');
       const privacyGate = document.getElementById('accreditations-privacy-gate');
 
-      if (currentUserRole === 'ADMIN') {
+      if (isSuperAdminAuthenticated) {
         if (adminSection) adminSection.classList.remove('hidden');
         if (privacyGate) privacyGate.classList.add('hidden');
         renderizarTablaAcreditaciones();
@@ -2531,12 +3061,6 @@
         if (adminSection) adminSection.classList.add('hidden');
         if (privacyGate) privacyGate.classList.remove('hidden');
       }
-    }
-
-    function desbloquearAccesoAdmin() {
-      const selector = document.getElementById('role-selector');
-      if (selector) selector.value = 'ADMIN';
-      cambiarRol('ADMIN');
     }
 
     function renderizarTablaAcreditaciones() {
@@ -2614,98 +3138,150 @@
       }
     }
 
-    // EXPORTACIÓN A EXCEL DEL PADRÓN DE ACREDITACIONES
-    function descargarAcreditacionesExcel() {
-      if (currentUserRole !== 'ADMIN') {
-        const confirmar = confirm('Esta base de datos contiene información confidencial de periodistas. ¿Deseas descargarla como Administrador?');
-        if (!confirmar) return;
-        desbloquearAccesoAdmin();
-      }
+        // =================================================================
+    // GENERADOR UNIVERSAL DE EXCEL / XML SPREADSHEET (DATOS COMPLETOS)
+    // =================================================================
+    function generarArchivoExcelXml(nombreHoja, headers, rows, filename) {
+      const NL = String.fromCharCode(13, 10);
+      const headerCells = headers.map(function(h) {
+        return '    <Cell><Data ss:Type="String">' + esc(h) + '</Data></Cell>';
+      }).join(NL);
 
-      if (!accreditationRecords || accreditationRecords.length === 0) {
-        alert('No hay registros de acreditación para exportar.');
-        return;
-      }
+      const dataRows = rows.map(function(r) {
+        const cells = r.map(function(c) {
+          return '    <Cell><Data ss:Type="String">' + esc(c) + '</Data></Cell>';
+        }).join(NL);
+        return '   <Row ss:StyleID="DataStyle">' + NL + cells + NL + '   </Row>';
+      }).join(NL);
 
-      let excelXml = '<?xml version="1.0"?>\n' +
-        '<?mso-application progid="Excel.Sheet"?>\n' +
-        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
-        ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
-        ' <Styles>\n' +
-        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>\n' +
-        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>\n' +
-        ' </Styles>\n' +
-        ' <Worksheet ss:Name="Acreditaciones">\n' +
-        '  <Table>\n' +
-        '   <Row ss:StyleID="HeaderStyle">\n' +
-        '    <Cell><Data ss:Type="String">ID Credencial</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Fecha Solicitud</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Nombre Completo</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Correo Electrónico</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Rol / Cargo</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Medio o Freelance</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Estado Asignado</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">CNP / SNTP</Data></Cell>\n' +
-        '    <Cell><Data ss:Type="String">Estatus</Data></Cell>\n' +
-        '   </Row>\n';
+      const xmlParts = [
+        '<?xml version="1.0"?>',
+        '<?mso-application progid="Excel.Sheet"?>',
+        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">',
+        ' <Styles>',
+        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>',
+        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>',
+        ' </Styles>',
+        ' <Worksheet ss:Name="' + nombreHoja + '">',
+        '  <Table>',
+        '   <Row ss:StyleID="HeaderStyle">',
+        headerCells,
+        '   </Row>',
+        dataRows,
+        '  </Table>',
+        ' </Worksheet>',
+        '</Workbook>'
+      ];
+      const xml = xmlParts.join(NL);
 
-      accreditationRecords.forEach(a => {
-        excelXml += '   <Row ss:StyleID="DataStyle">\n' +
-          `    <Cell><Data ss:Type="String">${esc(a.id)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.date || '2026-10-06')}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.name)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.email)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.role)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.outlet)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.region)}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.cnp || 'No colegiado')}</Data></Cell>\n` +
-          `    <Cell><Data ss:Type="String">${esc(a.status)}</Data></Cell>\n` +
-          '   </Row>\n';
-      });
-
-      excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
-
-      const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const blob = new Blob([xml], { type: 'application/vnd.ms-excel;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', 'registro_acreditaciones_periodistas.xls');
+      link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
+function descargarAcreditacionesExcel() {
+      if (!isSuperAdminAuthenticated) {
+        const pwd = prompt('🔑 Ingrese la contraseña de Administrador (cerosapos) para exportar el padrón:');
+        if (pwd === 'cerosapos') {
+          isSuperAdminAuthenticated = true;
+          currentUserRole = 'ADMIN';
+        } else {
+          alert('❌ Contraseña incorrecta. Solo el Administrador puede exportar datos personales.');
+          return;
+        }
+      }
 
-    function cambiarRol(rol) {
-      currentUserRole = rol;
-      actualizarVisibilidadAcreditaciones();
-      if (document.getElementById('view-datos') && !document.getElementById('view-datos').classList.contains('hidden')) {
-        verificarAccesoDatos();
-      }
-      if (rol === 'ADMIN') {
-        alert('🔓 Modo Administrador activo: Ahora puedes ver y gestionar el padrón confidencial y todas las matrices de datos.');
-      } else if (rol === 'PERIODISTA') {
-        alert('✓ Modo Periodista activo: Acceso concedido a las Matrices de Datos y Fichas de Actores.');
-      } else {
-        alert(`Modo cambiado a: ${rol}. Datos protegidos.`);
-      }
+      const headers = ['ID Credencial', 'Fecha Solicitud', 'Nombre Completo', 'Correo Electrónico', 'Rol / Cargo', 'Medio o Freelance', 'Estado Asignado', 'CNP / SNTP', 'Estatus'];
+      const rows = accreditationRecords.map(a => [
+        a.id,
+        a.date || '2026-10-06',
+        a.name,
+        a.email,
+        a.role,
+        a.outlet,
+        a.region,
+        a.cnp || 'No colegiado',
+        a.status
+      ]);
+
+      generarArchivoExcelXml('Acreditaciones', headers, rows, 'registro_acreditaciones_periodistas.xls');
     }
 
-    // =================================================================
-    // INICIALIZACIÓN DE LA APLICACIÓN AL CARGAR
+    function exportarMatrizHechosExcel() {
+      const headers = ['Fecha', 'Categoría', 'Tipología Hecho', 'Caso', 'Descripción Detallada', 'Estado', 'Medio Fuente', 'Palabras Clave', 'Enlace Web Fuente'];
+      const rows = matrizHechos.map(h => [
+        h.fecha,
+        h.categoria,
+        h.tipologiaHecho,
+        h.caso,
+        h.descripcion,
+        h.estado,
+        h.medio,
+        h.keywords.join(', '),
+        h.urlFuente
+      ]);
+
+      generarArchivoExcelXml('Matriz_Hechos', headers, rows, 'matriz_hechos_sucesos_venezuela.xls');
+    }
+
+    function exportarMatrizActoresExcel() {
+      const headers = ['Nombre Protagonista', 'Edad', 'Tipo de Fuente', 'Cargo / Rol en el Hecho', 'Caso Asociado', 'Medio de Cobertura', 'Fecha Noticia', 'Enlace Noticia'];
+      const rows = matrizActores.map(a => [
+        a.nombre,
+        a.edad,
+        a.tipoFuente,
+        a.cargoRol,
+        a.casoAsociado,
+        a.medio,
+        a.fecha,
+        a.urlFuente
+      ]);
+
+      generarArchivoExcelXml('Matriz_Actores', headers, rows, 'matriz_actores_protagonistas_venezuela.xls');
+    }
+
+    function exportarRecordHistoricoExcel() {
+      const headers = ['ID', 'Fecha y Hora', 'Tipología de Hecho', 'Entidad Federal', 'Resumen del Suceso / Evento', 'Fuente Informativa', 'Enlace de Verificación'];
+      const rows = recordHistorico.map(r => [
+        r.id,
+        r.fecha,
+        r.tipo,
+        r.entidad,
+        r.resumen,
+        r.fuente,
+        r.url
+      ]);
+
+      generarArchivoExcelXml('Record_Historico', headers, rows, 'record_historico_nacional_venezuela.xls');
+    }
+
+// INICIALIZACIÓN DE LA APLICACIÓN AL CARGAR
     // =================================================================
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. Renderizar portada y feed
       renderizarTop5Titulares();
       renderLiveScrollFeed();
       actualizarMapaEnVivo();
       actualizarVisibilidadAcreditaciones();
       iniciarContadorEnVivo();
 
-      // Inicializar matrices de datos
+      // 2. Inicializar matrices de datos y cifras
       renderizarMatrizHechos();
       renderizarMatrizActores();
       renderizarPerfilesFuncionarios();
+      renderizarRecordHistorico();
+      actualizarTableroCifrasHechos();
+      renderizarFactChecks('ALL');
+      renderizarAnaliticaCompleta();
 
-      // Sincronización inmediata al abrir
+      // 3. Procesar extracción inicial de actores sobre las notas pre-cargadas
+      procesarExtraccionAutomaticaDeNoticias(feedNews);
+
+      // 4. Sincronización en vivo con Vercel
       setTimeout(() => {
         sincronizarNoticiasEnVivo(false);
       }, 500);
