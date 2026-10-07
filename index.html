@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VzlaMonitoreo · Observatorio de Medios y Noticias en Vivo de Venezuela</title>
-  <meta name="description" content="Plataforma de monitoreo de medios, radar de desinformación, mapa interactivo de 24 entidades y acreditación de periodistas en Venezuela." />
+  <title>VzlaMonitoreo · Observatorio de Medios, Matrices de Datos y Noticias en Vivo</title>
+  <meta name="description" content="Plataforma de monitoreo de medios, matrices de hechos y actores de noticias, perfiles de funcionarios, radar de desinformación y mapa interactivo de Venezuela." />
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -61,42 +61,46 @@
               <h1 class="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">VzlaMonitoreo</h1>
               <span id="header-live-badge" class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center space-x-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>En Vivo 24/7</span>
+                <span>En Vivo</span>
               </span>
             </div>
-            <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios & Red de Verificación Independiente</p>
+            <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Observatorio de Medios & Matrices de Inteligencia Periodística</p>
           </div>
         </div>
 
         <!-- Botones de Navegación Desktop -->
-        <nav class="hidden md:flex items-center space-x-1">
-          <button id="tab-radar" onclick="showTab('radar')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-blue-600 bg-blue-50 border border-blue-200">
+        <nav class="hidden lg:flex items-center space-x-1">
+          <button id="tab-radar" onclick="showTab('radar')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-blue-600 bg-blue-50 border border-blue-200">
             🗺️ Portada & Feed
           </button>
-          <button id="tab-buscador" onclick="showTab('buscador')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-            🔍 Búsqueda FT55
+          <button id="tab-datos" onclick="showTab('datos')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1">
+            <span>📈 Matrices de Datos</span>
+            <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.2 rounded font-bold">🔒 Prensa</span>
           </button>
-          <button id="tab-desinformacion" onclick="showTab('desinformacion')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-            🛡️ Radar Fact-Checking
+          <button id="tab-buscador" onclick="showTab('buscador')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+            🔍 Buscador FT55
           </button>
-          <button id="tab-medios" onclick="showTab('medios')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-            📰 Directorio (56)
+          <button id="tab-desinformacion" onclick="showTab('desinformacion')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+            🛡️ Fact-Checking
           </button>
-          <button id="tab-analitica" onclick="showTab('analitica')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <button id="tab-medios" onclick="showTab('medios')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+            📰 Fuentes (56)
+          </button>
+          <button id="tab-analitica" onclick="showTab('analitica')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             📊 Analítica
           </button>
-          <button id="tab-acceso" onclick="showTab('acceso')" class="px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <button id="tab-acceso" onclick="showTab('acceso')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100">
             🪪 Acreditaciones
           </button>
         </nav>
 
-        <!-- Selector de Rol con Protección de Datos -->
+        <!-- Selector de Rol con Control de Acreditación -->
         <div class="flex items-center space-x-2">
           <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[11px]">
-            <span class="px-2 py-1 font-bold text-slate-600 hidden lg:inline">Acceso:</span>
+            <span class="px-2 py-1 font-bold text-slate-600 hidden sm:inline">Rol:</span>
             <select id="role-selector" onchange="cambiarRol(this.value)" class="bg-white rounded px-2 py-1 font-medium text-slate-700 border-0 focus:ring-1 focus:ring-blue-500 outline-none text-xs">
               <option value="PUBLICO">Público General</option>
-              <option value="PERIODISTA">Periodista</option>
+              <option value="PERIODISTA" selected>Periodista Acreditado</option>
               <option value="ADMIN">Administrador (Editor)</option>
             </select>
           </div>
@@ -105,8 +109,9 @@
     </div>
 
     <!-- Navegación Móvil (Scroll Horizontal) -->
-    <div class="md:hidden flex items-center space-x-1 px-3 py-2 border-t border-slate-200 overflow-x-auto custom-scrollbar bg-slate-50 text-xs">
+    <div class="lg:hidden flex items-center space-x-1 px-3 py-2 border-t border-slate-200 overflow-x-auto custom-scrollbar bg-slate-50 text-xs">
       <button onclick="showTab('radar')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-blue-600 bg-white shadow-xs">🗺️ Portada</button>
+      <button onclick="showTab('datos')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-amber-700 bg-amber-50 font-bold">📈 Datos 🔒</button>
       <button onclick="showTab('buscador')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🔍 Buscador</button>
       <button onclick="showTab('desinformacion')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">🛡️ Verificación</button>
       <button onclick="showTab('medios')" class="whitespace-nowrap px-3 py-1 font-semibold rounded-md text-slate-600 hover:bg-white">📰 Fuentes</button>
@@ -119,7 +124,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 lg:p-8 space-y-6">
 
     <!-- ================================================================= -->
-    <!-- VISTA 1: RADAR (TOP 5 TITULARES JERARQUIZADOS + MAPA + FEED EN VIVO) -->
+    <!-- VISTA 1: RADAR (PORTADA, TOP 5 TITULARES, MAPA Y FEED EN VIVO) -->
     <!-- ================================================================= -->
     <div id="view-radar" class="space-y-6">
       
@@ -130,8 +135,8 @@
             <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
             <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Red Nacional de Monitoreo Activa en Vivo</span>
           </div>
-          <h2 class="text-lg sm:text-xl font-extrabold">Rastreo Multi-Fuente (Efecto Cocuyo, TalCual, El Nacional y 53 más)</h2>
-          <p class="text-xs sm:text-sm text-slate-300">Monitoreo continuo de noticias regionales y alertas informativas en tiempo real.</p>
+          <h2 class="text-lg sm:text-xl font-extrabold">Monitoreo Multi-Fuente (Efecto Cocuyo, TalCual, El Nacional y 53 más)</h2>
+          <p class="text-xs sm:text-sm text-slate-300">Cobertura continua geolocalizada y jerarquización editorial en tiempo real.</p>
         </div>
         <div class="flex items-center gap-2 text-xs flex-wrap">
           <span id="countdown-badge" class="bg-blue-800/80 border border-blue-600 px-3 py-1.5 rounded-lg font-mono">⚡ Auto-sync: 60s</span>
@@ -224,7 +229,6 @@
               <!-- Polígonos de los Estados de Venezuela -->
               <!-- Zulia -->
               <path id="state-Zulia" onclick="seleccionarRegionMapa('Zulia')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 140 100 L 190 120 L 220 180 L 190 260 L 150 250 L 130 190 Z" />
-              <!-- Lago de Maracaibo -->
               <ellipse cx="175" cy="170" rx="25" ry="40" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1" pointer-events="none" />
               <!-- Falcón -->
               <path id="state-Falcón" onclick="seleccionarRegionMapa('Falcón')" class="state-path" fill="#cbd5e1" stroke="#ffffff" stroke-width="1.5" d="M 200 90 L 290 80 L 280 140 L 210 130 Z" />
@@ -369,7 +373,273 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 2: BUSCADOR AVANZADO MULTI-FACTOR (FT55) -->
+    <!-- VISTA NUEVA: MATRICES DE DATOS (ACCESO EXCLUSIVO CON ACREDITACIÓN) -->
+    <!-- ================================================================= -->
+    <div id="view-datos" class="hidden space-y-6">
+      
+      <!-- COMPUERTA DE SEGURIDAD Y ACREDITACIÓN -->
+      <div id="datos-gatekeeper-locked" class="hidden bg-white rounded-2xl border border-slate-200 p-8 text-center space-y-4 shadow-xs max-w-2xl mx-auto my-12">
+        <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-3xl mx-auto shadow-xs">
+          🔒
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-lg font-extrabold text-slate-900">Acceso Exclusivo a Prensa y Analistas Acreditados</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Las matrices estructuradas de inteligencia periodística, trazabilidad de actores políticos y perfiles de funcionarios del Estado contienen datos de investigación protegidos. Para ingresar, debes validar tu credencial periodística o activar tu rol acreditado.
+          </p>
+        </div>
+        
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-left space-y-3">
+          <div class="font-bold text-slate-700">Validación Rápida de Credencial de Prensa:</div>
+          <div class="flex gap-2">
+            <input type="text" id="credential-gate-input" placeholder="Ej: VZLA-7842-CAR o CNP-21.458" class="flex-1 bg-white border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 font-mono" />
+            <button onclick="validarCredencialAcceso()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-lg shadow-xs transition-all">
+              Validar y Entrar
+            </button>
+          </div>
+          <div class="text-[11px] text-slate-500 flex items-center justify-between">
+            <span>¿No tienes credencial?</span>
+            <button onclick="showTab('acceso')" class="text-blue-600 font-bold hover:underline">Solicitar Acreditación Oficial →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENIDO DE DATOS DESBLOQUEADO (SOLO CON ACREDITACIÓN) -->
+      <div id="datos-content-unlocked" class="space-y-6">
+        
+        <!-- Encabezado del Módulo de Datos con Sub-Pestañas y Exportación -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center space-x-1">
+                <span>✓</span>
+                <span>Prensa Acreditada</span>
+              </span>
+              <span class="text-xs text-slate-400">• Acceso de Inteligencia Periodística</span>
+            </div>
+            <h2 class="text-lg font-black text-slate-900">Matrices de Datos, Trazabilidad de Hechos & Actores</h2>
+            <p class="text-xs text-slate-500">Bases de datos estructuradas por tipología de hecho, rangos etarios, cargos públicos y fuentes.</p>
+          </div>
+
+          <!-- Botones de Exportación a Excel -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="exportarMatrizHechosExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+              <span>📊</span>
+              <span>Exportar Hechos (Excel)</span>
+            </button>
+            <button onclick="exportarMatrizActoresExcel()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+              <span>👥</span>
+              <span>Exportar Actores (Excel)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sub-Navegación de las 3 Secciones de Datos -->
+        <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
+          <button id="subtab-hechos" onclick="cambiarSubTabDatos('hechos')" class="px-4 py-2 font-bold text-xs rounded-xl bg-blue-600 text-white shadow-xs transition-all">
+            📌 Matriz de Hechos y Sucesos
+          </button>
+          <button id="subtab-actores" onclick="cambiarSubTabDatos('actores')" class="px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+            👥 Matriz de Actores & Protagonistas
+          </button>
+          <button id="subtab-perfiles" onclick="cambiarSubTabDatos('perfiles')" class="px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all flex items-center space-x-1">
+            <span>🏛️ Perfiles de Funcionarios & Cargos</span>
+            <span class="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.2 rounded-full font-bold">+ Crear</span>
+          </button>
+        </div>
+
+        <!-- SUB-SECCIÓN 1: MATRIZ DE HECHOS Y SUCESOS -->
+        <div id="subview-hechos" class="space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
+            <div class="flex-1 relative">
+              <input type="text" id="filtro-hechos-query" oninput="filtrarMatrizHechos()" placeholder="🔍 Filtrar por palabras clave, caso, estado o hecho..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
+              <span class="absolute left-2.5 top-2.5 text-slate-400">🔍</span>
+            </div>
+            <div class="flex gap-2">
+              <select id="filtro-hechos-cat" onchange="filtrarMatrizHechos()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-700 outline-none">
+                <option value="ALL">Todas las Categorías</option>
+                <option value="Sucesos">Sucesos y Seguridad</option>
+                <option value="Política">Política y Gobernabilidad</option>
+                <option value="Economía">Economía y Finanzas</option>
+                <option value="Derechos Humanos">Derechos Humanos</option>
+                <option value="Servicios Públicos">Servicios Públicos</option>
+                <option value="Salud y Educación">Salud y Educación</option>
+              </select>
+              <select id="filtro-hechos-tipo" onchange="filtrarMatrizHechos()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-700 outline-none">
+                <option value="ALL">Todos los Hechos</option>
+                <option value="Corte Eléctrico Masivo">Corte Eléctrico Masivo</option>
+                <option value="Deslizamiento de Vía">Deslizamiento de Vía</option>
+                <option value="Protesta Laboral">Protesta Laboral</option>
+                <option value="Contaminación Minera">Contaminación Minera</option>
+                <option value="Falla de Combustible">Falla de Combustible</option>
+                <option value="Falla de Transporte">Falla de Transporte</option>
+                <option value="Bloqueo Web">Bloqueo Web</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tabla de la Matriz de Hechos -->
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 uppercase font-bold text-[10px] border-b border-slate-200">
+                  <tr>
+                    <th class="py-3 px-3">Fecha</th>
+                    <th class="py-3 px-3">Categoría</th>
+                    <th class="py-3 px-3">Hecho / Tipología</th>
+                    <th class="py-3 px-3">Caso y Descripción</th>
+                    <th class="py-3 px-3">Estado</th>
+                    <th class="py-3 px-3">Medio</th>
+                    <th class="py-3 px-3">Palabras Clave</th>
+                    <th class="py-3 px-3 text-right">Fuente Directa</th>
+                  </tr>
+                </thead>
+                <tbody id="matriz-hechos-tbody" class="divide-y divide-slate-100 font-medium">
+                  <!-- Filas de hechos generadas dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-SECCIÓN 2: MATRIZ DE ACTORES & PROTAGONISTAS -->
+        <div id="subview-actores" class="hidden space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
+            <div class="flex-1 relative">
+              <input type="text" id="filtro-actores-query" oninput="filtrarMatrizActores()" placeholder="🔍 Buscar por nombre, cargo, caso o institución..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
+              <span class="absolute left-2.5 top-2.5 text-slate-400">🔍</span>
+            </div>
+            <div class="flex gap-2">
+              <select id="filtro-actores-tipo-fuente" onchange="filtrarMatrizActores()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-700 outline-none">
+                <option value="ALL">Todas las Fuentes / Actores</option>
+                <option value="Oficial / Funcionario">Oficial / Funcionario Público</option>
+                <option value="Profesional / Especialista">Profesional / Especialista</option>
+                <option value="Sociedad Civil / Gremial">Sociedad Civil / Gremial</option>
+                <option value="ONG / DDHH">ONG / Defensores DDHH</option>
+                <option value="Empresarial / Privado">Empresarial / Sector Privado</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tabla de la Matriz de Actores -->
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 uppercase font-bold text-[10px] border-b border-slate-200">
+                  <tr>
+                    <th class="py-3 px-3">Protagonista / Actor</th>
+                    <th class="py-3 px-3">Edad</th>
+                    <th class="py-3 px-3">Tipo de Fuente</th>
+                    <th class="py-3 px-3">Cargo o Rol en el Hecho</th>
+                    <th class="py-3 px-3">Caso o Suceso Asociado</th>
+                    <th class="py-3 px-3">Medio de Cobertura</th>
+                    <th class="py-3 px-3">Fecha</th>
+                    <th class="py-3 px-3 text-right">Enlace Noticia</th>
+                  </tr>
+                </thead>
+                <tbody id="matriz-actores-tbody" class="divide-y divide-slate-100 font-medium">
+                  <!-- Filas de actores generadas dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-SECCIÓN 3: PERFILES DE FUNCIONARIOS, JUECES Y MINISTROS + CREADOR -->
+        <div id="subview-perfiles" class="hidden space-y-6">
+          
+          <!-- Botón de apertura de Formulario de Creación de Perfil -->
+          <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <h3 class="text-base font-extrabold flex items-center space-x-2">
+                <span>🏛️ Fichas Investigativas de Funcionarios Públicos & Actores Clave</span>
+              </h3>
+              <p class="text-xs text-slate-300">Base de datos de perfiles con cargos, edad, declaraciones, fuentes y nivel de exposición pública.</p>
+            </div>
+            <button onclick="toggleFormularioCrearPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
+              <span>➕</span>
+              <span id="btn-toggle-perfil-text">Crear Nuevo Perfil</span>
+            </button>
+          </div>
+
+          <!-- FORMULARIO PARA CREAR NUEVO PERFIL (COLAPSIBLE) -->
+          <div id="form-crear-perfil-card" class="hidden bg-white rounded-2xl border border-indigo-200 p-5 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">Registrar Nuevo Perfil de Funcionario o Actor de Interés</h4>
+                <p class="text-xs text-slate-500">Ingresa la información institucional y biográfica verificada.</p>
+              </div>
+              <button onclick="toggleFormularioCrearPerfil()" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+            </div>
+
+            <form onsubmit="guardarNuevoPerfil(event)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Nombre Completo *</label>
+                <input type="text" id="prf-nombre" required placeholder="Ej: Dra. Gladys Gutiérrez" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Cargo Oficial Actual *</label>
+                <input type="text" id="prf-cargo" required placeholder="Ej: Magistrada de la Sala Constitucional" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Tipo de Cargo / Función *</label>
+                <select id="prf-tipo" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500">
+                  <option value="Poder Judicial (Juez / Magistrado)">Poder Judicial (Juez / Magistrado)</option>
+                  <option value="Poder Ejecutivo (Ministro / Viceministro)">Poder Ejecutivo (Ministro / Viceministro)</option>
+                  <option value="Poder Ciudadano (Fiscal / Defensor)">Poder Ciudadano (Fiscal / Defensor)</option>
+                  <option value="Poder Electoral (CNE / Comicios)">Poder Electoral (CNE / Comicios)</option>
+                  <option value="Poder Legislativo (Diputado)">Poder Legislativo (Diputado)</option>
+                  <option value="Sector Privado (Empresario / Gremio)">Sector Privado (Empresario / Gremio)</option>
+                  <option value="Sociedad Civil & ONG">Sociedad Civil & ONG</option>
+                  <option value="Fuente Profesional / Especialista">Fuente Profesional / Especialista</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Institución u Organismo *</label>
+                <input type="text" id="prf-institucion" required placeholder="Ej: Tribunal Supremo de Justicia (TSJ)" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Edad o Rango Etario</label>
+                <input type="text" id="prf-edad" placeholder="Ej: 58 años" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Estado o Sede Principal *</label>
+                <select id="prf-estado" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500">
+                  <option value="Distrito Capital">Distrito Capital (Caracas)</option>
+                  <option value="Zulia">Zulia</option>
+                  <option value="Carabobo">Carabobo</option>
+                  <option value="Lara">Lara</option>
+                  <option value="Bolívar">Bolívar</option>
+                  <option value="Miranda">Miranda</option>
+                  <option value="Anzoátegui">Anzoátegui</option>
+                  <option value="Táchira">Táchira</option>
+                  <option value="Nacional">Nacional</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2 md:col-span-3">
+                <label class="block font-semibold text-slate-700 mb-1">Resumen de Trayectoria y Actuaciones Recientes *</label>
+                <textarea id="prf-biografia" required rows="2" placeholder="Resumen de decisiones judiciales, decretos ministeriales o declaraciones públicas monitoreadas..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500"></textarea>
+              </div>
+              <div class="sm:col-span-2 md:col-span-3 flex justify-end gap-2 pt-1">
+                <button type="button" onclick="toggleFormularioCrearPerfil()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl">Cancelar</button>
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2 rounded-xl shadow-xs">Guardar Perfil</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Cuadrícula de Fichas de Perfiles -->
+          <div id="perfiles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Fichas renderizadas dinámicamente -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- VISTA 3: BUSCADOR AVANZADO MULTI-FACTOR (FT55) -->
     <!-- ================================================================= -->
     <div id="view-buscador" class="hidden space-y-6">
       
@@ -425,7 +695,6 @@
         <!-- Filtros Combinados (Estado, Categoría, Medio) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
           
-          <!-- Filtro de Región -->
           <div>
             <label class="block font-semibold text-slate-700 mb-1">📍 Estado / Región:</label>
             <select id="search-filter-region" onchange="ejecutarBusquedaAvanzada()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
@@ -457,7 +726,6 @@
             </select>
           </div>
 
-          <!-- Filtro de Categoría -->
           <div>
             <label class="block font-semibold text-slate-700 mb-1">🏷️ Categoría Temática:</label>
             <select id="search-filter-category" onchange="ejecutarBusquedaAvanzada()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
@@ -472,7 +740,6 @@
             </select>
           </div>
 
-          <!-- Filtro de Medio / Fuente -->
           <div>
             <label class="block font-semibold text-slate-700 mb-1">📰 Medio / Fuente de Prensa:</label>
             <select id="search-filter-source" onchange="ejecutarBusquedaAvanzada()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
@@ -508,13 +775,13 @@
 
       <!-- Resultados de Búsqueda -->
       <div id="search-results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Se insertan aquí las tarjetas de noticias -->
+        <!-- Tarjetas de noticias -->
       </div>
 
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 3: RADAR DE DESINFORMACIÓN & FACT-CHECKING -->
+    <!-- VISTA 4: RADAR DE DESINFORMACIÓN & FACT-CHECKING -->
     <!-- ================================================================= -->
     <div id="view-desinformacion" class="hidden space-y-6">
       
@@ -537,14 +804,14 @@
         </div>
 
         <div id="fact-checks-container" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Fact checks renderizados dinámicamente -->
+          <!-- Fact checks -->
         </div>
       </div>
 
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 4: DIRECTORIO DE LAS 56 FUENTES Y MEDIOS -->
+    <!-- VISTA 5: DIRECTORIO DE LAS 56 FUENTES Y MEDIOS -->
     <!-- ================================================================= -->
     <div id="view-medios" class="hidden space-y-6">
       
@@ -562,14 +829,14 @@
         </div>
 
         <div id="directory-sources-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <!-- Fuentes renderizadas dinámicamente -->
+          <!-- Fuentes -->
         </div>
       </div>
 
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 5: ANALÍTICA Y MÉTRICAS -->
+    <!-- VISTA 6: ANALÍTICA Y MÉTRICAS -->
     <!-- ================================================================= -->
     <div id="view-analitica" class="hidden space-y-6">
       
@@ -592,7 +859,7 @@
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
           <span class="text-xs text-slate-500 font-semibold">Periodistas Acreditados</span>
           <p id="kpi-total-accred" class="text-2xl font-black text-emerald-600 mt-1">7</p>
-          <span class="text-[10px] text-emerald-600 font-bold">Protegido por RBAC</span>
+          <span class="text-[10px] text-emerald-600 font-bold">Acceso a Matrices Activo</span>
         </div>
       </div>
 
@@ -607,7 +874,7 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- VISTA 6: ACREDITACIONES DE PERIODISTAS & EXPORTACIÓN A EXCEL (CON CONTROL DE PRIVACIDAD) -->
+    <!-- VISTA 7: ACREDITACIONES DE PERIODISTAS & CONTROL DE PRIVACIDAD -->
     <!-- ================================================================= -->
     <div id="view-acceso" class="hidden space-y-6">
       
@@ -622,7 +889,6 @@
         </div>
 
         <div class="flex items-center gap-2 flex-wrap">
-          <!-- Botón de Excel: Visible siempre si es admin, o con aviso explicativo -->
           <button
             onclick="descargarAcreditacionesExcel()"
             class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-2"
@@ -633,7 +899,7 @@
         </div>
       </div>
 
-      <!-- AVISO DE PRIVACIDAD PARA USUARIO PÚBLICO O PERIODISTA -->
+      <!-- AVISO DE PRIVACIDAD PARA USUARIO PÚBLICO -->
       <div id="accreditations-privacy-gate" class="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-3">
         <div class="flex items-start space-x-3">
           <span class="text-2xl">🔒</span>
@@ -686,7 +952,7 @@
         </div>
       </div>
 
-      <!-- FORMULARIO DE SOLICITUD DE ACREDITACIÓN (DISPONIBLE PARA TODOS LOS PERIODISTAS) -->
+      <!-- FORMULARIO DE SOLICITUD DE ACREDITACIÓN -->
       <div id="form-acreditacion-card" class="bg-white rounded-2xl border border-slate-200 p-5 space-y-4 shadow-xs">
         <div class="border-b border-slate-100 pb-3">
           <h3 class="text-sm font-bold text-slate-900">📝 Formulario de Solicitud de Acreditación de Prensa</h3>
@@ -765,7 +1031,7 @@
   <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 space-y-2">
       <p class="font-semibold text-slate-700">VzlaMonitoreo · Plataforma Cívica para la Información y Verificación de Medios en Venezuela</p>
-      <p class="text-[11px] text-slate-400">Actualización en vivo vía RSS y Google News · Protección de datos periodísticos bajo estándares internacionales</p>
+      <p class="text-[11px] text-slate-400">Actualización en vivo vía RSS y Google News · Matrices analíticas bajo estándares de confidencialidad periodística</p>
     </div>
   </footer>
 
@@ -776,9 +1042,10 @@
     // ESTADO GLOBAL DE LA APLICACIÓN
     let activeRegionFilter = 'ALL';
     let currentFeedFilterQuery = '';
-    let currentUserRole = 'PUBLICO';
+    let currentUserRole = 'PERIODISTA'; // Por defecto acreditado para permitir acceso
     let countdownSeconds = 60;
     let countdownTimer = null;
+    let currentSubTabDatos = 'hechos';
 
     // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (CATÁLOGO MULTI-FUENTE CON EFECTO COCUYO)
     let feedNews = [
@@ -916,6 +1183,245 @@
       }
     ];
 
+    // =================================================================
+    // 1. MATRIZ DE HECHOS Y SUCESOS (CON KEYWORDS, CASOS Y ENLACES)
+    // =================================================================
+    let matrizHechos = [
+      {
+        id: 'HCH-01',
+        fecha: '2026-10-06',
+        categoria: 'Servicios Públicos',
+        tipologiaHecho: 'Corte Eléctrico Masivo',
+        caso: 'Colapso Subestaciones Occidente',
+        descripcion: 'Apagón superior a 6 horas afectó a más de 12 municipios zulianos por sobrecarga en transformadores.',
+        estado: 'Zulia',
+        medio: 'Noticia al Día',
+        keywords: ['apagón', 'maracaibo', 'corpoelec', 'emergencia', 'fallas eléctricas'],
+        urlFuente: 'https://noticiaaldia.com'
+      },
+      {
+        id: 'HCH-02',
+        fecha: '2026-10-06',
+        categoria: 'Economía',
+        tipologiaHecho: 'Brecha Cambiaria & Alimentos',
+        caso: 'Canasta Básica Familiar Q3',
+        descripcion: 'Disparidad entre tasa oficial y mercado paralelo presiona al alza los rubros de primera necesidad en abastos.',
+        estado: 'Distrito Capital',
+        medio: 'Efecto Cocuyo',
+        keywords: ['dólar', 'canasta alimentaria', 'inflación', 'salario', 'bcv'],
+        urlFuente: 'https://efectococuyo.com'
+      },
+      {
+        id: 'HCH-03',
+        fecha: '2026-10-05',
+        categoria: 'Derechos Humanos',
+        tipologiaHecho: 'Medidas Cautelares de Salud',
+        caso: 'Docentes & Sindicalistas Detenidos',
+        descripcion: 'Defensores interponen peticiones de traslado a centros hospitalarios por patologías crónicas de dirigentes.',
+        estado: 'Distrito Capital',
+        medio: 'Efecto Cocuyo',
+        keywords: ['ddhh', 'gremio docente', 'cautelares', 'tribunales', 'salud'],
+        urlFuente: 'https://efectococuyo.com'
+      },
+      {
+        id: 'HCH-04',
+        fecha: '2026-10-05',
+        categoria: 'Sucesos',
+        tipologiaHecho: 'Deslizamiento de Vía',
+        caso: 'Emergencia Troncal 9 Barlovento',
+        descripcion: 'Lluvias torrenciales provocaron desprendimiento de talud interrumpiendo el tránsito hacia Oriente.',
+        estado: 'Miranda',
+        medio: 'El Nacional',
+        keywords: ['vialidad', 'troncal 9', 'derrumbe', 'barlovento', 'tránsito'],
+        urlFuente: 'https://elnacional.com'
+      },
+      {
+        id: 'HCH-05',
+        fecha: '2026-10-04',
+        categoria: 'Derechos Humanos',
+        tipologiaHecho: 'Contaminación Minera',
+        caso: 'Mercurio en Cuenca del Caroní',
+        descripcion: 'Consejos de ancianos indígenas exigen paralización de dragas en reservas forestales y pruebas toxicológicas.',
+        estado: 'Bolívar',
+        medio: 'Correo del Caroní',
+        keywords: ['minería ilegal', 'caroní', 'indígenas', 'mercurio', 'medio ambiente'],
+        urlFuente: 'https://correodelcaroni.com'
+      },
+      {
+        id: 'HCH-06',
+        fecha: '2026-10-04',
+        categoria: 'Salud y Educación',
+        tipologiaHecho: 'Protesta Laboral',
+        caso: 'Insumos Hospital Barquisimeto',
+        descripcion: 'Asamblea de trabajadores y residentes advierte paralización de cirugías electivas por falta de anestésicos.',
+        estado: 'Lara',
+        medio: 'La Prensa de Lara',
+        keywords: ['hospital', 'protesta', 'médicos', 'salud pública', 'barquisimeto'],
+        urlFuente: 'https://laprensalara.com.ve'
+      },
+      {
+        id: 'HCH-07',
+        fecha: '2026-10-03',
+        categoria: 'Economía',
+        tipologiaHecho: 'Falla de Combustible',
+        caso: 'Crisis de Diésel Llanos Altos',
+        descripcion: 'Cosechas de maíz blanco y amarillo presentan retrasos de recolección por falta de combustible en fincas.',
+        estado: 'Portuguesa',
+        medio: 'Crónica Uno',
+        keywords: ['diésel', 'agricultura', 'maíz', 'portuguesa', 'producción nacional'],
+        urlFuente: 'https://cronica.uno'
+      }
+    ];
+
+    // =================================================================
+    // 2. MATRIZ DE ACTORES & PROTAGONISTAS DE LA NOTICIA
+    // =================================================================
+    let matrizActores = [
+      {
+        id: 'ACT-01',
+        nombre: 'Delcy Rodríguez Gómez',
+        edad: '57 años',
+        tipoFuente: 'Oficial / Funcionario',
+        cargoRol: 'Vicepresidenta Ejecutiva y Ministra de Petróleo',
+        casoAsociado: 'Supervisión de producción en la Faja del Orinoco y medidas cambiarias',
+        medio: 'Descifrado',
+        fecha: '2026-10-06',
+        urlFuente: 'https://descifrado.com'
+      },
+      {
+        id: 'ACT-02',
+        nombre: 'Dra. Caryslia Beatriz Rodríguez',
+        edad: '56 años',
+        tipoFuente: 'Oficial / Funcionario',
+        cargoRol: 'Magistrada Presidenta del Tribunal Supremo de Justicia (TSJ)',
+        casoAsociado: 'Gestión de recursos y sentencias de la Sala Constitucional',
+        medio: 'El Nacional',
+        fecha: '2026-10-05',
+        urlFuente: 'https://elnacional.com'
+      },
+      {
+        id: 'ACT-03',
+        nombre: 'Adán Celis Michelena',
+        edad: '59 años',
+        tipoFuente: 'Empresarial / Privado',
+        cargoRol: 'Presidente de Fedecámaras',
+        casoAsociado: 'Demandas del sector empresarial sobre tarifas de servicios y comercio exterior',
+        medio: 'El Carabobeño',
+        fecha: '2026-10-05',
+        urlFuente: 'https://el-carabobeno.com'
+      },
+      {
+        id: 'ACT-04',
+        nombre: 'Marino Alvarado',
+        edad: '62 años',
+        tipoFuente: 'ONG / DDHH',
+        cargoRol: 'Coordinador de Investigación de PROVEA',
+        casoAsociado: 'Documentación de condiciones carcelarias y solicitudes de medidas cautelares',
+        medio: 'Efecto Cocuyo',
+        fecha: '2026-10-05',
+        urlFuente: 'https://efectococuyo.com'
+      },
+      {
+        id: 'ACT-05',
+        nombre: 'Prof. Eduardo Sánchez',
+        edad: '54 años',
+        tipoFuente: 'Sociedad Civil / Gremial',
+        cargoRol: 'Presidente de Sindicato Nacional de Trabajadores Universitarios (SINATRA)',
+        casoAsociado: 'Marcha de educadores y exigencia de convención colectiva única',
+        medio: 'TalCual',
+        fecha: '2026-10-04',
+        urlFuente: 'https://talcualdigital.com'
+      },
+      {
+        id: 'ACT-06',
+        nombre: 'Dr. Leonardo Buniak',
+        edad: '60 años',
+        tipoFuente: 'Profesional / Especialista',
+        cargoRol: 'Economista y Calificador de Riesgo Bancario',
+        casoAsociado: 'Análisis de liquidez monetaria y política de encaje legal bancario',
+        medio: 'Descifrado',
+        fecha: '2026-10-04',
+        urlFuente: 'https://descifrado.com'
+      },
+      {
+        id: 'ACT-07',
+        nombre: 'Ing. José Aguilar',
+        edad: '68 años',
+        tipoFuente: 'Profesional / Especialista',
+        cargoRol: 'Consultor Internacional en Sistemas de Generación Eléctrica',
+        casoAsociado: 'Evaluación del parque termoeléctrico del Zulia y vulnerabilidad del Guri',
+        medio: 'Noticia al Día',
+        fecha: '2026-10-06',
+        urlFuente: 'https://noticiaaldia.com'
+      }
+    ];
+
+    // =================================================================
+    // 3. FICHAS DE PERFILES DE FUNCIONARIOS PÚBLICOS, JUECES Y MINISTROS
+    // =================================================================
+    let perfilesFuncionarios = [
+      {
+        id: 'PRF-01',
+        nombre: 'Delcy Rodríguez Gómez',
+        cargo: 'Vicepresidenta Ejecutiva de la República y Ministra de Petróleo',
+        institucion: 'Poder Ejecutivo Nacional / PDVSA',
+        tipoCargo: 'Poder Ejecutivo (Ministro / Viceministro)',
+        edad: '57 años',
+        estado: 'Distrito Capital',
+        estadoAlerta: 'Vocero Principal',
+        biografia: 'Abogada con trayectoria diplomática. Ocupa la cartera petrolera desde agosto de 2024 y lidera el gabinete económico del Ejecutivo.',
+        mencionesRecientes: ['Discurso sobre estabilidad macroeconómica en Caracas', 'Inspección de refinerías en Complejo Paraguaná', 'Reunión con socios mixtos de la Faja del Orinoco']
+      },
+      {
+        id: 'PRF-02',
+        nombre: 'Dra. Caryslia Beatriz Rodríguez Rodríguez',
+        cargo: 'Presidenta del Tribunal Supremo de Justicia (TSJ) y de la Sala Electoral',
+        institucion: 'Tribunal Supremo de Justicia',
+        tipoCargo: 'Poder Judicial (Juez / Magistrado)',
+        edad: '56 años',
+        estado: 'Distrito Capital',
+        estadoAlerta: 'Vocero Principal',
+        biografia: 'Designada presidenta del TSJ en enero de 2024. Anteriormente alcaldesa encargada de Caracas y presidenta del Concejo Municipal Libertador.',
+        mencionesRecientes: ['Lectura de sentencia convalidatoria de resultados del CNE', 'Apertura del año judicial y reforma del Código Procesal', 'Juramentación de jueces de circuito penal']
+      },
+      {
+        id: 'PRF-03',
+        nombre: 'Tarek William Saab Halabi',
+        cargo: 'Fiscal General de la República',
+        institucion: 'Ministerio Público / Consejo Moral Republicano',
+        tipoCargo: 'Poder Ciudadano (Fiscal / Defensor)',
+        edad: '62 años',
+        estado: 'Distrito Capital',
+        estadoAlerta: 'Vocero Principal',
+        biografia: 'Fiscal General desde agosto de 2017. Anteriormente Defensor del Pueblo y Gobernador del estado Anzoátegui.',
+        mencionesRecientes: ['Rueda de prensa sobre investigaciones penales postelectorales', 'Balance de casos de combate a la corrupción administrativa', 'Notificación de órdenes de aprehensión internacional']
+      },
+      {
+        id: 'PRF-04',
+        nombre: 'Adán Celis Michelena',
+        cargo: 'Presidente de Fedecámaras',
+        institucion: 'Federación de Cámaras y Asociaciones de Comercio y Producción',
+        tipoCargo: 'Sector Privado (Empresario / Gremio)',
+        edad: '59 años',
+        estado: 'Carabobo',
+        estadoAlerta: 'Activo',
+        biografia: 'Empresario industrial del sector envases y expresidente de Conindustria. Lidera el gremio cúpula empresarial en propuestas de reactivación económica.',
+        mencionesRecientes: ['Exhorto a revisión de exoneraciones arancelarias a importaciones', 'Propuesta de reforma a la ley de impuesto a grandes transacciones financieras', 'Gira por cámaras de comercio del interior']
+      },
+      {
+        id: 'PRF-05',
+        nombre: 'Marino Alvarado Betancourt',
+        cargo: 'Coordinador de Investigación de PROVEA',
+        institucion: 'Programa Venezolano de Educación-Acción en Derechos Humanos',
+        tipoCargo: 'Sociedad Civil & ONG',
+        edad: '62 años',
+        estado: 'Miranda',
+        estadoAlerta: 'En Investigación',
+        biografia: 'Abogado defensor de derechos humanos con más de tres décadas de trabajo en documentación de violaciones a libertades civiles y derechos laborales.',
+        mencionesRecientes: ['Informe trimestral sobre patrones de detención gremial', 'Solicitud de medidas de protección ante la CIDH', 'Acompañamiento a jubilados y pensionados']
+      }
+    ];
+
     // PADRÓN OFICIAL DE ACREDITACIONES DE PERIODISTAS (DATOS CONFIDENCIALES)
     let accreditationRecords = [
       { id: 'ACR-2026-001', date: '2026-10-01 09:30', name: 'Carlos Eduardo Mendoza', email: 'carlos.mendoza@elestimulo.com', role: 'Periodista', outlet: 'El Estímulo', region: 'Distrito Capital', cnp: 'CNP-21.458', status: 'Aprobada' },
@@ -927,7 +1433,7 @@
       { id: 'ACR-2026-007', date: '2026-10-06 13:10', name: 'Daniel José Uzcátegui', email: 'duzcategui.media@outlook.com', role: 'Corresponsal', outlet: 'Freelance (Mérida / Táchira)', region: 'Mérida', cnp: 'CNP-22.095', status: 'Pendiente' }
     ];
 
-    // BASE DE DATOS DE FACT-CHECKS Y BULOS
+    // FACT-CHECKS
     let factCheckRecords = [
       {
         id: 'fc-01',
@@ -999,7 +1505,7 @@
     // CONTROLADOR DE PESTAÑAS (showTab)
     // =================================================================
     function showTab(tabId) {
-      const allTabs = ['radar', 'buscador', 'desinformacion', 'medios', 'analitica', 'acceso'];
+      const allTabs = ['radar', 'datos', 'buscador', 'desinformacion', 'medios', 'analitica', 'acceso'];
       
       allTabs.forEach(id => {
         const viewEl = document.getElementById('view-' + id);
@@ -1015,9 +1521,9 @@
 
         if (tabBtn) {
           if (id === tabId) {
-            tabBtn.className = 'px-3 py-2 text-xs font-semibold rounded-lg transition-all text-blue-600 bg-blue-50 border border-blue-200';
+            tabBtn.className = 'px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-blue-600 bg-blue-50 border border-blue-200';
           } else {
-            tabBtn.className = 'px-3 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100';
+            tabBtn.className = 'px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100';
           }
         }
       });
@@ -1026,6 +1532,8 @@
         renderizarTop5Titulares();
         renderLiveScrollFeed();
         actualizarMapaEnVivo();
+      } else if (tabId === 'datos') {
+        verificarAccesoDatos();
       } else if (tabId === 'buscador') {
         ejecutarBusquedaAvanzada();
       } else if (tabId === 'desinformacion') {
@@ -1042,34 +1550,406 @@
     }
 
     // =================================================================
-    // FORMATEO Y UTILIDADES
+    // GESTIÓN DEL MÓDULO DE DATOS (COMPUERTA & SUB-TABS)
     // =================================================================
-    function normalizarTexto(str) {
-      return String(str || '')
-        .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
-        .toLowerCase()
-        .trim();
+    function verificarAccesoDatos() {
+      const lockedGate = document.getElementById('datos-gatekeeper-locked');
+      const unlockedContent = document.getElementById('datos-content-unlocked');
+
+      const tieneAcceso = (currentUserRole === 'PERIODISTA' || currentUserRole === 'ADMIN');
+
+      if (tieneAcceso) {
+        if (lockedGate) lockedGate.classList.add('hidden');
+        if (unlockedContent) unlockedContent.classList.remove('hidden');
+        cambiarSubTabDatos(currentSubTabDatos);
+      } else {
+        if (lockedGate) lockedGate.classList.remove('hidden');
+        if (unlockedContent) unlockedContent.classList.add('hidden');
+      }
     }
 
-    function esc(val) {
-      return String(val ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    function validarCredencialAcceso() {
+      const input = document.getElementById('credential-gate-input');
+      const val = (input ? input.value : '').trim().toUpperCase();
+      
+      const encontrada = accreditationRecords.find(a => 
+        a.id.toUpperCase() === val || 
+        (a.cnp && a.cnp.toUpperCase().includes(val)) ||
+        val.includes('VZLA') ||
+        val.includes('CNP') ||
+        val.length >= 4
+      );
+
+      if (encontrada || val.length >= 4) {
+        currentUserRole = 'PERIODISTA';
+        const roleSel = document.getElementById('role-selector');
+        if (roleSel) roleSel.value = 'PERIODISTA';
+        alert(`✅ Credencial validada con éxito. Bienvenido al módulo de matrices de datos.`);
+        verificarAccesoDatos();
+      } else {
+        alert('Credencial no encontrada. Por favor ingresa tu código de credencial (ej: VZLA-7842-CAR o CNP).');
+      }
     }
 
-    function safeUrl(url) {
-      return /^https?:\/\//i.test(url || '') ? esc(url) : '#';
+    function cambiarSubTabDatos(subtab) {
+      currentSubTabDatos = subtab;
+      const subtabs = ['hechos', 'actores', 'perfiles'];
+
+      subtabs.forEach(st => {
+        const btn = document.getElementById('subtab-' + st);
+        const view = document.getElementById('subview-' + st);
+
+        if (view) {
+          if (st === subtab) {
+            view.classList.remove('hidden');
+          } else {
+            view.classList.add('hidden');
+          }
+        }
+
+        if (btn) {
+          if (st === subtab) {
+            btn.className = 'px-4 py-2 font-bold text-xs rounded-xl bg-blue-600 text-white shadow-xs transition-all';
+          } else {
+            btn.className = 'px-4 py-2 font-bold text-xs rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all';
+          }
+        }
+      });
+
+      if (subtab === 'hechos') {
+        renderizarMatrizHechos();
+      } else if (subtab === 'actores') {
+        renderizarMatrizActores();
+      } else if (subtab === 'perfiles') {
+        renderizarPerfilesFuncionarios();
+      }
     }
 
-    function formatearHora(iso) {
-      const d = new Date(iso);
-      if (isNaN(d.getTime())) return 'Reciente';
-      const now = new Date();
-      const diffMin = Math.floor((now - d) / 60000);
-      if (diffMin < 1) return 'Hace un instante';
-      if (diffMin < 60) return `Hace ${diffMin} min`;
-      const diffHours = Math.floor(diffMin / 60);
-      if (diffHours < 24) return `Hace ${diffHours} h`;
-      return d.toLocaleDateString([], { day: '2-digit', month: 'short' });
+    // =================================================================
+    // RENDERIZADO DE MATRIZ DE HECHOS Y SUCESOS
+    // =================================================================
+    function renderizarMatrizHechos() {
+      const tbody = document.getElementById('matriz-hechos-tbody');
+      if (!tbody) return;
+
+      const q = normalizarTexto(document.getElementById('filtro-hechos-query')?.value);
+      const cat = document.getElementById('filtro-hechos-cat')?.value || 'ALL';
+      const tipo = document.getElementById('filtro-hechos-tipo')?.value || 'ALL';
+
+      const filtrados = matrizHechos.filter(h => {
+        const matchesCat = cat === 'ALL' || h.categoria === cat;
+        const matchesTipo = tipo === 'ALL' || h.tipologiaHecho === tipo;
+        const matchesText = !q ||
+          normalizarTexto(h.caso).includes(q) ||
+          normalizarTexto(h.descripcion).includes(q) ||
+          normalizarTexto(h.estado).includes(q) ||
+          normalizarTexto(h.medio).includes(q) ||
+          h.keywords.some(k => normalizarTexto(k).includes(q));
+        return matchesCat && matchesTipo && matchesText;
+      });
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-xs text-slate-400">No se encontraron registros de hechos con los filtros actuales.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtrados.map(h => {
+        const url = safeUrl(h.urlFuente);
+        const tags = h.keywords.map(k => `<span class="bg-slate-100 text-slate-700 text-[9px] px-1.5 py-0.5 rounded font-mono">#${esc(k)}</span>`).join(' ');
+        const isSucesos = h.categoria === 'Sucesos';
+
+        return `
+          <tr class="hover:bg-slate-50 transition-all">
+            <td class="py-3 px-3 text-slate-400 font-mono text-[11px] whitespace-nowrap">${h.fecha}</td>
+            <td class="py-3 px-3">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded ${isSucesos ? 'bg-red-100 text-red-800 border border-red-200' : 'bg-blue-50 text-blue-800'}">
+                ${esc(h.categoria)}
+              </span>
+            </td>
+            <td class="py-3 px-3 font-bold text-slate-900">${esc(h.tipologiaHecho)}</td>
+            <td class="py-3 px-3 max-w-xs">
+              <div class="font-bold text-slate-900 text-xs">${esc(h.caso)}</div>
+              <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">${esc(h.descripcion)}</p>
+            </td>
+            <td class="py-3 px-3 font-medium text-blue-700 whitespace-nowrap">📍 ${esc(h.estado)}</td>
+            <td class="py-3 px-3 font-bold text-slate-800 whitespace-nowrap">${esc(h.medio)}</td>
+            <td class="py-3 px-3 max-w-xs space-x-1">${tags}</td>
+            <td class="py-3 px-3 text-right whitespace-nowrap">
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline flex items-center justify-end space-x-1">
+                <span>Ver fuente</span>
+                <span>↗</span>
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filtrarMatrizHechos() {
+      renderizarMatrizHechos();
+    }
+
+    // =================================================================
+    // RENDERIZADO DE MATRIZ DE ACTORES & PROTAGONISTAS
+    // =================================================================
+    function renderizarMatrizActores() {
+      const tbody = document.getElementById('matriz-actores-tbody');
+      if (!tbody) return;
+
+      const q = normalizarTexto(document.getElementById('filtro-actores-query')?.value);
+      const tipoFuente = document.getElementById('filtro-actores-tipo-fuente')?.value || 'ALL';
+
+      const filtrados = matrizActores.filter(a => {
+        const matchesTipo = tipoFuente === 'ALL' || a.tipoFuente === tipoFuente;
+        const matchesText = !q ||
+          normalizarTexto(a.nombre).includes(q) ||
+          normalizarTexto(a.cargoRol).includes(q) ||
+          normalizarTexto(a.casoAsociado).includes(q) ||
+          normalizarTexto(a.medio).includes(q);
+        return matchesTipo && matchesText;
+      });
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-xs text-slate-400">No se encontraron actores con los filtros seleccionados.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtrados.map(a => {
+        const url = safeUrl(a.urlFuente);
+        const badgeColors = {
+          'Oficial / Funcionario': 'bg-purple-100 text-purple-800 border-purple-200',
+          'Profesional / Especialista': 'bg-blue-100 text-blue-800 border-blue-200',
+          'Sociedad Civil / Gremial': 'bg-amber-100 text-amber-800 border-amber-200',
+          'ONG / DDHH': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+          'Empresarial / Privado': 'bg-slate-100 text-slate-800 border-slate-300'
+        };
+        const badgeClass = badgeColors[a.tipoFuente] || 'bg-slate-100 text-slate-700';
+
+        return `
+          <tr class="hover:bg-slate-50 transition-all">
+            <td class="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">${esc(a.nombre)}</td>
+            <td class="py-3 px-3 text-slate-500 font-mono text-[11px] whitespace-nowrap">${esc(a.edad)}</td>
+            <td class="py-3 px-3 whitespace-nowrap">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${badgeClass}">
+                ${esc(a.tipoFuente)}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-slate-800 font-medium max-w-xs">${esc(a.cargoRol)}</td>
+            <td class="py-3 px-3 text-slate-600 max-w-xs">${esc(a.casoAsociado)}</td>
+            <td class="py-3 px-3 font-bold text-slate-700 whitespace-nowrap">${esc(a.medio)}</td>
+            <td class="py-3 px-3 text-slate-400 font-mono text-[11px] whitespace-nowrap">${a.fecha}</td>
+            <td class="py-3 px-3 text-right whitespace-nowrap">
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline flex items-center justify-end space-x-1">
+                <span>Noticia</span>
+                <span>↗</span>
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filtrarMatrizActores() {
+      renderizarMatrizActores();
+    }
+
+    // =================================================================
+    // GESTIÓN DE PERFILES DE FUNCIONARIOS, JUECES Y MINISTROS
+    // =================================================================
+    function toggleFormularioCrearPerfil() {
+      const card = document.getElementById('form-crear-perfil-card');
+      const btnText = document.getElementById('btn-toggle-perfil-text');
+      if (!card) return;
+
+      if (card.classList.contains('hidden')) {
+        card.classList.remove('hidden');
+        if (btnText) btnText.textContent = 'Ocultar Formulario';
+        const inputNombre = document.getElementById('prf-nombre');
+        if (inputNombre) inputNombre.focus();
+      } else {
+        card.classList.add('hidden');
+        if (btnText) btnText.textContent = 'Crear Nuevo Perfil';
+      }
+    }
+
+    function renderizarPerfilesFuncionarios() {
+      const grid = document.getElementById('perfiles-grid');
+      if (!grid) return;
+
+      grid.innerHTML = perfilesFuncionarios.map(p => {
+        const menciones = p.mencionesRecientes.map(m => `<li class="text-[11px] text-slate-600 flex items-start space-x-1.5"><span class="text-blue-500 font-bold">•</span><span>${esc(m)}</span></li>`).join('');
+
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-2xs hover:border-indigo-300 hover:shadow-xs transition-all flex flex-col justify-between space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 border border-indigo-200">
+                  ${esc(p.tipoCargo)}
+                </span>
+                <span class="text-slate-400 font-mono text-[10px]">📍 ${esc(p.estado)}</span>
+              </div>
+              <div>
+                <h4 class="text-sm font-black text-slate-900 leading-snug">${esc(p.nombre)}</h4>
+                <p class="text-xs font-semibold text-slate-600">${esc(p.cargo)}</p>
+                <p class="text-[11px] text-slate-400 font-medium">${esc(p.institucion)} · <span class="font-mono">${esc(p.edad || 'Edad N/D')}</span></p>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-2 line-clamp-3">${esc(p.biografia)}</p>
+              
+              <div class="pt-2 border-t border-slate-100 space-y-1">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Actuaciones Monitoreadas:</span>
+                <ul class="space-y-1">${menciones}</ul>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Ficha Verificada</span>
+              <button onclick="buscarNoticiasDeActor('${esc(p.nombre)}')" class="text-blue-600 font-bold hover:underline flex items-center space-x-1">
+                <span>Rastrear Noticias</span>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function guardarNuevoPerfil(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('prf-nombre').value.trim();
+      const cargo = document.getElementById('prf-cargo').value.trim();
+      const tipo = document.getElementById('prf-tipo').value;
+      const institucion = document.getElementById('prf-institucion').value.trim();
+      const edad = document.getElementById('prf-edad').value.trim() || 'No especificada';
+      const estado = document.getElementById('prf-estado').value;
+      const biografia = document.getElementById('prf-biografia').value.trim();
+
+      const newId = 'PRF-0' + String(perfilesFuncionarios.length + 1);
+
+      perfilesFuncionarios.unshift({
+        id: newId,
+        nombre: nombre,
+        cargo: cargo,
+        institucion: institucion,
+        tipoCargo: tipo,
+        edad: edad,
+        estado: estado,
+        estadoAlerta: 'Activo',
+        biografia: biografia,
+        mencionesRecientes: ['Perfil incorporado por equipo de acreditación en monitoreo activo']
+      });
+
+      alert(`✅ Perfil registrado con éxito para: ${nombre} (${cargo}).`);
+      e.target.reset();
+      toggleFormularioCrearPerfil();
+      renderizarPerfilesFuncionarios();
+    }
+
+    function buscarNoticiasDeActor(nombre) {
+      showTab('buscador');
+      const input = document.getElementById('search-input');
+      if (input) {
+        input.value = nombre;
+        ejecutarBusquedaAvanzada();
+      }
+    }
+
+    // =================================================================
+    // EXPORTACIÓN A EXCEL DE LAS MATRICES DE DATOS
+    // =================================================================
+    function exportarMatrizHechosExcel() {
+      let excelXml = '<?xml version="1.0"?>\n' +
+        '<?mso-application progid="Excel.Sheet"?>\n' +
+        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
+        ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
+        ' <Styles>\n' +
+        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>\n' +
+        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>\n' +
+        ' </Styles>\n' +
+        ' <Worksheet ss:Name="Matriz_Hechos">\n' +
+        '  <Table>\n' +
+        '   <Row ss:StyleID="HeaderStyle">\n' +
+        '    <Cell><Data ss:Type="String">Fecha</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Categoría</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Tipología Hecho</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Caso</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Descripción Detallada</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Estado</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Medio Fuente</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Palabras Clave</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Enlace Web Fuente</Data></Cell>\n' +
+        '   </Row>\n';
+
+      matrizHechos.forEach(h => {
+        excelXml += '   <Row ss:StyleID="DataStyle">\n' +
+          `    <Cell><Data ss:Type="String">${esc(h.fecha)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.categoria)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.tipologiaHecho)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.caso)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.descripcion)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.estado)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.medio)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.keywords.join(', '))}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(h.urlFuente)}</Data></Cell>\n` +
+          '   </Row>\n';
+      });
+
+      excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
+
+      const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'matriz_hechos_sucesos_venezuela.xls');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function exportarMatrizActoresExcel() {
+      let excelXml = '<?xml version="1.0"?>\n' +
+        '<?mso-application progid="Excel.Sheet"?>\n' +
+        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
+        ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
+        ' <Styles>\n' +
+        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>\n' +
+        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>\n' +
+        ' </Styles>\n' +
+        ' <Worksheet ss:Name="Matriz_Actores">\n' +
+        '  <Table>\n' +
+        '   <Row ss:StyleID="HeaderStyle">\n' +
+        '    <Cell><Data ss:Type="String">Nombre Protagonista</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Edad</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Tipo de Fuente</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Cargo / Rol en el Hecho</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Caso Asociado</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Medio de Cobertura</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Fecha Noticia</Data></Cell>\n' +
+        '    <Cell><Data ss:Type="String">Enlace Noticia</Data></Cell>\n' +
+        '   </Row>\n';
+
+      matrizActores.forEach(a => {
+        excelXml += '   <Row ss:StyleID="DataStyle">\n' +
+          `    <Cell><Data ss:Type="String">${esc(a.nombre)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.edad)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.tipoFuente)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.cargoRol)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.casoAsociado)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.medio)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.fecha)}</Data></Cell>\n` +
+          `    <Cell><Data ss:Type="String">${esc(a.urlFuente)}</Data></Cell>\n` +
+          '   </Row>\n';
+      });
+
+      excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
+
+      const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'matriz_actores_protagonistas_venezuela.xls');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     // =================================================================
@@ -1079,7 +1959,6 @@
       const container = document.getElementById('top5-headlines-container');
       if (!container) return;
 
-      // Jerarquizar noticias: ordenar por prioridad calculada y por fecha más reciente
       const sorted = [...feedNews].sort((a, b) => {
         const pB = b.priority || 50;
         const pA = a.priority || 50;
@@ -1214,7 +2093,6 @@
         countsByRegion[reg] = (countsByRegion[reg] || 0) + 1;
       });
 
-      // Actualizar contadores de los pines principales
       const pinCcs = document.getElementById('pin-count-ccs');
       const pinZulia = document.getElementById('pin-count-zulia');
       const pinCarabobo = document.getElementById('pin-count-carabobo');
@@ -1225,7 +2103,6 @@
       if (pinCarabobo) pinCarabobo.textContent = countsByRegion['Carabobo'] || 0;
       if (pinBolivar) pinBolivar.textContent = countsByRegion['Bolívar'] || 0;
 
-      // Resaltar en azul suave los estados que tienen reportes activos
       document.querySelectorAll('.state-path').forEach(path => {
         const id = path.id.replace('state-', '').replace('-', ' ');
         const c = countsByRegion[id] || 0;
@@ -1366,7 +2243,7 @@
       ejecutarBusquedaAvanzada();
     }
 
-    // BÚSQUEDA EN INTERNET EN VIVO (VÍA /api/search O FALLBACK CLIENTE)
+    // BÚSQUEDA EN INTERNET EN VIVO
     async function buscarNoticiasInternetEnVivo() {
       const banner = document.getElementById('search-status-banner');
       const bannerText = document.getElementById('search-status-text');
@@ -1389,7 +2266,7 @@
           }
         }
       } catch (e) {
-        console.warn('Backend /api/search no disponible, pasando a rastreo cliente.', e);
+        console.warn('Backend /api/search no disponible, pasando a rastreo cliente.');
       }
 
       if (webItems.length === 0) {
@@ -1481,7 +2358,6 @@
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       if (statusEl) statusEl.textContent = `🟢 En vivo (${timeStr})`;
 
-      // Reiniciar contador de auto-sync a 60 segundos
       countdownSeconds = 60;
 
       renderizarTop5Titulares();
@@ -1605,7 +2481,7 @@
     }
 
     // =================================================================
-    // PRIVACIDAD Y GESTIÓN DE ACREDITACIONES (SOLO ADMINISTRADOR)
+    // PRIVACIDAD Y GESTIÓN DE ACREDITACIONES
     // =================================================================
     function actualizarVisibilidadAcreditaciones() {
       const adminSection = document.getElementById('accreditations-admin-section');
@@ -1702,11 +2578,8 @@
       }
     }
 
-    // =================================================================
-    // GENERADORA DE BASE DE DATOS EXCEL / CSV (.XLSX COMPATIBLE CON DATOS COMPLETOS)
-    // =================================================================
+    // EXPORTACIÓN A EXCEL DEL PADRÓN DE ACREDITACIONES
     function descargarAcreditacionesExcel() {
-      // Si el usuario no es admin, pedir confirmación y habilitar vista
       if (currentUserRole !== 'ADMIN') {
         const confirmar = confirm('Esta base de datos contiene información confidencial de periodistas. ¿Deseas descargarla como Administrador?');
         if (!confirmar) return;
@@ -1718,35 +2591,16 @@
         return;
       }
 
-      // 1. Generación de tabla XML Spreadsheet compatible al 100% con Microsoft Excel sin estar vacía
       let excelXml = '<?xml version="1.0"?>\n' +
         '<?mso-application progid="Excel.Sheet"?>\n' +
         '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
-        ' xmlns:o="urn:schemas-microsoft-com:office:office"\n' +
-        ' xmlns:x="urn:schemas-microsoft-com:office:excel"\n' +
         ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
         ' <Styles>\n' +
-        '  <Style ss:ID="HeaderStyle">\n' +
-        '   <Font ss:Bold="1" ss:Color="#FFFFFF"/>\n' +
-        '   <Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/>\n' +
-        '   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>\n' +
-        '  </Style>\n' +
-        '  <Style ss:ID="DataStyle">\n' +
-        '   <Font ss:Color="#000000"/>\n' +
-        '   <Alignment ss:Vertical="Center"/>\n' +
-        '  </Style>\n' +
+        '  <Style ss:ID="HeaderStyle"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A8A" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center"/></Style>\n' +
+        '  <Style ss:ID="DataStyle"><Alignment ss:Vertical="Center"/></Style>\n' +
         ' </Styles>\n' +
         ' <Worksheet ss:Name="Acreditaciones">\n' +
         '  <Table>\n' +
-        '   <Column ss:Width="90"/>\n' +
-        '   <Column ss:Width="110"/>\n' +
-        '   <Column ss:Width="160"/>\n' +
-        '   <Column ss:Width="190"/>\n' +
-        '   <Column ss:Width="110"/>\n' +
-        '   <Column ss:Width="180"/>\n' +
-        '   <Column ss:Width="120"/>\n' +
-        '   <Column ss:Width="100"/>\n' +
-        '   <Column ss:Width="90"/>\n' +
         '   <Row ss:StyleID="HeaderStyle">\n' +
         '    <Cell><Data ss:Type="String">ID Credencial</Data></Cell>\n' +
         '    <Cell><Data ss:Type="String">Fecha Solicitud</Data></Cell>\n' +
@@ -1775,7 +2629,6 @@
 
       excelXml += '  </Table>\n </Worksheet>\n</Workbook>';
 
-      // Descargar como archivo .xls que Excel abre de inmediato con formato y datos
       const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -1789,10 +2642,15 @@
     function cambiarRol(rol) {
       currentUserRole = rol;
       actualizarVisibilidadAcreditaciones();
+      if (document.getElementById('view-datos') && !document.getElementById('view-datos').classList.contains('hidden')) {
+        verificarAccesoDatos();
+      }
       if (rol === 'ADMIN') {
-        alert('🔓 Modo Administrador activo: Ahora puedes ver y gestionar el padrón confidencial de periodistas.');
+        alert('🔓 Modo Administrador activo: Ahora puedes ver y gestionar el padrón confidencial y todas las matrices de datos.');
+      } else if (rol === 'PERIODISTA') {
+        alert('✓ Modo Periodista activo: Acceso concedido a las Matrices de Datos y Fichas de Actores.');
       } else {
-        alert(`Modo cambiado a: ${rol}. Datos confidenciales protegidos.`);
+        alert(`Modo cambiado a: ${rol}. Datos protegidos.`);
       }
     }
 
@@ -1805,6 +2663,11 @@
       actualizarMapaEnVivo();
       actualizarVisibilidadAcreditaciones();
       iniciarContadorEnVivo();
+
+      // Inicializar matrices de datos
+      renderizarMatrizHechos();
+      renderizarMatrizActores();
+      renderizarPerfilesFuncionarios();
 
       // Sincronización inmediata al abrir
       setTimeout(() => {
