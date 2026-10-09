@@ -515,6 +515,29 @@
           </div>
         </div>
 
+        <!-- REGISTRO / HISTORIAL DE LOS DÍAS (CRONOLOGÍA DIARIA DE CIFRAS Y HECHOS) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-3">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center space-x-2">
+                <span>📅 Historial de los Días (Registro Diario de Hechos y Cifras)</span>
+                <span id="historial-dias-badge" class="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">Últimos 7 días</span>
+              </h3>
+              <p class="text-xs text-slate-500">Evolución día por día de incidentes documentados en el país para análisis comparativo e investigación temporal.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="exportarHistorialDiarioExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs flex items-center space-x-1.5 whitespace-nowrap transition-all">
+                <span>📥</span>
+                <span>Descargar Historial Diario (.xls)</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="historial-dias-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <!-- Tarjetas de historial por cada día -->
+          </div>
+        </div>
+
         <!-- MODAL / CONTENEDOR DESPLEGABLE DE DESGLOSE DE CIFRA -->
         <div id="modal-desglose-cifra" class="hidden bg-white rounded-2xl border border-blue-200 p-5 shadow-md space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -579,7 +602,11 @@
               <input type="text" id="filtro-hechos-query" oninput="filtrarMatrizHechos()" placeholder="🔍 Filtrar por palabras clave, caso, estado o hecho..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
               <span class="absolute left-2.5 top-2.5 text-slate-400">🔍</span>
             </div>
-            <div class="flex gap-2 flex-wrap">
+            <div class="flex gap-2 flex-wrap items-center">
+              <button onclick="exportarMatrizHechosExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1 whitespace-nowrap">
+                <span>📥</span>
+                <span>Descargar Matriz Hechos (.xls)</span>
+              </button>
               <select id="filtro-hechos-cat" onchange="filtrarMatrizHechos()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-700 outline-none">
                 <option value="ALL">Todas las Categorías</option>
                 <option value="Sucesos">Sucesos y Seguridad</option>
@@ -633,7 +660,11 @@
               <input type="text" id="filtro-actores-query" oninput="filtrarMatrizActores()" placeholder="🔍 Buscar por nombre de actor, cargo, caso o institución..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-4 py-2 text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
               <span class="absolute left-2.5 top-2.5 text-slate-400">🔍</span>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 items-center flex-wrap">
+              <button onclick="exportarMatrizActoresExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs transition-all flex items-center space-x-1 whitespace-nowrap">
+                <span>📥</span>
+                <span>Descargar Matriz Actores (.xls)</span>
+              </button>
               <select id="filtro-actores-tipo-fuente" onchange="filtrarMatrizActores()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-700 outline-none">
                 <option value="ALL">Todas las Fuentes / Actores</option>
                 <option value="Oficial / Funcionario">Oficial / Funcionario Público</option>
@@ -679,10 +710,16 @@
               </h3>
               <p class="text-xs text-slate-300">Haz clic sobre cualquier perfil para abrir su expediente con todas las actuaciones y enlaces directos a medios.</p>
             </div>
-            <button onclick="toggleFormularioCrearPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-1.5">
-              <span>➕</span>
-              <span id="btn-toggle-perfil-text">Crear Nuevo Perfil</span>
-            </button>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button onclick="exportarPerfilesExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-1.5 whitespace-nowrap">
+                <span>📥</span>
+                <span>Descargar Base Perfiles (.xls)</span>
+              </button>
+              <button onclick="toggleFormularioCrearPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center space-x-1.5 whitespace-nowrap">
+                <span>➕</span>
+                <span id="btn-toggle-perfil-text">Crear Nuevo Perfil</span>
+              </button>
+            </div>
           </div>
 
           <!-- FORMULARIO PARA CREAR NUEVO PERFIL (COLAPSIBLE) -->
@@ -1000,55 +1037,25 @@
           </button>
         </div>
 
-        <!-- Métricas de Tipología y Plataforma de Desinformación -->
+        <!-- Métricas de Tipología y Plataforma de Desinformación (Dinámicas) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
             <div class="flex items-center justify-between font-bold text-slate-800">
               <span>📊 Tipos de Desinformación Frecuente</span>
-              <span class="text-[10px] text-purple-700">14 Chequeos Activos</span>
+              <span id="fc-total-count" class="text-[10px] text-purple-700 font-mono font-bold">Calculando...</span>
             </div>
-            <div class="space-y-2">
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>🎙️ Audios manipulados / Clonados con IA</span><span class="font-bold">42%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 42%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>📜 Gacetas Oficiales / Decretos apócrifos</span><span class="font-bold">28%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 28%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>🎥 Videos descontextualizados / Años anteriores</span><span class="font-bold">18%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 18%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>💳 Falsos bonos o fraudes de Sistema Patria</span><span class="font-bold">12%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-purple-600 h-1.5 rounded-full" style="width: 12%"></div></div>
-              </div>
+            <div id="fc-stats-tipos" class="space-y-2">
+              <!-- Renderizado dinámico de estadísticas de tipos -->
             </div>
           </div>
 
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
             <div class="flex items-center justify-between font-bold text-slate-800">
               <span>🌐 Plataformas de Origen y Difusión</span>
-              <span class="text-[10px] text-blue-700">Monitoreo OSINT</span>
+              <span class="text-[10px] text-blue-700 font-mono font-bold">Monitoreo OSINT</span>
             </div>
-            <div class="space-y-2">
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>🟢 WhatsApp (Cadenas y notas de voz)</span><span class="font-bold">54%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full" style="width: 54%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>🎵 TikTok (Clips manipulados)</span><span class="font-bold">22%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-slate-800 h-1.5 rounded-full" style="width: 22%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>🔵 X / Twitter (Cuentas automatizadas)</span><span class="font-bold">14%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 14%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between text-slate-600 mb-1"><span>✈️ Telegram (Grupos y canales anónimos)</span><span class="font-bold">10%</span></div>
-                <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-cyan-500 h-1.5 rounded-full" style="width: 10%"></div></div>
-              </div>
+            <div id="fc-stats-plataformas" class="space-y-2">
+              <!-- Renderizado dinámico de estadísticas de plataformas -->
             </div>
           </div>
         </div>
@@ -1395,6 +1402,54 @@
 
     // BASE DE DATOS LOCAL DE NOTICIAS DE VENEZUELA (AGENCIAS GLOBALES + MEDIOS NACIONALES)
     let feedNews = [
+      {
+        id: 'nw-suc-01',
+        title: 'Sucesos Zulia: CICPC investiga muerte de adolescente de 15 años en Maracaibo tras presunto caso de asfixia mecánica',
+        snippet: 'Comisiones de homicidios del cuerpo detectivesco interrogan al entorno familiar y recaban testimonios en la parroquia Olegario Villalobos tras lamentable hallazgo.',
+        sourceName: 'Noticia al Día',
+        sourceUrl: 'https://noticiaaldia.com',
+        region: 'Zulia',
+        category: 'Sucesos',
+        priority: 91,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString()
+      },
+      {
+        id: 'nw-suc-02',
+        title: 'La Prensa de Lara: Comunidad de Carora consternada por muerte de joven estudiante; autoridades indagan hipótesis de suicidio',
+        snippet: 'Organizaciones comunitarias y docentes del municipio Torres solicitan jornadas de prevención y salud mental en planteles educativos del estado Lara.',
+        sourceName: 'La Prensa de Lara',
+        sourceUrl: 'https://laprensalara.com.ve',
+        region: 'Lara',
+        category: 'Sucesos',
+        priority: 89,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 240).toISOString()
+      },
+      {
+        id: 'nw-suc-03',
+        title: 'Crónica Uno: Aumento de casos de suicidio y depresión en adolescentes enciende alarmas en barriadas de Caracas',
+        snippet: 'Informe de organizaciones de protección a la infancia señala que la emergencia humanitaria compleja y la desintegración familiar agravan la crisis emocional en menores.',
+        sourceName: 'Crónica Uno',
+        sourceUrl: 'https://cronica.uno',
+        region: 'Distrito Capital',
+        category: 'Sucesos',
+        priority: 93,
+        isInvestigacion: true,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 360).toISOString()
+      },
+      {
+        id: 'nw-suc-04',
+        title: 'El Carabobeño: Accidente en Autopista del Sur deja dos personas fallecidas y tres lesionados de gravedad',
+        snippet: 'Unidades de Protección Civil y Bomberos de Carabobo realizaron maniobras de rescate vehicular en el tramo de Tocuyito.',
+        sourceName: 'El Carabobeño',
+        sourceUrl: 'https://www.el-carabobeno.com',
+        region: 'Carabobo',
+        category: 'Sucesos',
+        priority: 84,
+        isInvestigacion: false,
+        publishedAt: new Date(Date.now() - 1000 * 60 * 420).toISOString()
+      },
       {
         id: 'nw-reuters-01',
         title: 'Reuters: Exportaciones de petróleo de Venezuela repuntan en septiembre pese a desafíos en bombeo de crudo pesado',
@@ -1884,7 +1939,7 @@
         tipo: 'Video fuera de contexto',
         plataforma: 'TikTok',
         summary: 'El video circula desde 2019 y fue grabado en otro país sudamericano con motivo de protestas gremiales.',
-        date: 'Hace 6 horas',
+        date: 'Hace 5 horas',
         url: 'https://espaja.com'
       },
       {
@@ -1896,7 +1951,7 @@
         tipo: 'Cadena de texto anónima',
         plataforma: 'WhatsApp',
         summary: 'El INAC y las aerolíneas confirman operatividad normal de itinerarios hacia y desde Maiquetía.',
-        date: 'Ayer',
+        date: 'Hace 8 horas',
         url: 'https://cotejo.info'
       },
       {
@@ -1906,10 +1961,46 @@
         verdict: 'FALSO',
         verdictClass: 'bg-red-100 text-red-700 border-red-200',
         tipo: 'Gaceta Oficial apócrifa',
-        plataforma: 'Telegram / X',
+        plataforma: 'Telegram',
         summary: 'El número de Gaceta Oficial citado no existe en la Imprenta Nacional y el formato tipográfico es apócrifo.',
         date: 'Ayer',
         url: 'https://cazadoresdefakenews.info'
+      },
+      {
+        id: 'fc-05',
+        title: 'Falso: Imagen satelital alterada muestra supuesta sequía total en represa del Guri',
+        source: 'EsPaja.com',
+        verdict: 'FALSO',
+        verdictClass: 'bg-red-100 text-red-700 border-red-200',
+        tipo: 'Fotografía alterada',
+        plataforma: 'X / Twitter',
+        summary: 'La imagen fue tomada durante la sequía de El Niño en 2016 y fue editada con filtros de saturación.',
+        date: 'Ayer',
+        url: 'https://espaja.com'
+      },
+      {
+        id: 'fc-06',
+        title: 'Engañoso: Comunicado sobre congelamiento de cuentas bancarias en divisas de personas naturales',
+        source: 'Cocuyo Chequea',
+        verdict: 'ENGAÑOSO',
+        verdictClass: 'bg-amber-100 text-amber-700 border-amber-200',
+        tipo: 'Declaración manipulada',
+        plataforma: 'WhatsApp',
+        summary: 'SUDEBAN no ha emitido circular limitando retiros de cuentas custodio ni cuentas en moneda extranjera.',
+        date: 'Hace 2 días',
+        url: 'https://efectococuyo.com'
+      },
+      {
+        id: 'fc-07',
+        title: 'Falso: Supuesta renuncia masiva de médicos especialistas en hospital Ruiz y Páez de Bolívar',
+        source: 'Cotejo.info',
+        verdict: 'FALSO',
+        verdictClass: 'bg-red-100 text-red-700 border-red-200',
+        tipo: 'Cadena de texto anónima',
+        plataforma: 'Facebook',
+        summary: 'El Colegio de Médicos del estado Bolívar desmintió el documento apócrifo difundido en grupos regionales.',
+        date: 'Hace 3 días',
+        url: 'https://cotejo.info'
       }
     ];
 
@@ -2322,8 +2413,78 @@
     }
 
     // =================================================================
-    // MOTOR DE EXTRACCIÓN AUTOMÁTICA DE ACTORES Y HECHOS EN NOTICIAS
+    // MOTOR DE CLASIFICACIÓN DE HECHOS Y EXTRACCIÓN AUTOMÁTICA DE DATOS
     // =================================================================
+    function clasificarHechoDeNoticia(item) {
+      const t = (((item && item.title) || '') + ' ' + ((item && item.snippet) || '')).toLowerCase();
+      
+      if (t.includes('presos políticos') || t.includes('detención arbitraria') || t.includes('tortura') || t.includes('incomunicado') || t.includes('ddhh') || t.includes('derechos humanos') || t.includes('cautelar')) {
+        return {
+          catKey: 'ddhh',
+          categoria: 'Derechos Humanos',
+          tipologia: 'Detención / Violación DDHH',
+          victimas: 'Activistas / Ciudadanos documentados'
+        };
+      }
+      if (t.includes('denuncia') || t.includes('irregularidad') || t.includes('sobreprecio') || t.includes('corrupción') || t.includes('desvío') || t.includes('trama de') || t.includes('falta de insumos')) {
+        return {
+          catKey: 'denuncias',
+          categoria: 'Corrupción y Denuncias',
+          tipologia: 'Denuncia Pública / Corrupción',
+          victimas: 'Patrimonio Público / Colectivo'
+        };
+      }
+      if (t.includes('protesta') || t.includes('marcha') || t.includes('manifestación') || t.includes('huelga') || t.includes('pancartazo') || t.includes('reclamo salarial') || t.includes('exigen')) {
+        return {
+          catKey: 'protestas',
+          categoria: 'Conflictividad Social',
+          tipologia: 'Protesta Social / Laboral',
+          victimas: 'Gremios y Trabajadores'
+        };
+      }
+      if (t.includes('fallecido') || t.includes('muerto') || t.includes('homicidio') || t.includes('asesinato') || t.includes('cadáver') || t.includes('cuerpo encontrado') || t.includes('víctimas mortales')) {
+        return {
+          catKey: 'fallecidos',
+          categoria: 'Sucesos',
+          tipologia: 'Fallecidos / Sucesos Violentos',
+          victimas: 'Víctimas registradas'
+        };
+      }
+      if (t.includes('desaparecido') || t.includes('paradero desconocido') || t.includes('extraviado')) {
+        return {
+          catKey: 'desaparecidos',
+          categoria: 'Derechos Humanos',
+          tipologia: 'Persona Desaparecida',
+          victimas: 'Personas sin contacto'
+        };
+      }
+      if (t.includes('desastre natural') || t.includes('lluvia') || t.includes('inundación') || t.includes('desbordamiento') || t.includes('deslizamiento') || t.includes('derrumbe') || t.includes('vaguada')) {
+        return {
+          catKey: 'desastres',
+          categoria: 'Gestión de Riesgo',
+          tipologia: 'Alerta / Desastre Natural',
+          victimas: 'Comunidades afectadas por clima'
+        };
+      }
+      if (t.includes('incendio') || t.includes('fuego') || t.includes('llamas') || t.includes('explosión')) {
+        return {
+          catKey: 'incendios',
+          categoria: 'Sucesos',
+          tipologia: 'Incendio Estructural / Forestal',
+          victimas: 'Zonas e inmuebles afectados'
+        };
+      }
+      if (t.includes('apagón') || t.includes('corte eléctrico') || t.includes('sin luz') || t.includes('sin agua') || t.includes('escasez de combustible') || t.includes('corpoelec') || t.includes('hidrológica') || t.includes('falla de servicio')) {
+        return {
+          catKey: 'servicios',
+          categoria: 'Servicios Públicos',
+          tipologia: 'Colapso de Servicios Básicos',
+          victimas: 'Usuarios y comunidades afectadas'
+        };
+      }
+      return null;
+    }
+
     function procesarExtraccionAutomaticaDeNoticias(noticias) {
       if (!Array.isArray(noticias) || noticias.length === 0) return;
 
@@ -2343,9 +2504,45 @@
       ];
 
       noticias.forEach(item => {
+        if (!item || !item.title) return;
         const fullText = (((item && item.title) || '') + ' ' + ((item && item.snippet) || '')).toLowerCase();
 
-        // Detectar si menciona a algún actor
+        // 1. Clasificación automática en las 8 matrices de hechos y desglose de cifras
+        const hechoInfo = clasificarHechoDeNoticia(item);
+        if (hechoInfo) {
+          const yaEnDesglose = (casosDesglosadosPorCifra[hechoInfo.catKey] || []).some(c => c.hecho === item.title || c.url === item.sourceUrl);
+          if (!yaEnDesglose) {
+            if (!casosDesglosadosPorCifra[hechoInfo.catKey]) casosDesglosadosPorCifra[hechoInfo.catKey] = [];
+            casosDesglosadosPorCifra[hechoInfo.catKey].unshift({
+              fecha: item.publishedAt ? item.publishedAt.slice(0, 10) : new Date().toISOString().slice(0, 10),
+              hecho: item.title,
+              lugar: item.region || 'Nacional',
+              descripcion: item.snippet || item.title,
+              victimas: hechoInfo.victimas,
+              medio: item.sourceName || 'Medio Monitoreado',
+              url: item.sourceUrl || '#'
+            });
+          }
+
+          const yaEnHechos = matrizHechos.some(h => h.caso === item.title || h.urlFuente === item.sourceUrl);
+          if (!yaEnHechos) {
+            const rawWords = (item.title + ' ' + (item.snippet || '')).toLowerCase().replace(/[^a-záéíóúñ0-9\s]/g, '').split(/\s+/).filter(w => w.length >= 4).slice(0, 5);
+            matrizHechos.unshift({
+              id: 'HCH-' + String(matrizHechos.length + 1).padStart(2, '0'),
+              fecha: item.publishedAt ? item.publishedAt.slice(0, 10) : new Date().toISOString().slice(0, 10),
+              categoria: hechoInfo.categoria,
+              tipologiaHecho: hechoInfo.tipologia,
+              caso: item.title.slice(0, 80) + '...',
+              descripcion: item.snippet || item.title,
+              estado: item.region || 'Nacional',
+              medio: item.sourceName || 'Prensa Digital',
+              keywords: rawWords.length ? rawWords : ['monitoreo', 'venezuela'],
+              urlFuente: item.sourceUrl || '#'
+            });
+          }
+        }
+
+        // 2. Detección y registro de actores
         actoresDiccionario.forEach(actor => {
           const nombreMin = actor.nombre.toLowerCase();
           const partes = nombreMin.split(' ');
@@ -2399,9 +2596,9 @@
           }
         });
 
-        // Clasificar hechos para el récord histórico
-        if (item.priority && item.priority >= 80) {
-          const yaEnRecord = recordHistorico.some(r => r.resumen === item.title);
+        // 3. Clasificar hechos para el récord histórico (notas relevantes o de impacto)
+        if (item.priority && item.priority >= 75) {
+          const yaEnRecord = recordHistorico.some(r => r.resumen === item.title || r.url === item.sourceUrl);
           if (!yaEnRecord) {
             recordHistorico.unshift({
               id: 'REC-' + String(recordHistorico.length + 1).padStart(2, '0'),
@@ -2429,14 +2626,14 @@
       const cInc = document.getElementById('cifra-incendios');
       const cServ = document.getElementById('cifra-servicios');
 
-      if (cDdhh) cDdhh.textContent = cifrasHechos.ddhh;
-      if (cDen) cDen.textContent = cifrasHechos.denuncias;
-      if (cProt) cProt.textContent = cifrasHechos.protestas;
-      if (cFall) cFall.textContent = cifrasHechos.fallecidos;
-      if (cDesap) cDesap.textContent = cifrasHechos.desaparecidos;
-      if (cDesast) cDesast.textContent = cifrasHechos.desastres;
-      if (cInc) cInc.textContent = cifrasHechos.incendios;
-      if (cServ) cServ.textContent = cifrasHechos.servicios;
+      if (cDdhh) cDdhh.textContent = (casosDesglosadosPorCifra.ddhh || []).length;
+      if (cDen) cDen.textContent = (casosDesglosadosPorCifra.denuncias || []).length;
+      if (cProt) cProt.textContent = (casosDesglosadosPorCifra.protestas || []).length;
+      if (cFall) cFall.textContent = (casosDesglosadosPorCifra.fallecidos || []).length;
+      if (cDesap) cDesap.textContent = (casosDesglosadosPorCifra.desaparecidos || []).length;
+      if (cDesast) cDesast.textContent = (casosDesglosadosPorCifra.desastres || []).length;
+      if (cInc) cInc.textContent = (casosDesglosadosPorCifra.incendios || []).length;
+      if (cServ) cServ.textContent = (casosDesglosadosPorCifra.servicios || []).length;
 
       const kpiH = document.getElementById('kpi-total-hechos');
       const kpiA = document.getElementById('kpi-total-actores');
@@ -2451,19 +2648,28 @@
       const tbody = document.getElementById('matriz-hechos-tbody');
       if (!tbody) return;
 
-      const q = normalizarTexto(document.getElementById('filtro-hechos-query')?.value);
+      const rawInput = document.getElementById('filtro-hechos-query')?.value || '';
+      const cleanInput = rawInput.replace(/["“”'«»]/g, ' ').trim();
+      const tokens = cleanInput.toLowerCase().replace(/[^a-záéíóúñ0-9\s]/g, ' ').split(/\s+/).filter(t => t.length >= 2);
+
       const cat = document.getElementById('filtro-hechos-cat')?.value || 'ALL';
       const tipo = document.getElementById('filtro-hechos-tipo')?.value || 'ALL';
 
       const filtrados = matrizHechos.filter(h => {
         const matchesCat = cat === 'ALL' || h.categoria === cat;
         const matchesTipo = tipo === 'ALL' || h.tipologiaHecho === tipo;
-        const matchesText = !q ||
-          normalizarTexto(h.caso).includes(q) ||
-          normalizarTexto(h.descripcion).includes(q) ||
-          normalizarTexto(h.estado).includes(q) ||
-          normalizarTexto(h.medio).includes(q) ||
-          h.keywords.some(k => normalizarTexto(k).includes(q));
+        
+        let matchesText = true;
+        if (tokens.length > 0) {
+          const hText = normalizarTexto();
+          matchesText = tokens.some(tok => {
+            if (hText.includes(tok)) return true;
+            if (tok === 'suicidio' && (hText.includes('suicida') || hText.includes('asfixia'))) return true;
+            if (tok === 'muerte' && (hText.includes('muere') || hText.includes('fallece') || hText.includes('deceso') || hText.includes('homicidio') || hText.includes('occiso'))) return true;
+            if (tok === 'adolescente' && (hText.includes('menor') || hText.includes('joven') || hText.includes('estudiante'))) return true;
+            return false;
+          });
+        }
         return matchesCat && matchesTipo && matchesText;
       });
 
@@ -2770,47 +2976,213 @@
     }
 
     // =================================================================
-    // FACT-CHECKING CON SCROLL CONTINUO Y CIFRAS
+    // FACT-CHECKING CON SCROLL CONTINUO, ESTADÍSTICAS DINÁMICAS Y SINCRONIZACIÓN EN VIVO
     // =================================================================
+    function actualizarEstadisticasFactCheck() {
+      const tiposContainer = document.getElementById('fc-stats-tipos');
+      const platContainer = document.getElementById('fc-stats-plataformas');
+      const totalBadge = document.getElementById('fc-total-count');
+
+      const total = factCheckRecords.length;
+      if (totalBadge) totalBadge.textContent = `${total} Chequeos Activos`;
+
+      if (!tiposContainer || !platContainer || total === 0) return;
+
+      // Agrupación dinámica por tipología y por plataforma
+      const tiposCount = {};
+      const platCount = {};
+
+      factCheckRecords.forEach(fc => {
+        const t = fc.tipo || 'Desinformación General';
+        tiposCount[t] = (tiposCount[t] || 0) + 1;
+
+        const p = fc.plataforma || 'Web / Redes';
+        platCount[p] = (platCount[p] || 0) + 1;
+      });
+
+      const iconTipos = {
+        'Audio con IA': '🎙️',
+        'Video fuera de contexto': '🎥',
+        'Gaceta Oficial apócrifa': '📜',
+        'Cadena de texto anónima': '💬',
+        'Falso bono o subsidio': '💳',
+        'Declaración manipulada': '🗣️',
+        'Fotografía alterada': '🖼️'
+      };
+
+      const iconPlats = {
+        'WhatsApp': '🟢',
+        'TikTok': '🎵',
+        'X / Twitter': '🔵',
+        'Telegram': '✈️',
+        'Facebook': '👥',
+        'Instagram': '📷',
+        'Web': '🌐'
+      };
+
+      tiposContainer.innerHTML = Object.entries(tiposCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4)
+        .map(([tipo, count]) => {
+          const pct = Math.round((count / total) * 100);
+          const icon = iconTipos[tipo] || '📌';
+          return `
+            <div>
+              <div class="flex justify-between text-slate-600 mb-1">
+                <span>${icon} ${esc(tipo)}</span>
+                <span class="font-bold text-slate-800">${pct}% (${count})</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-purple-600 h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      platContainer.innerHTML = Object.entries(platCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4)
+        .map(([plat, count]) => {
+          const pct = Math.round((count / total) * 100);
+          const icon = iconPlats[plat] || '🌐';
+          return `
+            <div>
+              <div class="flex justify-between text-slate-600 mb-1">
+                <span>${icon} ${esc(plat)}</span>
+                <span class="font-bold text-slate-800">${pct}% (${count})</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-blue-600 h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+    }
+
     function renderizarFactChecks(filtro = 'ALL') {
       const container = document.getElementById('fact-checks-scroll-container');
       if (!container) return;
 
-      const filtered = factCheckRecords.filter(f => filtro === 'ALL' || f.verdict === filtro);
+      const filtered = factCheckRecords.filter(f => {
+        if (filtro === 'ALL') return true;
+        const v = (f.verdict || '').replace(/\s+/g, '_').toUpperCase();
+        const fv = filtro.replace(/\s+/g, '_').toUpperCase();
+        return v === fv;
+      });
 
-      container.innerHTML = filtered.map(fc => `
-        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-purple-300 transition-all space-y-2.5">
-          <div class="flex items-center justify-between text-[11px]">
-            <div class="flex items-center space-x-1.5">
-              <span class="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded">${esc(fc.source)}</span>
-              <span class="text-[10px] bg-purple-50 text-purple-800 font-bold px-1.5 py-0.2 rounded border border-purple-200">
-                ${esc(fc.tipo || 'Desinformación')}
-              </span>
-              <span class="text-slate-400 font-mono text-[10px]">Via: ${esc(fc.plataforma || 'Web')}</span>
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="p-8 text-center text-xs text-slate-400 bg-slate-50 rounded-xl border border-slate-200">No hay verificaciones registradas bajo este veredicto.</div>';
+        actualizarEstadisticasFactCheck();
+        return;
+      }
+
+      container.innerHTML = filtered.map(fc => {
+        const url = safeUrl(fc.url);
+        const verdictDisplay = (fc.verdict || 'VERIFICADO').replace(/_/g, ' ');
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-purple-300 transition-all space-y-2.5">
+            <div class="flex items-center justify-between text-[11px]">
+              <div class="flex items-center space-x-1.5">
+                <span class="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200">${esc(fc.source)}</span>
+                <span class="text-[10px] bg-purple-50 text-purple-800 font-bold px-1.5 py-0.5 rounded border border-purple-200">
+                  ${esc(fc.tipo || 'Desinformación')}
+                </span>
+                <span class="text-slate-400 font-mono text-[10px]">Via: ${esc(fc.plataforma || 'Web')}</span>
+              </div>
+              <span class="font-bold text-[10px] px-2 py-0.5 rounded border ${fc.verdictClass || 'bg-slate-100 text-slate-700'}">${verdictDisplay}</span>
             </div>
-            <span class="font-bold text-[10px] px-2 py-0.5 rounded border ${fc.verdictClass}">${fc.verdict}</span>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">${esc(fc.title)}</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">${esc(fc.summary)}</p>
+            <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100">
+              <span class="font-mono text-slate-500">${esc(fc.date)}</span>
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold hover:underline flex items-center space-x-1">
+                <span>Ver chequeo completo</span>
+                <span>→</span>
+              </a>
+            </div>
           </div>
-          <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">${esc(fc.title)}</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">${esc(fc.summary)}</p>
-          <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100">
-            <span>${fc.date}</span>
-            <a href="${safeUrl(fc.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 font-bold hover:underline">Ver chequeo completo →</a>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+
+      actualizarEstadisticasFactCheck();
     }
 
     function filtrarFactChecks(tipo) {
       renderizarFactChecks(tipo);
     }
 
-    function sincronizarFactChecksEnVivo() {
+    function incorporarVerificacionesEnVivo(items) {
+      if (!Array.isArray(items) || items.length === 0) return;
+      let nuevos = 0;
+      items.forEach(it => {
+        const titleNorm = (it.title || '').toLowerCase().trim();
+        const yaExiste = factCheckRecords.some(fc => fc.title.toLowerCase().trim() === titleNorm || fc.url === it.sourceUrl);
+        if (!yaExiste && it.title) {
+          const lower = (it.title + ' ' + (it.snippet || '')).toLowerCase();
+          let verdict = 'FALSO';
+          let verdictClass = 'bg-red-100 text-red-700 border-red-200';
+          if (lower.includes('engañoso') || lower.includes('impreciso')) {
+            verdict = 'ENGAÑOSO';
+            verdictClass = 'bg-amber-100 text-amber-700 border-amber-200';
+          } else if (lower.includes('sin evidencia') || lower.includes('no hay registro') || lower.includes('no comprobable')) {
+            verdict = 'SIN EVIDENCIA';
+            verdictClass = 'bg-blue-100 text-blue-700 border-blue-200';
+          }
+
+          let tipo = 'Declaración manipulada';
+          if (lower.includes('audio') || lower.includes('voz') || lower.includes('ia')) tipo = 'Audio con IA';
+          else if (lower.includes('gaceta') || lower.includes('decreto') || lower.includes('comunicado')) tipo = 'Gaceta Oficial apócrifa';
+          else if (lower.includes('video') || lower.includes('grabación') || lower.includes('clip')) tipo = 'Video fuera de contexto';
+          else if (lower.includes('bono') || lower.includes('patria') || lower.includes('estafa') || lower.includes('dólar')) tipo = 'Falso bono o subsidio';
+
+          let plat = 'WhatsApp';
+          if (lower.includes('tiktok')) plat = 'TikTok';
+          else if (lower.includes('twitter') || lower.includes(' x ')) plat = 'X / Twitter';
+          else if (lower.includes('telegram')) plat = 'Telegram';
+          else if (lower.includes('facebook')) plat = 'Facebook';
+
+          factCheckRecords.unshift({
+            id: 'fc-live-' + Math.random().toString(36).substr(2, 7),
+            title: it.title,
+            source: it.sourceName || 'Verificador Aliado',
+            verdict,
+            verdictClass,
+            tipo,
+            plataforma: plat,
+            summary: it.snippet || 'Verificación registrada automáticamente por el radar de desinformación.',
+            date: formatearHora(it.publishedAt),
+            url: it.sourceUrl || '#'
+          });
+          nuevos++;
+        }
+      });
+      if (nuevos > 0) {
+        renderizarFactChecks('ALL');
+      }
+    }
+
+    async function sincronizarFactChecksEnVivo() {
       const spin = document.getElementById('spin-fact-refresh');
       if (spin) spin.classList.add('animate-spin');
-      setTimeout(() => {
-        if (spin) spin.classList.remove('animate-spin');
-        renderizarFactChecks('ALL');
-      }, 600);
+      try {
+        const res = await fetch('/api/news?limit=80&t=' + Date.now(), { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.factChecks) && data.factChecks.length > 0) {
+            incorporarVerificacionesEnVivo(data.factChecks);
+          } else if (Array.isArray(data.items)) {
+            const checks = data.items.filter(it => {
+              const t = ((it.title || '') + ' ' + (it.sourceName || '')).toLowerCase();
+              return t.includes('falso') || t.includes('engañoso') || t.includes('desmiente') || t.includes('espaja') || t.includes('cotejo') || t.includes('chequea') || t.includes('cazadores');
+            });
+            if (checks.length > 0) incorporarVerificacionesEnVivo(checks);
+          }
+        }
+      } catch (e) {
+        console.warn('Sincronización fact-check local');
+      }
+      if (spin) spin.classList.remove('animate-spin');
+      renderizarFactChecks('ALL');
     }
 
     // =================================================================
@@ -2954,13 +3326,9 @@
       const counterEl = document.getElementById('live-feed-counter');
       if (!container) return;
 
-      const q = normalizarTexto(currentFeedFilterQuery);
       const filtered = feedNews.filter(item => {
         const matchesRegion = activeRegionFilter === 'ALL' || item.region === activeRegionFilter;
-        const matchesText = !q ||
-          normalizarTexto(item.title).includes(q) ||
-          normalizarTexto(item.snippet).includes(q) ||
-          normalizarTexto(item.sourceName).includes(q);
+        const matchesText = !currentFeedFilterQuery || (calcularRelevanciaBusqueda(item, currentFeedFilterQuery) > 0);
         return matchesRegion && matchesText;
       });
 
@@ -3128,6 +3496,99 @@
       seleccionarRegionMapa('ALL');
     }
 
+
+    // =================================================================
+    // MOTOR DE BÚSQUEDA INTELIGENTE MULTI-TÉRMINO Y RELEVANCIA (SUCESOS Y CLAVES)
+    // =================================================================
+    function calcularRelevanciaBusqueda(item, rawQuery) {
+      if (!rawQuery || !rawQuery.trim()) return 10;
+
+      // 1. Limpiar comillas ("" “” «»)
+      const cleanQ = rawQuery.replace(/["“”'«»]/g, ' ').trim();
+      const qNorm = normalizarTexto(cleanQ);
+
+      const titleNorm = normalizarTexto(item.title || '');
+      const snippetNorm = normalizarTexto(item.snippet || '');
+      const sourceNorm = normalizarTexto(item.sourceName || '');
+      const regionNorm = normalizarTexto(item.region || '');
+      const catNorm = normalizarTexto(item.category || '');
+      const fullText = `${titleNorm} ${snippetNorm} ${sourceNorm} ${regionNorm} ${catNorm}`;
+
+      // 2. Coincidencia de frase exacta completa
+      if (fullText.includes(qNorm)) {
+        return 120;
+      }
+
+      // 3. Tokenizar en palabras clave ignorando conectores comunes
+      const stopWords = new Set(['de', 'la', 'el', 'en', 'y', 'a', 'los', 'las', 'un', 'una', 'unos', 'unas', 'por', 'con', 'para', 'del', 'al', 'que', 'se', 'su', 'sus']);
+      const tokens = cleanQ.split(/\s+/).map(t => normalizarTexto(t)).filter(t => t.length >= 3 && !stopWords.has(t));
+
+      if (tokens.length === 0) {
+        return fullText.includes(qNorm) ? 10 : 0;
+      }
+
+      // Diccionario de expansión semántica / sinónimos para sucesos y hechos
+      const sinonimos = {
+        'suicidio': ['suicida', 'quitarse la vida', 'atento contra su vida', 'lanzarse', 'ahorcamiento', 'asfixia', 'asfixia mecanica'],
+        'muerte': ['muere', 'murio', 'fallece', 'fallecido', 'fallecida', 'occiso', 'cadaver', 'cuerpo', 'deceso', 'homicidio', 'asesinato', 'fatal'],
+        'adolescente': ['menor', 'joven', 'estudiante', 'liceista', 'liceo', 'chamo', 'jovencita', '15 anos', '16 anos', '17 anos', '14 anos'],
+        'homicidio': ['asesinato', 'sicariato', 'disparo', 'muerte violenta', 'crimen', 'arma de fuego'],
+        'apagon': ['corte electrico', 'falla electrica', 'sin luz', 'corpoelec', 'subestacion', 'energia'],
+        'protesta': ['manifestacion', 'marcha', 'huelga', 'pancartazo', 'reclamo salarial', 'exigen'],
+        'presos': ['detencion', 'detenido', 'carcel', 'reclusion', 'ddhh', 'incomunicado']
+      };
+
+      let tokensMatched = 0;
+      let score = 0;
+
+      tokens.forEach(tok => {
+        let matched = false;
+        if (titleNorm.includes(tok)) {
+          matched = true;
+          score += 35; // Match en título prioritario
+        } else if (snippetNorm.includes(tok)) {
+          matched = true;
+          score += 18;
+        } else if (fullText.includes(tok)) {
+          matched = true;
+          score += 10;
+        }
+
+        // Búsqueda de sinónimos si no hubo match literal
+        if (!matched) {
+          const synList = sinonimos[tok] || [];
+          for (const syn of synList) {
+            const synNorm = normalizarTexto(syn);
+            if (titleNorm.includes(synNorm)) {
+              matched = true;
+              score += 28;
+              break;
+            } else if (snippetNorm.includes(synNorm)) {
+              matched = true;
+              score += 14;
+              break;
+            } else if (fullText.includes(synNorm)) {
+              matched = true;
+              score += 8;
+              break;
+            }
+          }
+        }
+
+        if (matched) tokensMatched++;
+      });
+
+      // Si se buscaron múltiples palabras clave (ej: adolescente suicidio muerte):
+      if (tokensMatched > 0) {
+        if (tokensMatched === tokens.length) {
+          score += 60; // Bonificación si coinciden todas las palabras
+        }
+        return score + (tokensMatched * 25);
+      }
+
+      return 0;
+    }
+
     // =================================================================
     // BUSCADOR AVANZADO MULTI-FACTOR (FT55) & BÚSQUEDA WEB
     // =================================================================
@@ -3147,19 +3608,19 @@
       const category = catSelect ? catSelect.value : 'ALL';
       const source = sourceSelect ? sourceSelect.value : 'ALL';
 
-      const results = feedNews.filter(item => {
-        const matchesQuery = !q ||
-          normalizarTexto(item.title).includes(q) ||
-          normalizarTexto(item.snippet).includes(q) ||
-          normalizarTexto(item.sourceName).includes(q) ||
-          normalizarTexto(item.region).includes(q);
-
+      const scoredResults = feedNews.map(item => {
+        const relScore = calcularRelevanciaBusqueda(item, rawQ);
+        return { item, relScore };
+      }).filter(({ item, relScore }) => {
+        const matchesQuery = relScore > 0;
         const matchesRegion = region === 'ALL' || item.region === region;
         const matchesCat = category === 'ALL' || item.category === category;
         const matchesSource = source === 'ALL' || ((item && item.sourceName) || '').toLowerCase().includes(source.toLowerCase());
-
         return matchesQuery && matchesRegion && matchesCat && matchesSource;
       });
+
+      scoredResults.sort((a, b) => b.relScore - a.relScore);
+      const results = scoredResults.map(r => r.item);
 
       if (countBadge) {
         countBadge.textContent = `${results.length} notas encontradas`;
@@ -3231,7 +3692,9 @@
       const bannerText = document.getElementById('search-status-text');
       const spin = document.getElementById('spin-web-search');
       const input = document.getElementById('search-input');
-      const query = (input && input.value.trim()) ? input.value.trim() : 'Venezuela noticias';
+      const rawInput = (input && input.value.trim()) ? input.value.trim() : 'Venezuela noticias';
+      const cleanInput = rawInput.replace(/["“”'«»]/g, ' ').trim() || 'Venezuela noticias';
+      const query = cleanInput;
 
       if (banner) banner.classList.remove('hidden');
       if (bannerText) bannerText.textContent = `🌐 Rastreando en Google News y agencias internacionales: "${query}"...`;
@@ -3333,6 +3796,9 @@
             feedNews = data.items;
             procesarExtraccionAutomaticaDeNoticias(data.items);
           }
+          if (Array.isArray(data.factChecks) && data.factChecks.length > 0) {
+            incorporarVerificacionesEnVivo(data.factChecks);
+          }
         }
       } catch (e) {
         console.warn('Conexión con /api/news pendiente');
@@ -3352,6 +3818,13 @@
       renderInvestigativeScrollFeed();
       renderizarPerfilesFuncionarios();
       actualizarMapaEnVivo();
+      renderizarMatrizHechos();
+      renderizarMatrizActores();
+      renderizarRecordHistorico();
+      actualizarTableroCifrasHechos();
+      renderizarHistorialDias();
+      renderizarAnaliticaCompleta();
+      actualizarEstadisticasFactCheck();
     }
 
     function iniciarContadorEnVivo() {
@@ -3610,6 +4083,184 @@
       generarArchivoExcelXml('Acreditaciones', headers, rows, 'registro_acreditaciones_periodistas.xls');
     }
 
+
+    // =================================================================
+    // HISTORIAL CRONOLÓGICO DIARIO DE HECHOS Y CIFRAS (ÚLTIMOS 7 DÍAS)
+    // =================================================================
+    function renderizarHistorialDias() {
+      const container = document.getElementById('historial-dias-container');
+      if (!container) return;
+
+      const mapaDias = {};
+      const ahora = new Date();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(ahora.getTime() - i * 24 * 60 * 60 * 1000);
+        const fechaKey = d.toISOString().slice(0, 10);
+        mapaDias[fechaKey] = {
+          fecha: fechaKey,
+          total: 0,
+          ddhh: 0,
+          denuncias: 0,
+          protestas: 0,
+          sucesos: 0,
+          desaparecidos: 0,
+          desastres: 0,
+          incendios: 0,
+          servicios: 0,
+          estados: new Set(),
+          ejemplos: []
+        };
+      }
+
+      Object.entries(casosDesglosadosPorCifra).forEach(([catKey, casos]) => {
+        (casos || []).forEach(c => {
+          const f = (c.fecha || '').slice(0, 10);
+          if (mapaDias[f]) {
+            mapaDias[f].total++;
+            if (catKey === 'fallecidos') mapaDias[f].sucesos++;
+            else if (mapaDias[f][catKey] !== undefined) mapaDias[f][catKey]++;
+            if (c.lugar) mapaDias[f].estados.add(c.lugar.split(' ')[0]);
+            if (mapaDias[f].ejemplos.length < 2) mapaDias[f].ejemplos.push(c.hecho);
+          }
+        });
+      });
+
+      matrizHechos.forEach(h => {
+        const f = (h.fecha || '').slice(0, 10);
+        if (mapaDias[f]) {
+          mapaDias[f].total++;
+          if (h.estado) mapaDias[f].estados.add(h.estado);
+          if (mapaDias[f].ejemplos.length < 3) mapaDias[f].ejemplos.push(h.caso);
+        }
+      });
+
+      const diasOrdenados = Object.values(mapaDias).sort((a, b) => b.fecha.localeCompare(a.fecha));
+
+      container.innerHTML = diasOrdenados.map((dia, idx) => {
+        const esHoy = idx === 0;
+        const esAyer = idx === 1;
+        const labelDia = esHoy ? 'Hoy (' + dia.fecha.slice(5) + ')' : (esAyer ? 'Ayer (' + dia.fecha.slice(5) + ')' : dia.fecha);
+        const estadosStr = Array.from(dia.estados).slice(0, 3).join(', ') || 'Nacional';
+
+        return `
+          <div class="bg-slate-50 hover:bg-white rounded-xl border ${esHoy ? 'border-blue-400 bg-blue-50/40 shadow-xs' : 'border-slate-200'} p-3.5 flex flex-col justify-between space-y-2.5 transition-all shadow-2xs hover:shadow-xs">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-extrabold text-xs text-slate-900 flex items-center space-x-1.5">
+                  <span>📅 ${esc(labelDia)}</span>
+                  ${esHoy ? '<span class="text-[9px] font-black bg-blue-600 text-white px-1.5 py-0.2 rounded animate-pulse">EN CURSO</span>' : ''}
+                </span>
+                <span class="text-xs font-mono font-bold bg-white px-2 py-0.5 rounded-md border border-slate-200 text-slate-700">
+                  ${dia.total} hechos
+                </span>
+              </div>
+
+              <div class="grid grid-cols-4 gap-1 text-[10px] pt-1">
+                <div class="bg-white p-1 rounded border border-slate-200 text-center"><span class="text-red-600 font-bold">⚖️ ${dia.ddhh}</span></div>
+                <div class="bg-white p-1 rounded border border-slate-200 text-center"><span class="text-blue-600 font-bold">🪧 ${dia.protestas}</span></div>
+                <div class="bg-white p-1 rounded border border-slate-200 text-center"><span class="text-amber-600 font-bold">📢 ${dia.denuncias}</span></div>
+                <div class="bg-white p-1 rounded border border-slate-200 text-center"><span class="text-rose-600 font-bold">⚠️ ${dia.sucesos}</span></div>
+              </div>
+
+              <div class="text-[11px] text-slate-500 pt-1">
+                <span class="text-slate-400 text-[10px]">Foco territorial:</span>
+                <p class="font-semibold text-slate-700 truncate">📍 ${esc(estadosStr)}</p>
+              </div>
+            </div>
+
+            <button onclick="filtrarMatrizPorFecha('${dia.fecha}')" class="w-full text-center text-[11px] font-bold text-blue-600 hover:text-blue-800 bg-white hover:bg-blue-50 py-1.5 rounded-lg border border-blue-200 transition-all flex items-center justify-center space-x-1">
+              <span>Explorar casos de este día</span>
+              <span>→</span>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filtrarMatrizPorFecha(fechaStr) {
+      cambiarSubTabDatos('hechos');
+      const input = document.getElementById('filtro-hechos-query');
+      if (input) {
+        input.value = fechaStr;
+        filtrarMatrizHechos();
+      }
+    }
+
+    function exportarPerfilesExcel() {
+      const headers = ['ID Perfil', 'Nombre y Apellidos', 'Cargo Oficial', 'Institución / Poder', 'Tipo de Cargo', 'Edad', 'Estado / Entidad', 'Estado de Alerta', 'Perfil Biográfico', 'Total Actuaciones Documentadas'];
+      const rows = perfilesFuncionarios.map(p => [
+        p.id,
+        p.nombre,
+        p.cargo,
+        p.institucion,
+        p.tipoCargo,
+        p.edad || 'N/D',
+        p.estado || 'Nacional',
+        p.estadoAlerta || 'Activo',
+        p.biografia || '',
+        (p.mencionesConFuente || []).length
+      ]);
+
+      generarArchivoExcelXml('Perfiles_Funcionarios', headers, rows, 'base_perfiles_funcionarios_venezuela.xls');
+    }
+
+    function exportarHistorialDiarioExcel() {
+      const headers = ['Fecha (YYYY-MM-DD)', 'Día', 'Total Hechos Documentados', 'Violaciones DDHH', 'Denuncias Públicas', 'Protestas y Conflictividad', 'Sucesos y Fallecidos', 'Personas Desaparecidas', 'Colapsos de Servicios', 'Desastres Naturales', 'Incendios', 'Entidades Foco'];
+      
+      const ahora = new Date();
+      const rows = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(ahora.getTime() - i * 24 * 60 * 60 * 1000);
+        const fechaKey = d.toISOString().slice(0, 10);
+        const diaLabel = i === 0 ? 'Hoy' : (i === 1 ? 'Ayer' : `Hace ${i} días`);
+
+        let ddhh = 0, denuncias = 0, protestas = 0, sucesos = 0, desaparecidos = 0, servicios = 0, desastres = 0, incendios = 0;
+        const estados = new Set();
+
+        Object.entries(casosDesglosadosPorCifra).forEach(([catKey, casos]) => {
+          (casos || []).forEach(c => {
+            if ((c.fecha || '').slice(0, 10) === fechaKey) {
+              if (catKey === 'ddhh') ddhh++;
+              else if (catKey === 'denuncias') denuncias++;
+              else if (catKey === 'protestas') protestas++;
+              else if (catKey === 'fallecidos') sucesos++;
+              else if (catKey === 'desaparecidos') desaparecidos++;
+              else if (catKey === 'servicios') servicios++;
+              else if (catKey === 'desastres') desastres++;
+              else if (catKey === 'incendios') incendios++;
+              if (c.lugar) estados.add(c.lugar.split(' ')[0]);
+            }
+          });
+        });
+
+        matrizHechos.forEach(h => {
+          if ((h.fecha || '').slice(0, 10) === fechaKey) {
+            if (h.estado) estados.add(h.estado);
+          }
+        });
+
+        const total = ddhh + denuncias + protestas + sucesos + desaparecidos + servicios + desastres + incendios;
+        const estadosStr = Array.from(estados).join(', ') || 'Nacional';
+
+        rows.push([
+          fechaKey,
+          diaLabel,
+          total,
+          ddhh,
+          denuncias,
+          protestas,
+          sucesos,
+          desaparecidos,
+          servicios,
+          desastres,
+          incendios,
+          estadosStr
+        ]);
+      }
+
+      generarArchivoExcelXml('Historial_Diario_Cifras', headers, rows, 'historial_diario_cifras_venezuela.xls');
+    }
+
     function exportarMatrizHechosExcel() {
       const headers = ['Fecha', 'Categoría', 'Tipología Hecho', 'Caso', 'Descripción Detallada', 'Estado', 'Medio Fuente', 'Palabras Clave', 'Enlace Web Fuente'];
       const rows = matrizHechos.map(h => [
@@ -3677,6 +4328,7 @@
       renderizarPerfilesFuncionarios();
       renderizarRecordHistorico();
       actualizarTableroCifrasHechos();
+      renderizarHistorialDias();
       renderizarFactChecks('ALL');
       renderizarAnaliticaCompleta();
 
