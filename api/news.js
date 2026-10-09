@@ -23,10 +23,19 @@ function parseRss(xmlText, sourceName, defaultRegion = 'Nacional') {
     }
 
     if (title && link) {
+      // Extraer fuente real si viene de Google News
+      const sourceMatch = itemXml.match(/<source[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/source>/i);
+      let realSource = (sourceMatch && sourceMatch[1].trim()) ? sourceMatch[1].trim() : sourceName;
+      if (sourceName === 'Última Hora Venezuela' && realSource !== 'Última Hora Venezuela') {
+        // Mantener el nombre del medio real
+      } else if (sourceName !== 'Última Hora Venezuela' && !realSource.toLowerCase().includes(sourceName.toLowerCase())) {
+        realSource = sourceName;
+      }
+
       const region = deducirRegion(title + ' ' + desc, defaultRegion);
       const category = deducirCategoria(title + ' ' + desc);
-      const score = calcularJerarquia(title, desc, sourceName);
-      const isInvestigacion = esFuenteInvestigacion(sourceName, title + ' ' + desc);
+      const score = calcularJerarquia(title, desc, realSource, publishedAt);
+      const isInvestigacion = esFuenteInvestigacion(realSource, title + ' ' + desc);
 
       items.push({
         id: 'rss-' + Math.random().toString(36).substr(2, 9),
@@ -54,17 +63,38 @@ function esFuenteInvestigacion(source, text) {
   return false;
 }
 
-function calcularJerarquia(title, desc, source) {
+function calcularJerarquia(title, desc, source, publishedAt = null) {
   let score = 50;
   const t = (title + ' ' + desc).toLowerCase();
   
-  const highKeywords = ['urgente', 'alerta', 'última hora', 'tsj', 'cne', 'elecciones', 'bcv', 'dólar', 'inflación', 'apagón', 'corpoelec', 'emergencia', 'denuncia', 'detención', 'salario', 'protesta', 'petróleo', 'pvdsa', 'reuters', 'bbc', 'afp'];
+  const highKeywords = ['urgente', 'alerta', 'última hora', 'tsj', 'cne', 'elecciones', 'bcv', 'dólar', 'inflación', 'apagón', 'corpoelec', 'emergencia', 'denuncia', 'detención', 'salario', 'protesta', 'petróleo', 'pdvsa'];
   highKeywords.forEach(kw => {
-    if (t.includes(kw)) score += 15;
+    if (t.includes(kw)) score += 10;
   });
 
   if (source.includes('Efecto Cocuyo') || source.includes('Armando.info') || source.includes('TalCual') || source.includes('Reuters') || source.includes('BBC')) {
-    score += 10;
+    score += 5;
+  }
+
+  // Factor de Recencia Dinámica: Priorizar noticias frescas y penalizar notas antiguas
+  if (publishedAt) {
+    const pubTime = new Date(publishedAt).getTime();
+    const now = Date.now();
+    const ageHours = isNaN(pubTime) ? 24 : Math.max(0, (now - pubTime) / (1000 * 60 * 60));
+
+    if (ageHours <= 4) {
+      score += 45; // Impulso de última hora (últimas 4h)
+    } else if (ageHours <= 12) {
+      score += 30; // Muy reciente (últimas 12h)
+    } else if (ageHours <= 24) {
+      score += 15; // Mismo día (24h)
+    } else if (ageHours <= 48) {
+      score -= 10; // 1 a 2 días
+    } else if (ageHours <= 96) {
+      score -= 35; // 3 a 4 días
+    } else {
+      score -= 85; // Más de 4 días: pierde prioridad en portada
+    }
   }
   
   return score;
@@ -308,19 +338,19 @@ module.exports = async function handler(req, res) {
   const sources = [
     // 1. Efecto Cocuyo
     { name: 'Efecto Cocuyo', url: 'https://efectococuyo.com/feed/', region: 'Nacional' },
-    { name: 'Efecto Cocuyo', url: 'https://news.google.com/rss/search?q=site:efectococuyo.com&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'Efecto Cocuyo', url: 'https://news.google.com/rss/search?q=site:efectococuyo.com+when:3d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
     
     // 2. Agencias Internacionales y Cobertura Global
-    { name: 'Reuters', url: 'https://news.google.com/rss/search?q=source:Reuters+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
-    { name: 'AFP', url: 'https://news.google.com/rss/search?q=source:AFP+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
-    { name: 'EFE', url: 'https://news.google.com/rss/search?q=source:EFE+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
-    { name: 'AP News', url: 'https://news.google.com/rss/search?q=source:Associated+Press+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
-    { name: 'BBC Mundo', url: 'https://news.google.com/rss/search?q=site:bbc.com/mundo+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
-    { name: 'CNN en Español', url: 'https://news.google.com/rss/search?q=site:cnnespanol.cnn.com+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
-    { name: 'NY Times', url: 'https://news.google.com/rss/search?q=site:nytimes.com+Venezuela&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'Reuters', url: 'https://news.google.com/rss/search?q=Reuters+Venezuela+when:3d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'AFP', url: 'https://news.google.com/rss/search?q=AFP+Venezuela+when:3d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'EFE', url: 'https://news.google.com/rss/search?q=EFE+Venezuela+when:3d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'AP News', url: 'https://news.google.com/rss/search?q="Associated+Press"+Venezuela+when:3d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'BBC Mundo', url: 'https://news.google.com/rss/search?q=site:bbc.com/mundo+"Venezuela"+when:7d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'CNN en Español', url: 'https://news.google.com/rss/search?q=site:cnnespanol.cnn.com+"Venezuela"+when:7d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'NY Times', url: 'https://news.google.com/rss/search?q=site:nytimes.com+"Venezuela"+when:14d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
 
     // 3. Portales de Investigación
-    { name: 'Armando.info', url: 'https://news.google.com/rss/search?q=site:armando.info&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'Armando.info', url: 'https://news.google.com/rss/search?q=site:armando.info+when:30d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
     { name: 'Runrunes', url: 'https://runrun.es/feed/', region: 'Nacional' },
 
     // 4. Medios Regionales y Nacionales
@@ -377,14 +407,21 @@ module.exports = async function handler(req, res) {
     }
 
     uniqueItems.sort((a, b) => {
-      if (b.priority !== a.priority) {
-        return b.priority - a.priority;
+      const diff = (b.priority || 50) - (a.priority || 50);
+      if (Math.abs(diff) >= 20) {
+        return diff;
       }
       return new Date(b.publishedAt) - new Date(a.publishedAt);
     });
 
-    // Top 5 Nacional
-    const top5 = uniqueItems.slice(0, 5);
+    // Top 5 Nacional: Filtrar solo noticias recientes (últimos 5 días) para la portada
+    const now = Date.now();
+    const candidatosTop5 = uniqueItems.filter(it => {
+      const pubTime = new Date(it.publishedAt).getTime();
+      return isNaN(pubTime) || (now - pubTime) <= (1000 * 60 * 60 * 24 * 5);
+    });
+    const poolTop5 = candidatosTop5.length >= 5 ? candidatosTop5 : uniqueItems;
+    const top5 = poolTop5.slice(0, 5);
 
     // Top 4 Regional (filtrando noticias de estados fuera de Distrito Capital y Nacional)
     const regionalPool = uniqueItems.filter(it => it.region !== 'Nacional' && it.region !== 'Distrito Capital');
