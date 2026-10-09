@@ -55,6 +55,15 @@ function parseRss(xmlText, sourceName, defaultRegion = 'Nacional') {
   return items;
 }
 
+
+function esFactCheck(source, text) {
+  const s = (source || '').toLowerCase();
+  const t = (text || '').toLowerCase();
+  if (s.includes('espaja') || s.includes('cazadores') || s.includes('cotejo') || s.includes('chequea')) return true;
+  if (t.includes('falso:') || t.includes('engañoso:') || t.includes('es falso') || t.includes('desmentido') || t.includes('sin evidencia') || t.includes('fact-check') || t.includes('fake news') || t.includes('bulos') || t.includes('verificamos')) return true;
+  return false;
+}
+
 function esFuenteInvestigacion(source, text) {
   const s = source.toLowerCase();
   const t = text.toLowerCase();
@@ -142,6 +151,42 @@ function deducirCategoria(text) {
 
 
 const FALLBACK_ITEMS = [
+  {
+    title: 'Sucesos Zulia: CICPC investiga muerte de adolescente de 15 años en Maracaibo tras presunto caso de asfixia mecánica',
+    snippet: 'Comisiones de homicidios del cuerpo detectivesco interrogan al entorno familiar y recaban testimonios en la parroquia Olegario Villalobos tras hallazgo.',
+    sourceName: 'Noticia al Día',
+    sourceUrl: 'https://noticiaaldia.com',
+    region: 'Zulia',
+    category: 'Sucesos',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString()
+  },
+  {
+    title: 'La Prensa de Lara: Comunidad de Carora consternada por muerte de joven estudiante; autoridades indagan hipótesis de suicidio',
+    snippet: 'Organizaciones comunitarias y docentes del municipio Torres solicitan jornadas de prevención y salud mental en planteles educativos.',
+    sourceName: 'La Prensa de Lara',
+    sourceUrl: 'https://laprensalara.com.ve',
+    region: 'Lara',
+    category: 'Sucesos',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 240).toISOString()
+  },
+  {
+    title: 'Crónica Uno: Aumento de casos de suicidio y depresión en adolescentes enciende alarmas en barriadas de Caracas',
+    snippet: 'Informe de organizaciones de protección a la infancia señala que la emergencia humanitaria compleja y la desintegración familiar agravan la crisis emocional en menores.',
+    sourceName: 'Crónica Uno',
+    sourceUrl: 'https://cronica.uno',
+    region: 'Distrito Capital',
+    category: 'Sucesos',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 360).toISOString()
+  },
+  {
+    title: 'El Carabobeño: Accidente en Autopista del Sur deja dos personas fallecidas y tres lesionados de gravedad',
+    snippet: 'Unidades de Protección Civil y Bomberos de Carabobo realizaron maniobras de rescate vehicular en el tramo de Tocuyito.',
+    sourceName: 'El Carabobeño',
+    sourceUrl: 'https://www.el-carabobeno.com',
+    region: 'Carabobo',
+    category: 'Sucesos',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 420).toISOString()
+  },
   {
     id: 'fb-13',
     title: 'CNN en Español: Cobertura especial sobre la situación institucional y económica de Venezuela',
@@ -353,6 +398,13 @@ module.exports = async function handler(req, res) {
     { name: 'Armando.info', url: 'https://news.google.com/rss/search?q=site:armando.info+when:30d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
     { name: 'Runrunes', url: 'https://runrun.es/feed/', region: 'Nacional' },
 
+    // 6. Portales de Verificación y Fact-Checking
+    { name: 'EsPaja.com', url: 'https://news.google.com/rss/search?q=site:espaja.com+when:30d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'Cazadores de Fake News', url: 'https://news.google.com/rss/search?q=site:cazadoresdefakenews.info+when:30d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'Cotejo.info', url: 'https://news.google.com/rss/search?q=site:cotejo.info+when:30d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' },
+    { name: 'Cocuyo Chequea', url: 'https://news.google.com/rss/search?q=site:efectococuyo.com+"chequea"+when:30d&hl=es-419&gl=VE&ceid=VE:es-419', region: 'Nacional' }
+,
+
     // 4. Medios Regionales y Nacionales
     { name: 'El Carabobeño', url: 'https://www.el-carabobeno.com/feed/', region: 'Carabobo' },
     { name: 'La Prensa de Lara', url: 'https://laprensalara.com.ve/feed/', region: 'Lara' },
@@ -430,12 +482,16 @@ module.exports = async function handler(req, res) {
     // Feed Exclusivo de Investigación
     const investigativeItems = uniqueItems.filter(it => it.isInvestigacion || it.sourceName.includes('Armando.info') || it.sourceName.includes('Runrunes') || it.sourceName.includes('Cocuyo'));
 
+    // Colección de Verificaciones y Fact-Checks
+    const factChecks = uniqueItems.filter(it => esFactCheck(it.sourceName, it.title + ' ' + (it.snippet || '')));
+
     return res.status(200).json({
       status: 'ok',
       count: uniqueItems.length,
       top5,
       top4Regional,
       investigativeItems: investigativeItems.slice(0, 30),
+      factChecks: factChecks.slice(0, 25),
       items: uniqueItems.slice(0, 80),
       timestamp: new Date().toISOString()
     });
